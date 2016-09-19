@@ -1,0 +1,73 @@
+package com.mtautumn.edgequest;
+
+public class CharacterManager extends Thread{
+	SceneManager sceneManager;
+	BlockUpdateManager blockUpdateManager;
+	public CharacterManager(SceneManager scnMgr, BlockUpdateManager bum) {
+		sceneManager = scnMgr;
+		blockUpdateManager = bum;
+	}
+	public void charPlaceTorch() {
+		int charX = (int) Math.floor(sceneManager.charX);
+		int charY = (int) Math.floor(sceneManager.charY);
+		if (sceneManager.map.containsKey(charX + "," + charY)) {
+			if (sceneManager.map.get(charX + "," + charY) != 4) {
+				blockUpdateManager.addLightSource((int) Math.floor(sceneManager.charX), (int) Math.floor(sceneManager.charY));
+			}
+		}
+	}
+	public void run() {
+		long lastUpdate = System.currentTimeMillis();
+		while (true) {
+			double moveInterval = Double.valueOf(System.currentTimeMillis() - lastUpdate) / 600.0;
+			lastUpdate = System.currentTimeMillis();
+			double charYOffset = 0.0;
+			double charXOffset = 0.0;
+			if (sceneManager.isWPressed) {
+				charYOffset -= moveInterval;
+			}
+			if (sceneManager.isDPressed) {
+				charXOffset += moveInterval;
+			}
+			if (sceneManager.isSPressed) {
+				charYOffset += moveInterval;
+			}
+			if (sceneManager.isAPressed) {
+				charXOffset -= moveInterval;
+			}
+				if (charXOffset != 0 && charYOffset != 0) {
+					charXOffset *= 0.70710678118;
+					charYOffset *= 0.70710678118;
+				}
+				if (sceneManager.isShiftPressed) {
+					charXOffset *= 2.0;
+					charYOffset *= 2.0;
+				}
+				sceneManager.charX += charXOffset;
+				sceneManager.charY += charYOffset;
+				if(charYOffset < 0 && charXOffset == 0) {
+					sceneManager.charDir = 0;
+				} else if (charYOffset < 0 && charXOffset < 0) {
+					sceneManager.charDir = 7;
+				} else if (charYOffset < 0 && charXOffset > 0) {
+					sceneManager.charDir = 1;
+				} else if (charYOffset == 0 && charXOffset < 0) {
+					sceneManager.charDir = 6;
+				} else if (charYOffset == 0 && charXOffset > 0) {
+					sceneManager.charDir = 2;
+				} else if (charYOffset > 0 && charXOffset < 0) {
+					sceneManager.charDir = 5;
+				} else if (charYOffset > 0 && charXOffset == 0) {
+					sceneManager.charDir = 4;
+				} else if (charYOffset > 0 && charXOffset > 0) {
+					sceneManager.charDir = 3;
+				}
+				sceneManager.characterMoving = (charXOffset != 0 || charYOffset != 0);
+			try {
+				Thread.sleep(sceneManager.tickLength / 2);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
