@@ -11,10 +11,28 @@ public class CharacterManager extends Thread{
 		int charX = (int) Math.floor(sceneManager.charX);
 		int charY = (int) Math.floor(sceneManager.charY);
 		if (sceneManager.map.containsKey(charX + "," + charY)) {
-			if (sceneManager.map.get(charX + "," + charY) != 4) {
+			if (getCharaterBlockInfo()[0] != 4) {
 				blockUpdateManager.addLightSource((int) Math.floor(sceneManager.charX), (int) Math.floor(sceneManager.charY));
 			}
 		}
+	}
+	public double[] getCharaterBlockInfo() {
+		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
+		int charX = (int) Math.floor(sceneManager.charX);
+		int charY = (int) Math.floor(sceneManager.charY);
+		if (sceneManager.map.containsKey(charX + "," + charY)) {
+			blockInfo[0] = sceneManager.map.get(charX + "," + charY);
+		}
+		if (sceneManager.playerStructuresMap.containsKey(charX + "," + charY)) {
+			blockInfo[1] = sceneManager.playerStructuresMap.get(charX + "," + charY);
+		}
+		if (sceneManager.biomeMapFiltered.containsKey(charX + "," + charY)) {
+			blockInfo[2] = sceneManager.biomeMapFiltered.get(charX + "," + charY);
+		}
+		if (sceneManager.lightMap.containsKey(charX + "," + charY)) {
+			blockInfo[3] = sceneManager.lightMap.get(charX + "," + charY);
+		}
+		return blockInfo;
 	}
 	public void run() {
 		long lastUpdate = System.currentTimeMillis();
@@ -43,6 +61,11 @@ public class CharacterManager extends Thread{
 					charXOffset *= 2.0;
 					charYOffset *= 2.0;
 				}
+				if (getCharaterBlockInfo()[0] == 4) {
+					charXOffset /= 2.0;
+					charYOffset /= 2.0;
+				}
+				
 				sceneManager.charX += charXOffset;
 				sceneManager.charY += charYOffset;
 				if(charYOffset < 0 && charXOffset == 0) {

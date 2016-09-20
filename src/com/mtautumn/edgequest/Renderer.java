@@ -21,6 +21,7 @@ public class Renderer extends JComponent {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setBackground(Color.DARK_GRAY);
 		textureManager = new TextureManager();
+		
 		for(int i = sceneManager.minTileX; i <= sceneManager.maxTileX; i++) {
 			int xPos = (int) ((i - sceneManager.charX) * sceneManager.blockSize + sceneManager.screenWidth/2.0);
 			for (int j = sceneManager.minTileY; j <= sceneManager.maxTileY; j++) {
@@ -33,9 +34,9 @@ public class Renderer extends JComponent {
 					blockValue = 0;
 					nightBrightness = 1;
 				}
-				g2.drawImage(textureManager.getTexture(blockValue, sceneManager.animationClock6Step),xPos, (int)((j - sceneManager.charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1, null);
+				g2.drawImage(textureManager.getTexture(blockValue, sceneManager),xPos, (int)((j - sceneManager.charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1, null);
 				if (sceneManager.playerStructuresMap.containsKey(i + "," + j)) {
-					g2.drawImage(textureManager.getTexture(sceneManager.playerStructuresMap.get(i + "," + j), sceneManager.animationClock6Step),xPos, (int)((j - sceneManager.charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1, null);
+					g2.drawImage(textureManager.getTexture(sceneManager.playerStructuresMap.get(i + "," + j), sceneManager),xPos, (int)((j - sceneManager.charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1, null);
 				}
 				if (sceneManager.getBrightness() < 1) {
 				g2.setColor(new Color(0.01f,0.0f,0.15f,(float) (1.0 - nightBrightness)));
@@ -45,9 +46,9 @@ public class Renderer extends JComponent {
 				}
 			}
 		}
-		
-		
-		
+		if (getCharaterBlockInfo()[0] == 4) {
+			g2.drawImage(textureManager.getTexture(6, sceneManager), (int) ((sceneManager.screenWidth- sceneManager.blockSize) / 2.0), (int) ((sceneManager.screenHeight - sceneManager.blockSize) / 2.0), sceneManager.blockSize, sceneManager.blockSize, null);
+		}
 		g2.drawImage(textureManager.getCharacter(sceneManager.charDir), (int) ((sceneManager.screenWidth- sceneManager.blockSize) / 2.0), (int) ((sceneManager.screenHeight - sceneManager.blockSize) / 2.0), sceneManager.blockSize, sceneManager.blockSize, null);
 		g2.setColor(new Color(0.01f,0.0f,0.2f,(float) (1.0 - sceneManager.getBrightness())));
 		if (sceneManager.showDiag) {
@@ -64,6 +65,24 @@ public class Renderer extends JComponent {
 			g2.drawString("TerrGen: " + sceneManager.blockGenerationLastTick, 20, 170);
 			g2.drawString("Zoom: " + sceneManager.blockSize, 20, 190);
 		}
+	}
+	public double[] getCharaterBlockInfo() {
+		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
+		int charX = (int) Math.floor(sceneManager.charX);
+		int charY = (int) Math.floor(sceneManager.charY);
+		if (sceneManager.map.containsKey(charX + "," + charY)) {
+			blockInfo[0] = sceneManager.map.get(charX + "," + charY);
+		}
+		if (sceneManager.playerStructuresMap.containsKey(charX + "," + charY)) {
+			blockInfo[1] = sceneManager.playerStructuresMap.get(charX + "," + charY);
+		}
+		if (sceneManager.biomeMapFiltered.containsKey(charX + "," + charY)) {
+			blockInfo[2] = sceneManager.biomeMapFiltered.get(charX + "," + charY);
+		}
+		if (sceneManager.lightMap.containsKey(charX + "," + charY)) {
+			blockInfo[3] = sceneManager.lightMap.get(charX + "," + charY);
+		}
+		return blockInfo;
 	}
 	
 
