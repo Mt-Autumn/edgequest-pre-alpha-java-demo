@@ -4,5 +4,7 @@ Edgequest is a rouge inspired, top down game. The game takes place in a infinite
 ##Future Plans
 Future plans for edgequest include adding sub-biome level block generation, AI, foliage, animals, and online multiplayer as well as a chat, item inventory, crafting, food, stamina, weapons, and more. Keep an eye out on this repository for future releases.
 
+### A video demonstrating the pre-alpha demo can be found here: https://youtu.be/QMs44AQ6m0Q
+
 
 ######This demo is written in the eclipse IDE. To open the project nativly, please use eclipse.
