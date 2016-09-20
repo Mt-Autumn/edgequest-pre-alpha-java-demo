@@ -15,6 +15,10 @@ public class TextureManager {
 	BufferedImage water2;
 	BufferedImage water3;
 	
+	BufferedImage waterSplash0;
+	BufferedImage waterSplash1;
+	BufferedImage waterSplash2;
+	
 	BufferedImage torch;
 	
 	BufferedImage characterUp;
@@ -36,6 +40,10 @@ public class TextureManager {
 			water2 = ImageIO.read(new File("textures/water2.png"));
 			water3 = ImageIO.read(new File("textures/water3.png"));
 			
+			waterSplash0 = ImageIO.read(new File("textures/waterSplash0.png"));
+			waterSplash1 = ImageIO.read(new File("textures/waterSplash1.png"));
+			waterSplash2 = ImageIO.read(new File("textures/waterSplash2.png"));
+			
 			torch = ImageIO.read(new File("textures/torch.png"));
 			
 			characterUp = ImageIO.read(new File("textures/characterUp.png"));
@@ -52,7 +60,7 @@ public class TextureManager {
 			System.out.println("Error loading textures");
 		}
 	}
-	public BufferedImage getTexture(int textureValue, int time) {
+	public BufferedImage getTexture(int textureValue, SceneManager sceneManager) {
 		switch (textureValue) {
 		case 1:
 			return grass;
@@ -64,7 +72,7 @@ public class TextureManager {
 			return stone;
 		
 		case 4:
-			switch (time%6) {
+			switch (sceneManager.animationClock6Step % 6) {
 			case 0:
 				return water0;
 			case 1:
@@ -82,6 +90,17 @@ public class TextureManager {
 			}
 		case 5:
 			return torch;
+		case 6:
+			switch ((sceneManager.animationClock6Step/2) % 3) {
+			case 0:
+				return waterSplash0;
+			case 1:
+				return waterSplash1;
+			case 2:
+				return waterSplash2;
+			default:
+				return waterSplash0;
+			}
 		default:
 			return noTexture;
 		}
