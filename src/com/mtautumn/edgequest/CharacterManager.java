@@ -87,7 +87,7 @@ public class CharacterManager extends Thread{
 				}
 				sceneManager.characterMoving = (charXOffset != 0 || charYOffset != 0);
 			try {
-				Thread.sleep(sceneManager.tickLength / 2);
+				Thread.sleep(sceneManager.tickLength / 4);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
