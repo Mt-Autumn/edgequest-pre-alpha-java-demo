@@ -45,8 +45,8 @@ public class Renderer extends JComponent {
 			}
 			xPos += sceneManager.blockSize;
 		}
-		if (getCharaterBlockInfo()[0] == 4) {
-			g2.drawImage(textureManager.getTexture(6, sceneManager), (int) ((sceneManager.screenWidth- sceneManager.blockSize) / 2.0), (int) ((sceneManager.screenHeight - sceneManager.blockSize) / 2.0), sceneManager.blockSize, sceneManager.blockSize, null);
+		if (getCharaterBlockInfo()[0] == 4.0 && getCharaterBlockInfo()[1] == 0.0) {
+				g2.drawImage(textureManager.getTexture(6, sceneManager), (int) ((sceneManager.screenWidth- sceneManager.blockSize) / 2.0), (int) ((sceneManager.screenHeight - sceneManager.blockSize) / 2.0), sceneManager.blockSize, sceneManager.blockSize, null);
 		}
 		g2.drawImage(textureManager.getCharacter(sceneManager.charDir), (int) ((sceneManager.screenWidth- sceneManager.blockSize) / 2.0), (int) ((sceneManager.screenHeight - sceneManager.blockSize) / 2.0), sceneManager.blockSize, sceneManager.blockSize, null);
 		xPos = (int) ((minTileX - charX) * sceneManager.blockSize + sceneManager.screenWidth/2.0);

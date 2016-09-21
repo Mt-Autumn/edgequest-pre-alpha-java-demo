@@ -22,6 +22,7 @@ public class TextureManager {
 	BufferedImage waterSplash2;
 	
 	BufferedImage torch;
+	BufferedImage lilyPad;
 	
 	BufferedImage characterUp;
 	BufferedImage characterRight;
@@ -49,6 +50,7 @@ public class TextureManager {
 			waterSplash2 = ImageIO.read(new File("textures/waterSplash2.png"));
 			
 			torch = ImageIO.read(new File("textures/torch.png"));
+			lilyPad = ImageIO.read(new File("textures/lilyPad.png"));
 			
 			characterUp = ImageIO.read(new File("textures/characterUp.png"));
 			characterRight = ImageIO.read(new File("textures/characterRight.png"));
@@ -109,6 +111,8 @@ public class TextureManager {
 			return snow;
 		case 8:
 			return sand;
+		case 9:
+			return lilyPad;
 		default:
 			return noTexture;
 		}
