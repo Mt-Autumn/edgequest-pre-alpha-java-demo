@@ -27,8 +27,9 @@ public class Renderer extends JComponent {
 		int maxTileY = sceneManager.maxTileY;
 		double charX = sceneManager.charX;
 		double charY = sceneManager.charY;
+		int xPos = (int) ((minTileX - charX) * sceneManager.blockSize + sceneManager.screenWidth/2.0);
 		for(int i = minTileX; i <= maxTileX; i++) {
-			int xPos = (int) ((i - charX) * sceneManager.blockSize + sceneManager.screenWidth/2.0);
+			int yPos = (int)((minTileY - charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0);
 			for (int j = minTileY; j <= maxTileY; j++) {
 				int blockValue;
 				if (sceneManager.map.containsKey(i + "," + j)) {
@@ -36,21 +37,20 @@ public class Renderer extends JComponent {
 				} else {
 					blockValue = 0;
 				}
-				g2.drawImage(textureManager.getTexture(blockValue, sceneManager),xPos, (int)((j - charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1, null);
+				g2.drawImage(textureManager.getTexture(blockValue, sceneManager),xPos, yPos, sceneManager.blockSize, sceneManager.blockSize, null);
 				if (sceneManager.playerStructuresMap.containsKey(i + "," + j)) {
-					g2.drawImage(textureManager.getTexture(sceneManager.playerStructuresMap.get(i + "," + j), sceneManager),xPos, (int)((j - charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1, null);
+					g2.drawImage(textureManager.getTexture(sceneManager.playerStructuresMap.get(i + "," + j), sceneManager),xPos, yPos, sceneManager.blockSize, sceneManager.blockSize, null);
 				}
+				yPos += sceneManager.blockSize;
 			}
+			xPos += sceneManager.blockSize;
 		}
 		if (getCharaterBlockInfo()[0] == 4) {
 			g2.drawImage(textureManager.getTexture(6, sceneManager), (int) ((sceneManager.screenWidth- sceneManager.blockSize) / 2.0), (int) ((sceneManager.screenHeight - sceneManager.blockSize) / 2.0), sceneManager.blockSize, sceneManager.blockSize, null);
 		}
 		g2.drawImage(textureManager.getCharacter(sceneManager.charDir), (int) ((sceneManager.screenWidth- sceneManager.blockSize) / 2.0), (int) ((sceneManager.screenHeight - sceneManager.blockSize) / 2.0), sceneManager.blockSize, sceneManager.blockSize, null);
-		int xPos = (int) ((minTileX - charX) * sceneManager.blockSize + sceneManager.screenWidth/2.0);
+		xPos = (int) ((minTileX - charX) * sceneManager.blockSize + sceneManager.screenWidth/2.0);
 		for(int i = minTileX; i <= maxTileX; i++) {
-			if (xPos < 1) {
-				xPos--;
-			}
 			int yPos = (int)((minTileY - charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0);
 			for (int j = minTileY; j <= maxTileY; j++) {
 				double nightBrightness;
