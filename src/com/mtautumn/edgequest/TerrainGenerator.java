@@ -89,7 +89,7 @@ public class TerrainGenerator {
 			sceneManager.map.put(x + "," + y, 7);
 			break;
 		case 3:
-			if (getChunkRNG(x, y) < 0.6) {
+			if (getChunkRNG(x, y) < 0.75) {
 			sceneManager.map.put(x + "," + y, 3);
 			} else {
 				sceneManager.map.put(x + "," + y, 2);
@@ -100,6 +100,9 @@ public class TerrainGenerator {
 			break;
 		case 5:
 			sceneManager.map.put(x + "," + y, 4);
+			if (getChunkRNG(x, y) < 0.03) {
+				sceneManager.playerStructuresMap.put(x + "," + y, 9);
+			}
 			break;
 		default:
 			sceneManager.map.put(x + "," + y, 0);

@@ -61,9 +61,9 @@ public class CharacterManager extends Thread{
 					charXOffset *= 2.0;
 					charYOffset *= 2.0;
 				}
-				if (getCharaterBlockInfo()[0] == 4) {
-					charXOffset /= 2.0;
-					charYOffset /= 2.0;
+				if (getCharaterBlockInfo()[0] == 4.0 && getCharaterBlockInfo()[1] == 0.0) {
+					charXOffset /= 1.7;
+					charYOffset /= 1.7;
 				}
 				
 				sceneManager.charX += charXOffset;
