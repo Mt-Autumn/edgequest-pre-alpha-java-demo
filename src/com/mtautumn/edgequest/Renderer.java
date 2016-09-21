@@ -21,28 +21,24 @@ public class Renderer extends JComponent {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setBackground(Color.DARK_GRAY);
 		textureManager = new TextureManager();
-		
-		for(int i = sceneManager.minTileX; i <= sceneManager.maxTileX; i++) {
-			int xPos = (int) ((i - sceneManager.charX) * sceneManager.blockSize + sceneManager.screenWidth/2.0);
-			for (int j = sceneManager.minTileY; j <= sceneManager.maxTileY; j++) {
+		int minTileX = sceneManager.minTileX;
+		int minTileY = sceneManager.minTileY;
+		int maxTileX = sceneManager.maxTileX;
+		int maxTileY = sceneManager.maxTileY;
+		double charX = sceneManager.charX;
+		double charY = sceneManager.charY;
+		for(int i = minTileX; i <= maxTileX; i++) {
+			int xPos = (int) ((i - charX) * sceneManager.blockSize + sceneManager.screenWidth/2.0);
+			for (int j = minTileY; j <= maxTileY; j++) {
 				int blockValue;
-				double nightBrightness;
 				if (sceneManager.map.containsKey(i + "," + j)) {
 					blockValue = sceneManager.map.get(i + "," + j);
-					nightBrightness = (1 - sceneManager.getBrightness()) * sceneManager.lightMap.get(i + "," + j) + sceneManager.getBrightness();
 				} else {
 					blockValue = 0;
-					nightBrightness = 1;
 				}
-				g2.drawImage(textureManager.getTexture(blockValue, sceneManager),xPos, (int)((j - sceneManager.charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1, null);
+				g2.drawImage(textureManager.getTexture(blockValue, sceneManager),xPos, (int)((j - charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1, null);
 				if (sceneManager.playerStructuresMap.containsKey(i + "," + j)) {
-					g2.drawImage(textureManager.getTexture(sceneManager.playerStructuresMap.get(i + "," + j), sceneManager),xPos, (int)((j - sceneManager.charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1, null);
-				}
-				if (sceneManager.getBrightness() < 1) {
-				g2.setColor(new Color(0.01f,0.0f,0.15f,(float) (1.0 - nightBrightness)));
-				g2.fillRect(xPos, (int)((j - sceneManager.charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1);
-				g2.setColor(new Color(1.0f,0.6f,0.05f, (float)(0.2 * (nightBrightness - sceneManager.getBrightness()))));
-				g2.fillRect(xPos, (int)((j - sceneManager.charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1);
+					g2.drawImage(textureManager.getTexture(sceneManager.playerStructuresMap.get(i + "," + j), sceneManager),xPos, (int)((j - charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0), sceneManager.blockSize + 1, sceneManager.blockSize + 1, null);
 				}
 			}
 		}
@@ -50,7 +46,29 @@ public class Renderer extends JComponent {
 			g2.drawImage(textureManager.getTexture(6, sceneManager), (int) ((sceneManager.screenWidth- sceneManager.blockSize) / 2.0), (int) ((sceneManager.screenHeight - sceneManager.blockSize) / 2.0), sceneManager.blockSize, sceneManager.blockSize, null);
 		}
 		g2.drawImage(textureManager.getCharacter(sceneManager.charDir), (int) ((sceneManager.screenWidth- sceneManager.blockSize) / 2.0), (int) ((sceneManager.screenHeight - sceneManager.blockSize) / 2.0), sceneManager.blockSize, sceneManager.blockSize, null);
-		g2.setColor(new Color(0.01f,0.0f,0.2f,(float) (1.0 - sceneManager.getBrightness())));
+		int xPos = (int) ((minTileX - charX) * sceneManager.blockSize + sceneManager.screenWidth/2.0);
+		for(int i = minTileX; i <= maxTileX; i++) {
+			if (xPos < 1) {
+				xPos--;
+			}
+			int yPos = (int)((minTileY - charY) * sceneManager.blockSize + sceneManager.screenHeight/2.0);
+			for (int j = minTileY; j <= maxTileY; j++) {
+				double nightBrightness;
+				if (sceneManager.map.containsKey(i + "," + j)) {
+					nightBrightness = (1 - sceneManager.getBrightness()) * sceneManager.lightMap.get(i + "," + j) + sceneManager.getBrightness();
+				} else {
+					nightBrightness = 1;
+				}
+				if (sceneManager.getBrightness() < 1) {
+				g2.setColor(new Color(0.01f,0.0f,0.15f,(float) (1.0 - nightBrightness)));
+				g2.fillRect(xPos, yPos, sceneManager.blockSize, sceneManager.blockSize);
+				g2.setColor(new Color(1.0f,0.6f,0.05f, (float)(0.2 * (nightBrightness - sceneManager.getBrightness()))));
+				g2.fillRect(xPos, yPos, sceneManager.blockSize, sceneManager.blockSize);
+				}
+				yPos += sceneManager.blockSize;
+			}
+			xPos += sceneManager.blockSize;
+		}
 		if (sceneManager.showDiag) {
 			g2.setColor(new Color(0.7f,0.7f,0.7f, 0.7f));
 			g2.fillRoundRect(10, 10, 250, 190, 8, 8);

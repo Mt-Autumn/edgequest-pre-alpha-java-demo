@@ -28,7 +28,7 @@ public class RendererManager extends Thread {
 		while (true) {
 			updateWindow();
 			try {
-				Thread.sleep(sceneManager.tickLength / 30);
+				Thread.sleep(sceneManager.tickLength);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
