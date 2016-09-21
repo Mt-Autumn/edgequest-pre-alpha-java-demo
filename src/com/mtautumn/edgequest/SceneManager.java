@@ -19,7 +19,7 @@ public class SceneManager {
 	public double charY = 5;
 	public int charDir = 0;
 	public int blockSize = 32;
-	public int chunkSize = 8;
+	public int chunkSize = 16;
 	public long seed = 7;
 	public Map<String, Integer> map = new HashMap<String, Integer>();
 	public Map<String, Double> lightMap = new HashMap<String, Double>();
