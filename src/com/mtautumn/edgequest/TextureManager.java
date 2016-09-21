@@ -10,6 +10,8 @@ public class TextureManager {
 	BufferedImage grass;
 	BufferedImage dirt;
 	BufferedImage stone;
+	BufferedImage snow;
+	BufferedImage sand;
 	BufferedImage water0;
 	BufferedImage water1;
 	BufferedImage water2;
@@ -35,6 +37,8 @@ public class TextureManager {
 			grass = ImageIO.read(new File("textures/grass.png"));
 			dirt = ImageIO.read(new File("textures/dirt.png"));
 			stone = ImageIO.read(new File("textures/stone.png"));
+			snow = ImageIO.read(new File("textures/snow.png"));
+			sand = ImageIO.read(new File("textures/sand.png"));
 			water0 = ImageIO.read(new File("textures/water0.png"));
 			water1 = ImageIO.read(new File("textures/water1.png"));
 			water2 = ImageIO.read(new File("textures/water2.png"));
@@ -101,6 +105,10 @@ public class TextureManager {
 			default:
 				return waterSplash0;
 			}
+		case 7:
+			return snow;
+		case 8:
+			return sand;
 		default:
 			return noTexture;
 		}

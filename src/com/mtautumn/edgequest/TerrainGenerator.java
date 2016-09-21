@@ -25,25 +25,31 @@ public class TerrainGenerator {
 			}
 		}
 		double chunkRNGAverage = chunkRNGSum / 24.0;
-		if (chunkRNGAverage < 0.37) {
-			sceneManager.biomeMap.put(x + "," + y, 4);
+		if (chunkRNGAverage < 0.40) {
+			sceneManager.biomeMap.put(x + "," + y, 4); //sand
 			return 4;
-		} else if (chunkRNGAverage < 0.44) {
-			sceneManager.biomeMap.put(x + "," + y, 1);
+		} else if (chunkRNGAverage < 0.43) {
+			sceneManager.biomeMap.put(x + "," + y, 1); //grass
 			return 1;
-		} else if (chunkRNGAverage < 0.52) {
-			sceneManager.biomeMap.put(x + "," + y, 2);
+		} else if (chunkRNGAverage < 0.455) {
+			sceneManager.biomeMap.put(x + "," + y, 5); //water
+			return 5;
+		} else if (chunkRNGAverage < 0.47) {
+			sceneManager.biomeMap.put(x + "," + y, 1); //grass
+			return 1;
+		} else if (chunkRNGAverage < 0.51) {
+			sceneManager.biomeMap.put(x + "," + y, 2); //snow
 			return 2;
 		} else {
-			sceneManager.biomeMap.put(x + "," + y, 3);
+			sceneManager.biomeMap.put(x + "," + y, 3); //stone
 			return 3;
 		}
 		}
 	}
 	public void generateBlock(int x, int y) {
-		int[] biomeCount = new int[5];
-		for (int i = -10; i<=10; i++) {
-			for (int j = -10; j <= 10; j++) {
+		int[] biomeCount = new int[6];
+		for (int i = -24; i<=24; i++) {
+			for (int j = -24; j <= 24; j++) {
 				biomeCount[getBlockBiome(x + i, y + j)] += 1;
 			}
 		}
@@ -56,9 +62,12 @@ public class TerrainGenerator {
 		} else if (isLocationGreatest(biomeCount, 3)){
 			sceneManager.biomeMapFiltered.put(x + "," + y, 3);
 			createBlockForBiome(x, y, 3);
-		} else {
+		} else if (isLocationGreatest(biomeCount, 4)){
 			sceneManager.biomeMapFiltered.put(x + "," + y, 4);
 			createBlockForBiome(x, y, 4);
+		} else {
+			sceneManager.biomeMapFiltered.put(x + "," + y, 5);
+			createBlockForBiome(x, y, 5);
 		}
 	}
 	private boolean isLocationGreatest(int[] biomeCount, int biome) {
@@ -77,12 +86,19 @@ public class TerrainGenerator {
 			sceneManager.map.put(x + "," + y, 1);
 			break;
 		case 2:
-			sceneManager.map.put(x + "," + y, 2);
+			sceneManager.map.put(x + "," + y, 7);
 			break;
 		case 3:
+			if (getChunkRNG(x, y) < 0.6) {
 			sceneManager.map.put(x + "," + y, 3);
+			} else {
+				sceneManager.map.put(x + "," + y, 2);
+			}
 			break;
 		case 4:
+			sceneManager.map.put(x + "," + y, 8);
+			break;
+		case 5:
 			sceneManager.map.put(x + "," + y, 4);
 			break;
 		default:
