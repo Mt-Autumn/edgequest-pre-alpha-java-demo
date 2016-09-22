@@ -4,6 +4,7 @@ import java.util.Random;
 
 public class TerrainGenerator {
 	SceneManager sceneManager;
+	BlockInformation blockInfo = new BlockInformation();
 	public TerrainGenerator(SceneManager scnMgr) {
 		sceneManager = scnMgr;
 	}
@@ -26,7 +27,7 @@ public class TerrainGenerator {
 		}
 		double chunkRNGAverage = chunkRNGSum / 24.0;
 		if (chunkRNGAverage < 0.40) {
-			sceneManager.biomeMap.put(x + "," + y, 4); //sand
+			sceneManager.biomeMap.put(x + "," + y, 4); //desert
 			return 4;
 		} else if (chunkRNGAverage < 0.43) {
 			sceneManager.biomeMap.put(x + "," + y, 1); //grass
@@ -82,30 +83,30 @@ public class TerrainGenerator {
 	public void createBlockForBiome(int x, int y, int biome) {
 		sceneManager.lightMap.put(x + "," + y, 0.0);
 		switch (biome) {
-		case 1:
-			sceneManager.map.put(x + "," + y, 1);
+		case 1: //grass
+			sceneManager.map.put(x + "," + y, blockInfo.getBlockID("grass"));
 			break;
-		case 2:
-			sceneManager.map.put(x + "," + y, 7);
+		case 2: //snow
+			sceneManager.map.put(x + "," + y, blockInfo.getBlockID("snow"));
 			break;
-		case 3:
+		case 3: //stone
 			if (getChunkRNG(x, y) < 0.75) {
-			sceneManager.map.put(x + "," + y, 3);
+			sceneManager.map.put(x + "," + y, blockInfo.getBlockID("stone"));
 			} else {
-				sceneManager.map.put(x + "," + y, 2);
+				sceneManager.map.put(x + "," + y, blockInfo.getBlockID("dirt"));
 			}
 			break;
-		case 4:
-			sceneManager.map.put(x + "," + y, 8);
+		case 4: //desert
+			sceneManager.map.put(x + "," + y, blockInfo.getBlockID("sand"));
 			break;
-		case 5:
-			sceneManager.map.put(x + "," + y, 4);
+		case 5: //water
+			sceneManager.map.put(x + "," + y, blockInfo.getBlockID("water"));
 			if (getChunkRNG(x, y) < 0.03) {
-				sceneManager.playerStructuresMap.put(x + "," + y, 9);
+				sceneManager.playerStructuresMap.put(x + "," + y, blockInfo.getBlockID("lilyPad"));
 			}
 			break;
 		default:
-			sceneManager.map.put(x + "," + y, 0);
+			sceneManager.map.put(x + "," + y, blockInfo.getBlockID("noTexture"));
 			break;
 		}
 	}

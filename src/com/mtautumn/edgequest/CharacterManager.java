@@ -3,6 +3,7 @@ package com.mtautumn.edgequest;
 public class CharacterManager extends Thread{
 	SceneManager sceneManager;
 	BlockUpdateManager blockUpdateManager;
+	BlockInformation blockInfo = new BlockInformation();
 	public CharacterManager(SceneManager scnMgr, BlockUpdateManager bum) {
 		sceneManager = scnMgr;
 		blockUpdateManager = bum;
@@ -11,7 +12,7 @@ public class CharacterManager extends Thread{
 		int charX = (int) Math.floor(sceneManager.charX);
 		int charY = (int) Math.floor(sceneManager.charY);
 		if (sceneManager.map.containsKey(charX + "," + charY)) {
-			if (getCharaterBlockInfo()[0] != 4) {
+			if (getCharaterBlockInfo()[0] != blockInfo.getBlockID("water")) {
 				blockUpdateManager.addLightSource((int) Math.floor(sceneManager.charX), (int) Math.floor(sceneManager.charY));
 			}
 		}
@@ -61,7 +62,7 @@ public class CharacterManager extends Thread{
 					charXOffset *= 2.0;
 					charYOffset *= 2.0;
 				}
-				if (getCharaterBlockInfo()[0] == 4.0 && getCharaterBlockInfo()[1] == 0.0) {
+				if (getCharaterBlockInfo()[0] == blockInfo.getBlockID("water") && getCharaterBlockInfo()[1] == 0.0) {
 					charXOffset /= 1.7;
 					charYOffset /= 1.7;
 				}

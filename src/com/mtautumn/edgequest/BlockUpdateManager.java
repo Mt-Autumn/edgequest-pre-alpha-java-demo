@@ -2,13 +2,14 @@ package com.mtautumn.edgequest;
 
 public class BlockUpdateManager {
 	SceneManager sceneManager;
+	BlockInformation blockInfo = new BlockInformation();
 	private int lightDiffuseDistance = 8;
 	public BlockUpdateManager(SceneManager scnMgr) {
 		sceneManager = scnMgr;
 	}
 	public void addLightSource(int x, int y) {
 		sceneManager.lightSourceMap.put(x + "," + y, true);
-		sceneManager.playerStructuresMap.put(x + "," + y, 5);
+		sceneManager.playerStructuresMap.put(x + "," + y, blockInfo.getBlockID("torch"));
 		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
 			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
 				double closestLightSource = lightDiffuseDistance + 1;
