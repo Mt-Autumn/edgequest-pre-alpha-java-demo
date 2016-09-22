@@ -21,25 +21,29 @@ public class TextureManager {
 			}
 		}
 	}
-	public BufferedImage getBlockTexture(int textureID, SceneManager sceneManager) {
+	public BufferedImage getTexture(String blockName, SceneManager sceneManager) {
+		int textureID = blockInfo.getBlockID(blockName);
+		if (blockInfo.isBlockAnimated(textureID)) {
+			return textureList.get(blockName + blockInfo.getBlockAnimation(textureID)[(sceneManager.animationClock60Step % blockInfo.getBlockAnimation(textureID).length)]);
+		} else {
+			return textureList.get(blockName);
+		}
+	}
+	public BufferedImage getTexture(int textureID, SceneManager sceneManager) {
 		if (blockInfo.isBlockAnimated(textureID)) {
 			return textureList.get(blockInfo.getBlockName(textureID) + blockInfo.getBlockAnimation(textureID)[(sceneManager.animationClock60Step % blockInfo.getBlockAnimation(textureID).length)]);
 		} else {
 			return textureList.get(blockInfo.getBlockName(textureID));
 		}
 	}
-	public BufferedImage getBlockTexture(int textureID) {
+	public BufferedImage getTexture(int textureID) {
 		if (blockInfo.isBlockAnimated(textureID)) {
 			return textureList.get(blockInfo.getBlockName(textureID) + blockInfo.getBlockAnimation(textureID)[0]);
 		} else {
 			return textureList.get(blockInfo.getBlockName(textureID));
 		}
 	}
-	public BufferedImage getTexture(int textureValue, SceneManager sceneManager) {
-		return getBlockTexture(textureValue, sceneManager);
-			
-	}
 	public BufferedImage getCharacter(int direction) {
-		return getBlockTexture(direction + 200);
+		return getTexture(direction + 200);
 	}
 }
