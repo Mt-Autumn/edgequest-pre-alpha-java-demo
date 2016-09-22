@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class BlockInformation {
 	public Map<Integer, String> blockHashMap = new HashMap<Integer, String>();
+	public Map<String, Integer> reverseBlockHashMap = new HashMap<String, Integer>();
 	public Map<Integer, Boolean> isPassableMap = new HashMap<Integer, Boolean>();
 	public Map<Integer, Boolean> emitsLightMap = new HashMap<Integer, Boolean>();
 	public Map<Integer, Boolean> isAnimatedMap = new HashMap<Integer, Boolean>();
@@ -38,6 +39,7 @@ public class BlockInformation {
 	
 	private void addBlock(Integer blockID, String name, boolean isPassable, boolean emitsLight) {
 		blockHashMap.put(blockID, name);
+		reverseBlockHashMap.put(name, blockID);
 		isPassableMap.put(blockID, isPassable);
 		emitsLightMap.put(blockID, emitsLight);
 		isAnimatedMap.put(blockID, false);
@@ -48,12 +50,8 @@ public class BlockInformation {
 		animationStepsMap.put(blockID, animationSteps);
 	}
 	public int getBlockID(String name) {
-		if (blockHashMap.containsValue(name)) {
-			for (int i = 0; i < blockHashMap.size(); i++) {
-				if (name.equalsIgnoreCase(blockHashMap.get(blockHashMap.keySet().toArray()[i]))) {
-					return (int) blockHashMap.keySet().toArray()[i];
-				}
-			}
+		if (reverseBlockHashMap.containsKey(name)) {
+			return reverseBlockHashMap.get(name);
 		}
 		return 0;
 	}
