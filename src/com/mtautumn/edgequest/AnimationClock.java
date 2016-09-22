@@ -7,9 +7,9 @@ public class AnimationClock extends Thread {
 	}
 	public void run() {
 		while (true) {
-			sceneManager.animationClock6Step++;
-			if (sceneManager.animationClock6Step > 5) {
-				sceneManager.animationClock6Step = 0;
+			sceneManager.animationClock60Step++;
+			if (sceneManager.animationClock60Step > 59) {
+				sceneManager.animationClock60Step = 0;
 			}
 			try {
 				Thread.sleep(sceneManager.tickLength * 8);

@@ -10,7 +10,7 @@ public class SceneManager {
 	public boolean isAPressed = false;
 	public boolean isShiftPressed = false;
 	public int time = 600;
-	public int animationClock6Step = 0;
+	public int animationClock60Step = 0;
 	public String timeReadable = "";
 	public int tickLength = 30;
 	public int screenWidth = 1364;

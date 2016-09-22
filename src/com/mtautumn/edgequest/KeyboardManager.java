@@ -24,8 +24,10 @@ public class KeyboardManager extends Thread {
 				sceneManager.blockGenerationLastTick = true;
 			}
 			if (keyboard.keyDownOnce(KeyEvent.VK_S)) {
-				sceneManager.blockSize -= 1;
-				sceneManager.blockGenerationLastTick = true;
+				if (sceneManager.blockSize > 1) {
+					sceneManager.blockSize -= 1;
+					sceneManager.blockGenerationLastTick = true;
+				}	
 			}
 			if (keyboard.keyDownOnce(KeyEvent.VK_SPACE)) {
 				sceneManager.showDiag = !sceneManager.showDiag;
