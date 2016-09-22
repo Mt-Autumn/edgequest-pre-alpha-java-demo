@@ -18,6 +18,7 @@ public class EdgeQuest {
 		rendererManager.start();
 		gameClock.start();
 		animationClock.start();
+		blockUpdateManager.start();
 		while (true) {
 			Thread.sleep(sceneManager.tickLength*1000);
 		}
