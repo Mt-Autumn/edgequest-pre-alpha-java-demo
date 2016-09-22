@@ -1,6 +1,6 @@
 package com.mtautumn.edgequest;
 
-public class BlockUpdateManager {
+public class BlockUpdateManager extends Thread {
 	SceneManager sceneManager;
 	BlockInformation blockInfo = new BlockInformation();
 	private int lightDiffuseDistance = 8;
@@ -29,6 +29,18 @@ public class BlockUpdateManager {
 			}
 		}
 	}
+	public void run() {
+		int i = 0;
+		while (true) {
+			i++;
+			if (i % 30 == 0) meltSnow();
+			try {
+				Thread.sleep(sceneManager.tickLength);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	private void updateLighting(int x, int y, double brightness) {
 		if (brightness > 1) brightness = 1;
 		if (brightness < 0) brightness = 0;
@@ -39,5 +51,24 @@ public class BlockUpdateManager {
 			return sceneManager.lightSourceMap.get(x + "," + y);
 		}
 		return false;
+	}
+	private void meltSnow() {
+		for(int x = sceneManager.minTileX; x <= sceneManager.maxTileX; x++) {
+			for(int y = sceneManager.minTileY; y <= sceneManager.maxTileY; y++) {
+				if (sceneManager.map.containsKey(x+","+y)) {
+					if (blockInfo.getBlockName(sceneManager.map.get(x + "," + y)) == "snow") {
+						double brightness = 0;
+						if (sceneManager.lightMap.containsKey(x+","+y)) {
+							brightness = sceneManager.lightMap.get(x+","+y);
+						}
+						if (brightness > 0.7) {
+							if (1 - Math.random() < (brightness - 0.7) / 50.0) {
+								sceneManager.map.put(x+","+y, blockInfo.getBlockID("grass"));
+							}
+						}
+					}
+				}
+			}	
+		}
 	}
 }
