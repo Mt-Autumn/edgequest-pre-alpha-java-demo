@@ -3,11 +3,8 @@ package com.mtautumn.edgequest;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Window;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 public class Renderer extends JComponent {
 	private static SceneManager sceneManager;
@@ -112,14 +109,14 @@ public class Renderer extends JComponent {
 	public void drawMenu(Graphics2D g2) {
 		g2.setColor(new Color(0.3f,0.3f,0.3f, 0.5f));
 		g2.fillRect(0, 0, sceneManager.screenWidth, sceneManager.screenHeight);
-		int menuX = sceneManager.screenWidth / 2 - 375;
-		int menuY = sceneManager.screenHeight/2 - 250;
-		g2.drawImage(textureManager.getTexture("menuBackground", sceneManager), menuX, menuY, 750,500,null);
+		sceneManager.menuX = sceneManager.screenWidth / 2 - 375;
+		sceneManager.menuY = sceneManager.screenHeight/2 - 250;
+		g2.drawImage(textureManager.getTexture("menuBackground", sceneManager), sceneManager.menuX, sceneManager.menuY, 750,500,null);
 		for (int i = 0; i<menuButtonManager.buttonIDArray.size(); i++) {
 			MenuButtonManager.MenuButton button = menuButtonManager.buttonIDArray.get(i);repaint();
 			g2.setColor(Color.WHITE);
-			g2.fillRect(button.getPosX(menuX), button.getPosY(menuY), button.width, button.height);
-			g2.drawImage(button.buttonImage, button.getPosX(menuX), button.getPosY(menuY), button.width, button.height, null);
+			g2.fillRect(button.getPosX(sceneManager.menuX), button.getPosY(sceneManager.menuY), button.width, button.height);
+			g2.drawImage(button.buttonImage, button.getPosX(sceneManager.menuX), button.getPosY(sceneManager.menuY), button.width, button.height, null);
 		}
 	}
 	public double[] getCharaterBlockInfo() {
