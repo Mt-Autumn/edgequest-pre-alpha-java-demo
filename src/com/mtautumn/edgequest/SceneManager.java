@@ -16,8 +16,8 @@ public class SceneManager {
 	public int tickLength = 30;
 	public int targetFPS = 60;
 	public int averagedFPS = 0;
-	public int screenWidth = 1364;
-	public int screenHeight = 740;
+	public int screenWidth = 800;
+	public int screenHeight = 600;
 	public double charX = 5;
 	public double charY = 5;
 	public int charDir = 0;

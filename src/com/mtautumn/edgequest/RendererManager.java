@@ -1,6 +1,7 @@
 package com.mtautumn.edgequest;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -20,20 +21,21 @@ public class RendererManager extends Thread {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setBackground(Color.DARK_GRAY);
 		window.setBounds(0, 0, sceneManager.screenWidth, sceneManager.screenHeight);
-		window.setResizable(false);
+		window.setResizable(true);
+		window.setMinimumSize(new Dimension(800, 600));
 		window.setName("edgequest");
 		window.setTitle("edgequest");
 		window.getContentPane().add(new Renderer(sceneManager, mbm));
 		JPanel content = (JPanel) window.getContentPane();
 		window.addKeyListener(keyboard);
 		content.addKeyListener(keyboard);
-		window.addMouseListener(
+		content.addMouseListener(
 				new MouseAdapter()
 				{
 					public void mouseClicked(MouseEvent me)
 					{
 						if (sceneManager.isEscToggled) {
-							mbm.buttonPressed(me.getX() - 22, me.getY() - 22);
+							mbm.buttonPressed(me.getX(), me.getY());
 						}
 					}
 				});
@@ -49,6 +51,7 @@ public class RendererManager extends Thread {
 		}
 		long lastNanoPause = (int) (1000000000/sceneManager.targetFPS);
 		while (true) {
+			updateWindowSize();
 			tempFPS = (int) (1000000000 / (System.nanoTime() - lastNanoTimeFPSGrabber));
 			lastNanoTimeFPSGrabber = System.nanoTime();
 			updateAverageFPS(tempFPS);
@@ -84,6 +87,13 @@ public class RendererManager extends Thread {
 		sceneManager.averagedFPS = sceneManager.targetFPS;
 		for (int i = 0; i< lastXFPS.length; i++) {
 			lastXFPS[i] = sceneManager.targetFPS;
+		}
+	}
+	private void updateWindowSize() {
+		if (sceneManager.screenWidth != window.getContentPane().getWidth() || sceneManager.screenHeight != window.getContentPane().getHeight()) {
+			sceneManager.screenWidth = window.getContentPane().getWidth();
+			sceneManager.screenHeight = window.getContentPane().getHeight();
+			sceneManager.blockGenerationLastTick = true;
 		}
 	}
 }
