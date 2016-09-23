@@ -1,12 +1,15 @@
 package com.mtautumn.edgequest;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class RendererManager extends Thread {
 	static JFrame window = new JFrame("edgequest");
+	private static boolean wasMenuUp = false;
 	private static SceneManager sceneManager;
 	KeyboardInput keyboard = new KeyboardInput();
 	int[] lastXFPS = new int[20];
@@ -24,6 +27,16 @@ public class RendererManager extends Thread {
 		JPanel content = (JPanel) window.getContentPane();
 		window.addKeyListener(keyboard);
 		content.addKeyListener(keyboard);
+		window.addMouseListener(
+				new MouseAdapter()
+				{
+					public void mouseClicked(MouseEvent me)
+					{
+						if (sceneManager.isEscToggled) {
+							mbm.buttonPressed(me.getX() - 22, me.getY() - 22);
+						}
+					}
+				});
 	}
 
 	public void run() {
@@ -41,18 +54,21 @@ public class RendererManager extends Thread {
 			updateAverageFPS(tempFPS);
 			updateWindow();
 			try {
-					lastNanoPause += (1.0/Double.valueOf(sceneManager.targetFPS) - 1.0/Double.valueOf(sceneManager.averagedFPS)) * 50000000;
-					if (lastNanoPause < 0) lastNanoPause = 0;
-					Thread.sleep((lastNanoPause) / 1000000,(int) ((lastNanoPause) % 1000000));
+				lastNanoPause += (1.0/Double.valueOf(sceneManager.targetFPS) - 1.0/Double.valueOf(sceneManager.averagedFPS)) * 50000000;
+				if (lastNanoPause < 0) lastNanoPause = 0;
+				Thread.sleep((lastNanoPause) / 1000000,(int) ((lastNanoPause) % 1000000));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 	}
 	public static void updateWindow() {
-		window.getContentPane().repaint();
-		window.setVisible(true);
+		if (!wasMenuUp) {
+			window.getContentPane().repaint();
+			window.setVisible(true);
+		}
+		wasMenuUp = sceneManager.isEscToggled;
 	}
 	private void updateAverageFPS(int FPS) {
 		int fpsSum = 0;
