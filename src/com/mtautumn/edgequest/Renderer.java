@@ -22,6 +22,7 @@ public class Renderer extends JComponent {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setBackground(Color.DARK_GRAY);
 		drawTerrain(g2);
+		drawFootprints(g2);
 		drawCharacterEffects(g2);
 		drawCharacter(g2);
 		drawLighting(g2);
@@ -52,6 +53,24 @@ public class Renderer extends JComponent {
 				yPos += sceneManager.blockSize;
 			}
 			xPos += sceneManager.blockSize;
+		}
+	}
+	public void drawFootprints(Graphics2D g2) {
+		for (int i = 0; i < sceneManager.footPrints.size(); i++) {
+			FootPrint fp = sceneManager.footPrints.get(i);
+			double coordsOffsetX = sceneManager.charX - Double.valueOf(sceneManager.screenWidth) / 2.0 / Double.valueOf(sceneManager.blockSize);
+			double coordsOffsetY = sceneManager.charY - Double.valueOf(sceneManager.screenHeight) / 2.0 / Double.valueOf(sceneManager.blockSize);
+			int posX = (int)((fp.posX - coordsOffsetX)*sceneManager.blockSize);
+			int posY = (int)((fp.posY - coordsOffsetY)*sceneManager.blockSize);
+			g2.rotate(Math.PI / 4.0 * Double.valueOf(fp.direction) + Math.PI, posX, posY);
+			if (fp.opacity > 0.4) {
+				g2.drawImage(textureManager.getTexture("footsteps", sceneManager), posX, posY, sceneManager.blockSize / 3, (int)(sceneManager.blockSize / 1.5), null);
+			} else if (fp.opacity > 0.2) {
+				g2.drawImage(textureManager.getTexture("footsteps2", sceneManager), posX, posY, sceneManager.blockSize / 3, (int)(sceneManager.blockSize / 1.5), null);
+			} else {
+				g2.drawImage(textureManager.getTexture("footsteps3", sceneManager), posX, posY, sceneManager.blockSize / 3, (int)(sceneManager.blockSize / 1.5), null);
+			}
+			g2.rotate(-Math.PI / 4.0 * Double.valueOf(fp.direction) - Math.PI, posX, posY);
 		}
 	}
 	public void drawCharacterEffects(Graphics2D g2) {
