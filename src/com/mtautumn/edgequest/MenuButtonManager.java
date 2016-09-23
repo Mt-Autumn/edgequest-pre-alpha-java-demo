@@ -2,6 +2,7 @@ package com.mtautumn.edgequest;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -15,6 +16,8 @@ public class MenuButtonManager {
 		buttonIDArray.add(new MenuButton(1,50,100,200,50,"setFPS"));
 		buttonIDArray.add(new MenuButton(2,500,100,200,50,"setSeed"));
 		buttonIDArray.add(new MenuButton(3,50,200,200,50,"regenWorld"));
+		buttonIDArray.add(new MenuButton(4,500,200,200,50,"saveGame"));
+		buttonIDArray.add(new MenuButton(5,50,300,200,50,"loadGame"));
 	}
 	
 	public void buttonPressed(int posX, int posY) {
@@ -61,6 +64,24 @@ public class MenuButtonManager {
 			sceneManager.lightSourceMap.clear();
 			sceneManager.blockGenerationLastTick = true;
 			JOptionPane.showMessageDialog(null, "World reset");
+			break;
+		case 4:
+			String fileSaveName = JOptionPane.showInputDialog("FileName:");
+			try {
+				GameSaves.saveGame(fileSaveName, sceneManager);
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "Unable to save game");
+			}
+			break;
+		case 5:
+			String fileLoadName = JOptionPane.showInputDialog("FileName:");
+				try {
+					GameSaves.loadGame(fileLoadName, sceneManager);
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, "Unable to load game");
+					e.printStackTrace();
+				}
+			break;
 		default:
 			break;
 		}
