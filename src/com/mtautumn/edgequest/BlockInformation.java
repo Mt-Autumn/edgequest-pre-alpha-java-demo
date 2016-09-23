@@ -35,6 +35,9 @@ public class BlockInformation {
 		addBlock(206, "characterLeft", true, false);
 		addBlock(207, "characterUpLeft", true, false);
 		addBlock(208, "waterSplash", true ,false, new Integer[]{0,0,1,1,2,2});
+		addBlock(209, "footsteps", true, false);
+		addBlock(210, "footsteps2", true, false);
+		addBlock(211, "footsteps3", true, false);
 		
 		addBlock(300, "menuBackground", true, false);
 	}

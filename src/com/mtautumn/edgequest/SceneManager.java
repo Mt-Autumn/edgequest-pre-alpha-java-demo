@@ -1,6 +1,7 @@
 package com.mtautumn.edgequest;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ public class SceneManager implements Serializable {
 	public Map<String, Integer> playerStructuresMap = new HashMap<String, Integer>();
 	public Map<String, Integer> biomeMap = new HashMap<String, Integer>();
 	public Map<String, Integer> biomeMapFiltered = new HashMap<String, Integer>();
+	public ArrayList<FootPrint> footPrints = new ArrayList<FootPrint>();
 	public int minTileX = 0;
 	public int maxTileX = 0;
 	public int minTileY = 0;
