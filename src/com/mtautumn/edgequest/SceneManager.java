@@ -1,9 +1,11 @@
 package com.mtautumn.edgequest;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SceneManager {
+public class SceneManager implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public boolean isWPressed = false;
 	public boolean isDPressed = false;
 	public boolean isSPressed = false;
