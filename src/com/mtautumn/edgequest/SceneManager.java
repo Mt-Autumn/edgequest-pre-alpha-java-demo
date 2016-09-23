@@ -13,6 +13,8 @@ public class SceneManager {
 	public int animationClock = 0;
 	public String timeReadable = "";
 	public int tickLength = 30;
+	public int targetFPS = 60;
+	public int averagedFPS = 0;
 	public int screenWidth = 1364;
 	public int screenHeight = 740;
 	public double charX = 5;
