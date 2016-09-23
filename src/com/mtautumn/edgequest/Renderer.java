@@ -3,18 +3,23 @@ package com.mtautumn.edgequest;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Window;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 public class Renderer extends JComponent {
 	private static SceneManager sceneManager;
+	private static MenuButtonManager menuButtonManager;
 	private static TextureManager textureManager = new TextureManager();;
 	private static BlockInformation blockInfo = new BlockInformation();
 
 	private static final long serialVersionUID = -1075263557773488547L;
 
-	public Renderer(SceneManager scnMgr) {
+	public Renderer(SceneManager scnMgr, MenuButtonManager mbm) {
 		sceneManager = scnMgr;
+		menuButtonManager = mbm;
 	}
 	public void paint (Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
@@ -23,9 +28,8 @@ public class Renderer extends JComponent {
 		drawCharacterEffects(g2);
 		drawCharacter(g2);
 		drawLighting(g2);
-		if (sceneManager.showDiag) {
-			drawDiagnostics(g2);
-		}
+		if (sceneManager.showDiag) drawDiagnostics(g2);
+		if (sceneManager.isEscToggled) drawMenu(g2);
 	}
 	public void drawTerrain(Graphics2D g2) {
 		int minTileX = sceneManager.minTileX;
@@ -104,6 +108,19 @@ public class Renderer extends JComponent {
 		g2.drawString("CharMove: " + sceneManager.characterMoving, 20, 170);
 		g2.drawString("TerrGen: " + sceneManager.blockGenerationLastTick, 20, 190);
 		g2.drawString("Zoom: " + sceneManager.blockSize, 20, 210);
+	}
+	public void drawMenu(Graphics2D g2) {
+		g2.setColor(new Color(0.3f,0.3f,0.3f, 0.5f));
+		g2.fillRect(0, 0, sceneManager.screenWidth, sceneManager.screenHeight);
+		int menuX = sceneManager.screenWidth / 2 - 375;
+		int menuY = sceneManager.screenHeight/2 - 250;
+		g2.drawImage(textureManager.getTexture("menuBackground", sceneManager), menuX, menuY, 750,500,null);
+		for (int i = 0; i<menuButtonManager.buttonIDArray.size(); i++) {
+			MenuButtonManager.MenuButton button = menuButtonManager.buttonIDArray.get(i);repaint();
+			g2.setColor(Color.WHITE);
+			g2.fillRect(button.getPosX(menuX), button.getPosY(menuY), button.width, button.height);
+			g2.drawImage(button.buttonImage, button.getPosX(menuX), button.getPosY(menuY), button.width, button.height, null);
+		}
 	}
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting

@@ -32,6 +32,9 @@ public class KeyboardManager extends Thread {
 			if (keyboard.keyDownOnce(KeyEvent.VK_SPACE)) {
 				sceneManager.showDiag = !sceneManager.showDiag;
 			}
+			if (keyboard.keyDownOnce(KeyEvent.VK_ESCAPE)) {
+				sceneManager.isEscToggled = !sceneManager.isEscToggled;
+			}
 			if (keyboard.keyDownOnce(KeyEvent.VK_Q)) {
 				characterManager.charPlaceTorch();
 				

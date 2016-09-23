@@ -9,6 +9,7 @@ public class SceneManager {
 	public boolean isSPressed = false;
 	public boolean isAPressed = false;
 	public boolean isShiftPressed = false;
+	public boolean isEscToggled = false;
 	public int time = 600;
 	public int animationClock = 0;
 	public String timeReadable = "";
