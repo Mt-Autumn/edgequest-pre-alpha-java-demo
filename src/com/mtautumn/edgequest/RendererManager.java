@@ -11,7 +11,7 @@ public class RendererManager extends Thread {
 	KeyboardInput keyboard = new KeyboardInput();
 	int[] lastXFPS = new int[20];
 	int tempFPS;
-	public RendererManager(SceneManager scnMgr, KeyboardInput kybd) {
+	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, MenuButtonManager mbm) {
 		sceneManager = scnMgr;
 		keyboard = kybd;
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -20,7 +20,7 @@ public class RendererManager extends Thread {
 		window.setResizable(false);
 		window.setName("edgequest");
 		window.setTitle("edgequest");
-		window.getContentPane().add(new Renderer(sceneManager));
+		window.getContentPane().add(new Renderer(sceneManager, mbm));
 		JPanel content = (JPanel) window.getContentPane();
 		window.addKeyListener(keyboard);
 		content.addKeyListener(keyboard);

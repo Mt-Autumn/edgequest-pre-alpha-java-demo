@@ -35,6 +35,8 @@ public class BlockInformation {
 		addBlock(206, "characterLeft", true, false);
 		addBlock(207, "characterUpLeft", true, false);
 		addBlock(208, "waterSplash", true ,false, new Integer[]{0,0,1,1,2,2});
+		
+		addBlock(300, "menuBackground", true, false);
 	}
 	
 	private void addBlock(Integer blockID, String name, boolean isPassable, boolean emitsLight) {
