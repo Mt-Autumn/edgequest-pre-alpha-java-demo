@@ -92,17 +92,18 @@ public class Renderer extends JComponent {
 	}
 	public void drawDiagnostics(Graphics2D g2) {
 		g2.setColor(new Color(0.7f,0.7f,0.7f, 0.7f));
-		g2.fillRoundRect(10, 10, 250, 190, 8, 8);
+		g2.fillRoundRect(10, 10, 250, 210, 8, 8);
 		g2.setColor(new Color(0.0f,0.0f,0.0f, 0.7f));
-		g2.drawString("Time: " + sceneManager.time, 20, 30);
-		g2.drawString("Time Human: " + sceneManager.timeReadable, 20, 50);
-		g2.drawString("Brightness: " + sceneManager.getBrightness(), 20, 70);
-		g2.drawString("CharX: " + sceneManager.charX, 20, 90);
-		g2.drawString("CharY: " + sceneManager.charY, 20, 110);
-		g2.drawString("CharDir: " + sceneManager.charDir, 20, 130);
-		g2.drawString("CharMove: " + sceneManager.characterMoving, 20, 150);
-		g2.drawString("TerrGen: " + sceneManager.blockGenerationLastTick, 20, 170);
-		g2.drawString("Zoom: " + sceneManager.blockSize, 20, 190);
+		g2.drawString("FPS: " + sceneManager.averagedFPS, 20, 30);
+		g2.drawString("Time: " + sceneManager.time, 20, 50);
+		g2.drawString("Time Human: " + sceneManager.timeReadable, 20, 70);
+		g2.drawString("Brightness: " + sceneManager.getBrightness(), 20, 90);
+		g2.drawString("CharX: " + sceneManager.charX, 20, 110);
+		g2.drawString("CharY: " + sceneManager.charY, 20, 130);
+		g2.drawString("CharDir: " + sceneManager.charDir, 20, 150);
+		g2.drawString("CharMove: " + sceneManager.characterMoving, 20, 170);
+		g2.drawString("TerrGen: " + sceneManager.blockGenerationLastTick, 20, 190);
+		g2.drawString("Zoom: " + sceneManager.blockSize, 20, 210);
 	}
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
