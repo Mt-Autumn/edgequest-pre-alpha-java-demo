@@ -13,11 +13,11 @@ public class MenuButtonManager {
 	SceneManager sceneManager;
 	public MenuButtonManager(SceneManager scnMgr) {
 		sceneManager = scnMgr;
-		buttonIDArray.add(new MenuButton(1,50,100,200,50,"setFPS"));
-		buttonIDArray.add(new MenuButton(2,500,100,200,50,"setSeed"));
-		buttonIDArray.add(new MenuButton(3,50,200,200,50,"regenWorld"));
-		buttonIDArray.add(new MenuButton(4,500,200,200,50,"saveGame"));
-		buttonIDArray.add(new MenuButton(5,50,300,200,50,"loadGame"));
+		buttonIDArray.add(new MenuButton(1,50,100,197,73,"setFPS"));
+		buttonIDArray.add(new MenuButton(2,503,100,197,73,"setSeed"));
+		buttonIDArray.add(new MenuButton(3,50,230,197,73,"regenWorld"));
+		buttonIDArray.add(new MenuButton(4,503,230,197,73,"saveGame"));
+		buttonIDArray.add(new MenuButton(5,50,360,197,73,"loadGame"));
 	}
 	
 	public void buttonPressed(int posX, int posY) {

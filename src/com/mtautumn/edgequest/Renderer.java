@@ -132,15 +132,13 @@ public class Renderer extends JComponent {
 		g2.drawString("Zoom: " + sceneManager.settings.blockSize, 20, 210);
 	}
 	public void drawMenu(Graphics2D g2) {
-		g2.setColor(new Color(0.3f,0.3f,0.3f, 0.5f));
+		g2.setColor(new Color(0.2f,0.2f,0.2f, 0.7f));
 		g2.fillRect(0, 0, sceneManager.settings.screenWidth, sceneManager.settings.screenHeight);
 		sceneManager.system.menuX = sceneManager.settings.screenWidth / 2 - 375;
 		sceneManager.system.menuY = sceneManager.settings.screenHeight/2 - 250;
 		g2.drawImage(textureManager.getTexture("menuBackground", sceneManager), sceneManager.system.menuX, sceneManager.system.menuY, 750,500,null);
 		for (int i = 0; i<menuButtonManager.buttonIDArray.size(); i++) {
 			MenuButtonManager.MenuButton button = menuButtonManager.buttonIDArray.get(i);repaint();
-			g2.setColor(Color.WHITE);
-			g2.fillRect(button.getPosX(sceneManager.system.menuX), button.getPosY(sceneManager.system.menuY), button.width, button.height);
 			g2.drawImage(button.buttonImage, button.getPosX(sceneManager.system.menuX), button.getPosY(sceneManager.system.menuY), button.width, button.height, null);
 		}
 	}
