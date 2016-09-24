@@ -62,6 +62,7 @@ public class MenuButtonManager {
 			sceneManager.map.clear();
 			sceneManager.lightMap.clear();
 			sceneManager.lightSourceMap.clear();
+			sceneManager.footPrints.clear();
 			sceneManager.blockGenerationLastTick = true;
 			JOptionPane.showMessageDialog(null, "World reset");
 			break;
