@@ -9,7 +9,7 @@ public class TerrainGenerator {
 		sceneManager = scnMgr;
 	}
 	private double getChunkRNG(int x, int y) {
-		return Math.sqrt((new Random(sceneManager.seed * x).doubles().skip(Math.abs(y)).findFirst().getAsDouble()) * (new Random(sceneManager.seed * 2 * y).doubles().skip(Math.abs(x)).findFirst().getAsDouble()));
+		return Math.sqrt((new Random(sceneManager.seed * x + x).doubles().skip(Math.abs(y)).findFirst().getAsDouble()) * (new Random(sceneManager.seed * 2 * y + 2 * y).doubles().skip(Math.abs(x)).findFirst().getAsDouble()));
 	}
 	public int getBlockBiome(int x, int y) {
 		if (sceneManager.biomeMap.containsKey(x + "," + y)) {
