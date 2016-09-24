@@ -8,6 +8,10 @@ public class BlockUpdateManager extends Thread {
 		sceneManager = scnMgr;
 	}
 	public void addLightSource(int x, int y) {
+		if (sceneManager.world.playerStructuresMap.containsKey(x+","+y)) {
+			sceneManager.world.lightSourceMap.put(x + "," + y, false);
+			sceneManager.world.playerStructuresMap.remove(x + "," + y);
+		} else {
 		sceneManager.world.lightSourceMap.put(x + "," + y, true);
 		sceneManager.world.playerStructuresMap.put(x + "," + y, blockInfo.getBlockID("torch"));
 		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
@@ -27,6 +31,7 @@ public class BlockUpdateManager extends Thread {
 					updateLighting(i,j,1.0 - closestLightSource/Double.valueOf(lightDiffuseDistance));
 				}
 			}
+		}
 		}
 	}
 	public void run() {
