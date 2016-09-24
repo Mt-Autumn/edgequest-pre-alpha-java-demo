@@ -11,29 +11,29 @@ public class CharacterManager extends Thread{
 		blockUpdateManager = bum;
 	}
 	public void charPlaceTorch() {
-		int charX = (int) Math.floor(sceneManager.charX);
-		int charY = (int) Math.floor(sceneManager.charY);
-		if (sceneManager.map.containsKey(charX + "," + charY)) {
+		int charX = (int) Math.floor(sceneManager.system.charX);
+		int charY = (int) Math.floor(sceneManager.system.charY);
+		if (sceneManager.world.map.containsKey(charX + "," + charY)) {
 			if (getCharaterBlockInfo()[0] != blockInfo.getBlockID("water")) {
-				blockUpdateManager.addLightSource((int) Math.floor(sceneManager.charX), (int) Math.floor(sceneManager.charY));
+				blockUpdateManager.addLightSource((int) Math.floor(sceneManager.system.charX), (int) Math.floor(sceneManager.system.charY));
 			}
 		}
 	}
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
-		int charX = (int) Math.floor(sceneManager.charX);
-		int charY = (int) Math.floor(sceneManager.charY);
-		if (sceneManager.map.containsKey(charX + "," + charY)) {
-			blockInfo[0] = sceneManager.map.get(charX + "," + charY);
+		int charX = (int) Math.floor(sceneManager.system.charX);
+		int charY = (int) Math.floor(sceneManager.system.charY);
+		if (sceneManager.world.map.containsKey(charX + "," + charY)) {
+			blockInfo[0] = sceneManager.world.map.get(charX + "," + charY);
 		}
-		if (sceneManager.playerStructuresMap.containsKey(charX + "," + charY)) {
-			blockInfo[1] = sceneManager.playerStructuresMap.get(charX + "," + charY);
+		if (sceneManager.world.playerStructuresMap.containsKey(charX + "," + charY)) {
+			blockInfo[1] = sceneManager.world.playerStructuresMap.get(charX + "," + charY);
 		}
-		if (sceneManager.biomeMapFiltered.containsKey(charX + "," + charY)) {
-			blockInfo[2] = sceneManager.biomeMapFiltered.get(charX + "," + charY);
+		if (sceneManager.world.biomeMapFiltered.containsKey(charX + "," + charY)) {
+			blockInfo[2] = sceneManager.world.biomeMapFiltered.get(charX + "," + charY);
 		}
-		if (sceneManager.lightMap.containsKey(charX + "," + charY)) {
-			blockInfo[3] = sceneManager.lightMap.get(charX + "," + charY);
+		if (sceneManager.world.lightMap.containsKey(charX + "," + charY)) {
+			blockInfo[3] = sceneManager.world.lightMap.get(charX + "," + charY);
 		}
 		return blockInfo;
 	}
@@ -46,23 +46,23 @@ public class CharacterManager extends Thread{
 			lastUpdate = System.currentTimeMillis();
 			double charYOffset = 0.0;
 			double charXOffset = 0.0;
-			if (sceneManager.isWPressed) {
+			if (sceneManager.system.isKeyboardUp) {
 				charYOffset -= moveInterval;
 			}
-			if (sceneManager.isDPressed) {
+			if (sceneManager.system.isKeyboardRight) {
 				charXOffset += moveInterval;
 			}
-			if (sceneManager.isSPressed) {
+			if (sceneManager.system.isKeyboardDown) {
 				charYOffset += moveInterval;
 			}
-			if (sceneManager.isAPressed) {
+			if (sceneManager.system.isKeyboardLeft) {
 				charXOffset -= moveInterval;
 			}
 			if (charXOffset != 0 && charYOffset != 0) {
 				charXOffset *= 0.70710678118;
 				charYOffset *= 0.70710678118;
 			}
-			if (sceneManager.isShiftPressed) {
+			if (sceneManager.system.isKeyboardSprint) {
 				charXOffset *= 2.0;
 				charYOffset *= 2.0;
 			}
@@ -71,47 +71,47 @@ public class CharacterManager extends Thread{
 				charYOffset /= 1.7;
 			}
 
-			sceneManager.charX += charXOffset;
-			sceneManager.charY += charYOffset;
+			sceneManager.system.charX += charXOffset;
+			sceneManager.system.charY += charYOffset;
 			if(charYOffset < 0 && charXOffset == 0) {
-				sceneManager.charDir = 0;
+				sceneManager.system.charDir = 0;
 			} else if (charYOffset < 0 && charXOffset < 0) {
-				sceneManager.charDir = 7;
+				sceneManager.system.charDir = 7;
 			} else if (charYOffset < 0 && charXOffset > 0) {
-				sceneManager.charDir = 1;
+				sceneManager.system.charDir = 1;
 			} else if (charYOffset == 0 && charXOffset < 0) {
-				sceneManager.charDir = 6;
+				sceneManager.system.charDir = 6;
 			} else if (charYOffset == 0 && charXOffset > 0) {
-				sceneManager.charDir = 2;
+				sceneManager.system.charDir = 2;
 			} else if (charYOffset > 0 && charXOffset < 0) {
-				sceneManager.charDir = 5;
+				sceneManager.system.charDir = 5;
 			} else if (charYOffset > 0 && charXOffset == 0) {
-				sceneManager.charDir = 4;
+				sceneManager.system.charDir = 4;
 			} else if (charYOffset > 0 && charXOffset > 0) {
-				sceneManager.charDir = 3;
+				sceneManager.system.charDir = 3;
 			}
-			sceneManager.characterMoving = (charXOffset != 0 || charYOffset != 0);
+			sceneManager.system.characterMoving = (charXOffset != 0 || charYOffset != 0);
 			try {
-				Thread.sleep(sceneManager.tickLength);
+				Thread.sleep(sceneManager.settings.tickLength);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	public void updateFootprints() {
-		if (sceneManager.map.containsKey((int)Math.floor(sceneManager.charX) + "," + (int)Math.floor(sceneManager.charY))) {
-			if (sceneManager.map.get((int)Math.floor(sceneManager.charX) + "," + (int)Math.floor(sceneManager.charY)) == blockInfo.getBlockID("snow")) {
-				if (Math.sqrt(Math.pow(sceneManager.charX - lastFootX, 2)+Math.pow(sceneManager.charY - lastFootY, 2)) > 0.7) {
-					lastFootX = sceneManager.charX;
-					lastFootY = sceneManager.charY;
-					sceneManager.footPrints.add(new FootPrint(sceneManager.charX, sceneManager.charY, sceneManager.charDir));
+		if (sceneManager.world.map.containsKey((int)Math.floor(sceneManager.system.charX) + "," + (int)Math.floor(sceneManager.system.charY))) {
+			if (sceneManager.world.map.get((int)Math.floor(sceneManager.system.charX) + "," + (int)Math.floor(sceneManager.system.charY)) == blockInfo.getBlockID("snow")) {
+				if (Math.sqrt(Math.pow(sceneManager.system.charX - lastFootX, 2)+Math.pow(sceneManager.system.charY - lastFootY, 2)) > 0.7) {
+					lastFootX = sceneManager.system.charX;
+					lastFootY = sceneManager.system.charY;
+					sceneManager.world.footPrints.add(new FootPrint(sceneManager.system.charX, sceneManager.system.charY, sceneManager.system.charDir));
 				}
 			}
 		}
-		for (int i = 0; i < sceneManager.footPrints.size(); i++) {
-			sceneManager.footPrints.get(i).opacity -= 0.001;
-			if (sceneManager.footPrints.get(i).opacity <= 0) {
-				sceneManager.footPrints.remove(i);
+		for (int i = 0; i < sceneManager.world.footPrints.size(); i++) {
+			sceneManager.world.footPrints.get(i).opacity -= 0.001;
+			if (sceneManager.world.footPrints.get(i).opacity <= 0) {
+				sceneManager.world.footPrints.remove(i);
 			}
 
 		}

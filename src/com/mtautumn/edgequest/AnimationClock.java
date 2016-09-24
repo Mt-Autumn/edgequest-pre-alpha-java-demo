@@ -7,9 +7,9 @@ public class AnimationClock extends Thread {
 	}
 	public void run() {
 		while (true) {
-			sceneManager.animationClock++;
+			sceneManager.system.animationClock++;
 			try {
-				Thread.sleep(sceneManager.tickLength * 8);
+				Thread.sleep(sceneManager.settings.tickLength * 8);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

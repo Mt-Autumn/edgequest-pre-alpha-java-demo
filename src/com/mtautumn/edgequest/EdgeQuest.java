@@ -3,7 +3,6 @@ package com.mtautumn.edgequest;
 public class EdgeQuest {
 	public static SceneManager sceneManager = new SceneManager();
 	public static MenuButtonManager menuButtonManager = new MenuButtonManager(sceneManager);
-	public static HIDListener hidListener = new HIDListener(sceneManager);
 	public static KeyboardInput keyboard = new KeyboardInput();
 	public static BlockUpdateManager blockUpdateManager = new BlockUpdateManager(sceneManager);
 	public static CharacterManager characterManager = new CharacterManager(sceneManager, blockUpdateManager);
@@ -21,7 +20,7 @@ public class EdgeQuest {
 		animationClock.start();
 		blockUpdateManager.start();
 		while (true) {
-			Thread.sleep(sceneManager.tickLength*1000);
+			Thread.sleep(10000);
 		}
 		
 	}

@@ -24,14 +24,14 @@ public class TextureManager {
 	public BufferedImage getTexture(String blockName, SceneManager sceneManager) {
 		int textureID = blockInfo.getBlockID(blockName);
 		if (blockInfo.isBlockAnimated(textureID)) {
-			return textureList.get(blockName + blockInfo.getBlockAnimation(textureID)[(sceneManager.animationClock % blockInfo.getBlockAnimation(textureID).length)]);
+			return textureList.get(blockName + blockInfo.getBlockAnimation(textureID)[(sceneManager.system.animationClock % blockInfo.getBlockAnimation(textureID).length)]);
 		} else {
 			return textureList.get(blockName);
 		}
 	}
 	public BufferedImage getTexture(int textureID, SceneManager sceneManager) {
 		if (blockInfo.isBlockAnimated(textureID)) {
-			return textureList.get(blockInfo.getBlockName(textureID) + blockInfo.getBlockAnimation(textureID)[(sceneManager.animationClock % blockInfo.getBlockAnimation(textureID).length)]);
+			return textureList.get(blockInfo.getBlockName(textureID) + blockInfo.getBlockAnimation(textureID)[(sceneManager.system.animationClock % blockInfo.getBlockAnimation(textureID).length)]);
 		} else {
 			return textureList.get(blockInfo.getBlockName(textureID));
 		}
