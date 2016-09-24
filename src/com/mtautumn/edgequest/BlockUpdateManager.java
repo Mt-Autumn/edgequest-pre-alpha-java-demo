@@ -28,9 +28,7 @@ public class BlockUpdateManager extends Thread {
 						}
 					}
 				}
-				if (closestLightSource <= lightDiffuseDistance) {
 					updateLighting(i,j,1.0 - closestLightSource/Double.valueOf(lightDiffuseDistance));
-				}
 			}
 		}
 	}
