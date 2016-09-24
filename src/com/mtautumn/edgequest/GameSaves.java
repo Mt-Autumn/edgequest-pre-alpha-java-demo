@@ -30,5 +30,6 @@ public class GameSaves {
 		sceneManager.charDir = loadedSM.charDir;
 		sceneManager.playerStructuresMap = loadedSM.playerStructuresMap;
 		sceneManager.seed = loadedSM.seed;
+		sceneManager.footPrints = loadedSM.footPrints;
 	}
 }
