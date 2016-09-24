@@ -41,6 +41,7 @@ public class BlockInformation {
 		
 		addBlock(300, "menuBackground", true, false);
 		addBlock(301, "launchScreenBackground", true, false);
+		addBlock(302, "launchScreenLogo", true, false);
 	}
 	
 	private void addBlock(Integer blockID, String name, boolean isPassable, boolean emitsLight) {
