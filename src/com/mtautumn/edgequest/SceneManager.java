@@ -11,13 +11,16 @@ public class SceneManager implements Serializable {
 	public World world = new World();
 	public Settings settings = new Settings();
 	
-	public class System {
+	public class System implements Serializable{
+		private static final long serialVersionUID = 1L;
 		public boolean isKeyboardUp = false;
 		public boolean isKeyboardRight = false;
 		public boolean isKeyboardDown = false;
 		public boolean isKeyboardLeft = false;
 		public boolean isKeyboardSprint = false;
 		public boolean isKeyboardMenu = false;
+		public boolean isGameOnLaunchScreen = true;
+		public boolean isLaunchScreenLoaded = false;
 		public int animationClock = 0;
 		public String timeReadable = "";
 		public double charX = 5;
@@ -33,7 +36,8 @@ public class SceneManager implements Serializable {
 		public boolean characterMoving = false;
 		public int averagedFPS = 0;
 	}
-	public class World {
+	public class World implements Serializable{
+		private static final long serialVersionUID = 1L;
 		public int time = 800;
 		public Map<String, Integer> map = new HashMap<String, Integer>();
 		public Map<String, Double> lightMap = new HashMap<String, Double>();
@@ -60,7 +64,8 @@ public class SceneManager implements Serializable {
 			return brightness;
 		}
 	}
-	public class Settings {
+	public class Settings implements Serializable{
+		private static final long serialVersionUID = 1L;
 		public int tickLength = 30;
 		public int targetFPS = 60;
 		public int chunkSize = 16;

@@ -7,7 +7,8 @@ public class EdgeQuest {
 	public static BlockUpdateManager blockUpdateManager = new BlockUpdateManager(sceneManager);
 	public static CharacterManager characterManager = new CharacterManager(sceneManager, blockUpdateManager);
 	public static KeyboardManager keyboardManager = new KeyboardManager(sceneManager, keyboard, characterManager);
-	public static RendererManager rendererManager = new RendererManager(sceneManager, keyboard, menuButtonManager);
+	public static LaunchScreenManager launchScreenManager = new LaunchScreenManager(sceneManager);
+	public static RendererManager rendererManager = new RendererManager(sceneManager, keyboard, menuButtonManager, launchScreenManager);
 	public static TerrainManager terrainManager = new TerrainManager(sceneManager);
 	public static GameClock gameClock = new GameClock(sceneManager);
 	public static AnimationClock animationClock = new AnimationClock(sceneManager);

@@ -15,7 +15,7 @@ public class RendererManager extends Thread {
 	KeyboardInput keyboard = new KeyboardInput();
 	int[] lastXFPS = new int[20];
 	int tempFPS;
-	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, MenuButtonManager mbm) {
+	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, MenuButtonManager mbm, LaunchScreenManager lsm) {
 		sceneManager = scnMgr;
 		keyboard = kybd;
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,7 +25,7 @@ public class RendererManager extends Thread {
 		window.setMinimumSize(new Dimension(800, 600));
 		window.setName("edgequest");
 		window.setTitle("edgequest");
-		window.getContentPane().add(new Renderer(sceneManager, mbm));
+		window.getContentPane().add(new Renderer(sceneManager, mbm, lsm));
 		JPanel content = (JPanel) window.getContentPane();
 		window.addKeyListener(keyboard);
 		content.addKeyListener(keyboard);
@@ -36,12 +36,16 @@ public class RendererManager extends Thread {
 					{
 						if (sceneManager.system.isKeyboardMenu) {
 							mbm.buttonPressed(me.getX(), me.getY());
+						} 
+						if (sceneManager.system.isGameOnLaunchScreen) {
+							lsm.buttonPressed(me.getX(), me.getY());
 						}
 					}
 				});
 	}
 
 	public void run() {
+		window.setVisible(false);
 		prepareFPSCounting();
 		long lastNanoTimeFPSGrabber = System.nanoTime();
 		try {
@@ -50,6 +54,7 @@ public class RendererManager extends Thread {
 			e1.printStackTrace();
 		}
 		long lastNanoPause = (int) (1000000000/sceneManager.settings.targetFPS);
+		window.setVisible(true);
 		while (true) {
 			updateWindowSize();
 			tempFPS = (int) (1000000000 / (System.nanoTime() - lastNanoTimeFPSGrabber));
@@ -68,8 +73,13 @@ public class RendererManager extends Thread {
 	}
 	public static void updateWindow() {
 		if (!wasMenuUp) {
-			window.getContentPane().repaint();
-			window.setVisible(true);
+			if (!sceneManager.system.isLaunchScreenLoaded) {
+				window.getContentPane().repaint();
+				window.setVisible(true);
+				if (sceneManager.system.isGameOnLaunchScreen) {
+					sceneManager.system.isLaunchScreenLoaded = true;
+				}
+			}
 		}
 		wasMenuUp = sceneManager.system.isKeyboardMenu;
 	}

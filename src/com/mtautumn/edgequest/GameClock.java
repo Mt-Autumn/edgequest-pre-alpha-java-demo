@@ -7,26 +7,28 @@ public class GameClock extends Thread {
 	}
 	public void run() {
 		while(true) {
-		if (sceneManager.world.time < 2399) {
-			sceneManager.world.time++;
-		} else {
-			sceneManager.world.time = 0;
-		}
-		int hours = (int) Math.floor(sceneManager.world.time / 100) % 12;
-		int minutes = (int) Math.round(Double.valueOf(sceneManager.world.time % 100) * 0.05);
-		if (hours == 0) hours = 12;
+			if (!sceneManager.system.isGameOnLaunchScreen) {
+				if (sceneManager.world.time < 2399) {
+					sceneManager.world.time++;
+				} else {
+					sceneManager.world.time = 0;
+				}
+				int hours = (int) Math.floor(sceneManager.world.time / 100) % 12;
+				int minutes = (int) Math.round(Double.valueOf(sceneManager.world.time % 100) * 0.05);
+				if (hours == 0) hours = 12;
 
-		if (sceneManager.world.time < 1200) {
-			sceneManager.system.timeReadable = "" + hours + ":" + minutes + "0 AM";
-		} else {
-			sceneManager.system.timeReadable = "" + hours + ":" + minutes + "0 PM";
+				if (sceneManager.world.time < 1200) {
+					sceneManager.system.timeReadable = "" + hours + ":" + minutes + "0 AM";
+				} else {
+					sceneManager.system.timeReadable = "" + hours + ":" + minutes + "0 PM";
+				}
+			}
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		try {
-			Thread.sleep(250);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	}
 }
