@@ -14,8 +14,8 @@ public class LaunchScreenManager {
 	SceneManager sceneManager;
 	public LaunchScreenManager(SceneManager scnMgr) {
 		sceneManager = scnMgr;
-		buttonIDArray.add(new MenuButton(1,-250,-25,200,50,"newGame"));
-		buttonIDArray.add(new MenuButton(2,50,-25,200,50,"loadGame"));
+		buttonIDArray.add(new MenuButton(1,-247,-36,197,73,"newGame"));
+		buttonIDArray.add(new MenuButton(2,50,-36,197,73,"loadGame"));
 	}
 	public void renderScreen(Graphics2D g2,TextureManager textureManager) {
 		g2.drawImage(textureManager.getTexture("launchScreenBackground", sceneManager), 0, 0, sceneManager.settings.screenWidth,sceneManager.settings.screenHeight,null);
