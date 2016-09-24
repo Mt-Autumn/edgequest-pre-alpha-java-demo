@@ -18,18 +18,18 @@ public class GameSaves {
 		@SuppressWarnings("resource")
 		ObjectInputStream ois = new ObjectInputStream(fin);
 		SceneManager loadedSM = (SceneManager) ois.readObject();
-		sceneManager.time = loadedSM.time;
-		sceneManager.charX = loadedSM.charX;
-		sceneManager.charY = loadedSM.charY;
-		sceneManager.map = loadedSM.map;
-		sceneManager.biomeMap = loadedSM.biomeMap;
-		sceneManager.biomeMapFiltered = loadedSM.biomeMapFiltered;
-		sceneManager.lightMap = loadedSM.lightMap;
-		sceneManager.lightSourceMap = loadedSM.lightSourceMap;
-		sceneManager.blockGenerationLastTick = true;
-		sceneManager.charDir = loadedSM.charDir;
-		sceneManager.playerStructuresMap = loadedSM.playerStructuresMap;
-		sceneManager.seed = loadedSM.seed;
-		sceneManager.footPrints = loadedSM.footPrints;
+		sceneManager.world.time = loadedSM.world.time;
+		sceneManager.system.charX = loadedSM.system.charX;
+		sceneManager.system.charY = loadedSM.system.charY;
+		sceneManager.world.map = loadedSM.world.map;
+		sceneManager.world.biomeMap = loadedSM.world.biomeMap;
+		sceneManager.world.biomeMapFiltered = loadedSM.world.biomeMapFiltered;
+		sceneManager.world.lightMap = loadedSM.world.lightMap;
+		sceneManager.world.lightSourceMap = loadedSM.world.lightSourceMap;
+		sceneManager.system.blockGenerationLastTick = true;
+		sceneManager.system.charDir = loadedSM.system.charDir;
+		sceneManager.world.playerStructuresMap = loadedSM.world.playerStructuresMap;
+		sceneManager.world.seed = loadedSM.world.seed;
+		sceneManager.world.footPrints = loadedSM.world.footPrints;
 	}
 }

@@ -21,8 +21,8 @@ public class MenuButtonManager {
 	}
 	
 	public void buttonPressed(int posX, int posY) {
-		int adjustedX = posX - sceneManager.menuX;
-		int adjustedY = posY - sceneManager.menuY;
+		int adjustedX = posX - sceneManager.system.menuX;
+		int adjustedY = posY - sceneManager.system.menuY;
 		for (int i = 0; i < buttonIDArray.size(); i++) {
 			MenuButton button = buttonIDArray.get(i);
 			if (adjustedX > button.posX && adjustedX < button.posX + button.width && adjustedY > button.posY && adjustedY < button.posY + button.height) {
@@ -37,7 +37,7 @@ public class MenuButtonManager {
 			try {
 				int fps = Integer.parseInt(ans);
 				if (fps > 0) {
-					sceneManager.targetFPS = fps;
+					sceneManager.settings.targetFPS = fps;
 				} else {
 					JOptionPane.showMessageDialog(null, "FPS too low");
 				}
@@ -49,21 +49,21 @@ public class MenuButtonManager {
 			String ans2 = JOptionPane.showInputDialog("Type Seed Number:");
 			try {
 				long seed = Long.parseLong(ans2);
-					sceneManager.seed = seed;
-					JOptionPane.showMessageDialog(null, "Seed updated to: " + sceneManager.seed);
+					sceneManager.world.seed = seed;
+					JOptionPane.showMessageDialog(null, "Seed updated to: " + sceneManager.world.seed);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Seed needs to be an whole number");
 			}
 			break;
 		case 3:
-			sceneManager.biomeMap.clear();
-			sceneManager.biomeMapFiltered.clear();
-			sceneManager.playerStructuresMap.clear();
-			sceneManager.map.clear();
-			sceneManager.lightMap.clear();
-			sceneManager.lightSourceMap.clear();
-			sceneManager.footPrints.clear();
-			sceneManager.blockGenerationLastTick = true;
+			sceneManager.world.biomeMap.clear();
+			sceneManager.world.biomeMapFiltered.clear();
+			sceneManager.world.playerStructuresMap.clear();
+			sceneManager.world.map.clear();
+			sceneManager.world.lightMap.clear();
+			sceneManager.world.lightSourceMap.clear();
+			sceneManager.world.footPrints.clear();
+			sceneManager.system.blockGenerationLastTick = true;
 			JOptionPane.showMessageDialog(null, "World reset");
 			break;
 		case 4:

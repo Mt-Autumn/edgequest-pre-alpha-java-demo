@@ -20,7 +20,7 @@ public class RendererManager extends Thread {
 		keyboard = kybd;
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setBackground(Color.DARK_GRAY);
-		window.setBounds(0, 0, sceneManager.screenWidth, sceneManager.screenHeight);
+		window.setBounds(0, 0, sceneManager.settings.screenWidth, sceneManager.settings.screenHeight);
 		window.setResizable(true);
 		window.setMinimumSize(new Dimension(800, 600));
 		window.setName("edgequest");
@@ -34,7 +34,7 @@ public class RendererManager extends Thread {
 				{
 					public void mouseClicked(MouseEvent me)
 					{
-						if (sceneManager.isEscToggled) {
+						if (sceneManager.system.isKeyboardMenu) {
 							mbm.buttonPressed(me.getX(), me.getY());
 						}
 					}
@@ -45,11 +45,11 @@ public class RendererManager extends Thread {
 		prepareFPSCounting();
 		long lastNanoTimeFPSGrabber = System.nanoTime();
 		try {
-			Thread.sleep(1000/sceneManager.targetFPS);
+			Thread.sleep(1000/sceneManager.settings.targetFPS);
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		long lastNanoPause = (int) (1000000000/sceneManager.targetFPS);
+		long lastNanoPause = (int) (1000000000/sceneManager.settings.targetFPS);
 		while (true) {
 			updateWindowSize();
 			tempFPS = (int) (1000000000 / (System.nanoTime() - lastNanoTimeFPSGrabber));
@@ -57,7 +57,7 @@ public class RendererManager extends Thread {
 			updateAverageFPS(tempFPS);
 			updateWindow();
 			try {
-				lastNanoPause += (1.0/Double.valueOf(sceneManager.targetFPS) - 1.0/Double.valueOf(sceneManager.averagedFPS)) * 50000000;
+				lastNanoPause += (1.0/Double.valueOf(sceneManager.settings.targetFPS) - 1.0/Double.valueOf(sceneManager.system.averagedFPS)) * 50000000;
 				if (lastNanoPause < 0) lastNanoPause = 0;
 				Thread.sleep((lastNanoPause) / 1000000,(int) ((lastNanoPause) % 1000000));
 			} catch (InterruptedException e) {
@@ -71,7 +71,7 @@ public class RendererManager extends Thread {
 			window.getContentPane().repaint();
 			window.setVisible(true);
 		}
-		wasMenuUp = sceneManager.isEscToggled;
+		wasMenuUp = sceneManager.system.isKeyboardMenu;
 	}
 	private void updateAverageFPS(int FPS) {
 		int fpsSum = 0;
@@ -81,19 +81,19 @@ public class RendererManager extends Thread {
 		}
 		lastXFPS[0] = FPS;
 		fpsSum += lastXFPS[0];
-		sceneManager.averagedFPS = fpsSum / lastXFPS.length;
+		sceneManager.system.averagedFPS = fpsSum / lastXFPS.length;
 	}
 	private void prepareFPSCounting() {
-		sceneManager.averagedFPS = sceneManager.targetFPS;
+		sceneManager.system.averagedFPS = sceneManager.settings.targetFPS;
 		for (int i = 0; i< lastXFPS.length; i++) {
-			lastXFPS[i] = sceneManager.targetFPS;
+			lastXFPS[i] = sceneManager.settings.targetFPS;
 		}
 	}
 	private void updateWindowSize() {
-		if (sceneManager.screenWidth != window.getContentPane().getWidth() || sceneManager.screenHeight != window.getContentPane().getHeight()) {
-			sceneManager.screenWidth = window.getContentPane().getWidth();
-			sceneManager.screenHeight = window.getContentPane().getHeight();
-			sceneManager.blockGenerationLastTick = true;
+		if (sceneManager.settings.screenWidth != window.getContentPane().getWidth() || sceneManager.settings.screenHeight != window.getContentPane().getHeight()) {
+			sceneManager.settings.screenWidth = window.getContentPane().getWidth();
+			sceneManager.settings.screenHeight = window.getContentPane().getHeight();
+			sceneManager.system.blockGenerationLastTick = true;
 		}
 	}
 }
