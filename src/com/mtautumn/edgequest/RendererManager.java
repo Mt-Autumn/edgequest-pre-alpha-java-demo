@@ -13,7 +13,7 @@ public class RendererManager extends Thread {
 	private static boolean wasMenuUp = false;
 	private static SceneManager sceneManager;
 	KeyboardInput keyboard = new KeyboardInput();
-	int[] lastXFPS = new int[20];
+	int[] lastXFPS = new int[5];
 	int tempFPS;
 	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, MenuButtonManager mbm, LaunchScreenManager lsm) {
 		sceneManager = scnMgr;
@@ -53,7 +53,7 @@ public class RendererManager extends Thread {
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		long lastNanoPause = (int) (1000000000/sceneManager.settings.targetFPS);
+		double lastNanoPause = (1000000000.0/Double.valueOf(sceneManager.settings.targetFPS));
 		window.setVisible(true);
 		while (true) {
 			updateWindowSize();
@@ -62,9 +62,9 @@ public class RendererManager extends Thread {
 			updateAverageFPS(tempFPS);
 			updateWindow();
 			try {
-				lastNanoPause += (1.0/Double.valueOf(sceneManager.settings.targetFPS) - 1.0/Double.valueOf(sceneManager.system.averagedFPS)) * 50000000;
+				lastNanoPause += (1.0/Double.valueOf(sceneManager.settings.targetFPS) - 1.0/Double.valueOf(sceneManager.system.averagedFPS)) * 50000000.0;
 				if (lastNanoPause < 0) lastNanoPause = 0;
-				Thread.sleep((lastNanoPause) / 1000000,(int) ((lastNanoPause) % 1000000));
+				Thread.sleep((long)Math.floor(lastNanoPause / 1000000.0),(int) Math.floor(lastNanoPause % 1000000.0));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -84,6 +84,7 @@ public class RendererManager extends Thread {
 		wasMenuUp = sceneManager.system.isKeyboardMenu;
 	}
 	private void updateAverageFPS(int FPS) {
+		if (FPS / 5.0 > sceneManager.system.averagedFPS) FPS = sceneManager.system.averagedFPS+1;
 		int fpsSum = 0;
 		for (int i = lastXFPS.length - 1; i > 0; i--) {
 			lastXFPS[i] = lastXFPS[i - 1];
