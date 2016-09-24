@@ -13,7 +13,7 @@ public class SceneManager implements Serializable {
 	public boolean isAPressed = false;
 	public boolean isShiftPressed = false;
 	public boolean isEscToggled = false;
-	public int time = 600;
+	public int time = 800;
 	public int animationClock = 0;
 	public String timeReadable = "";
 	public int tickLength = 30;
