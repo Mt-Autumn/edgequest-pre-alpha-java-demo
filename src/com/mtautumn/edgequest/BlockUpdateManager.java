@@ -32,8 +32,10 @@ public class BlockUpdateManager extends Thread {
 	public void run() {
 		int i = 0;
 		while (true) {
-			i++;
-			if (i % 30 == 0) meltSnow();
+			if (!sceneManager.system.isGameOnLaunchScreen) {
+				i++;
+				if (i % 30 == 0) meltSnow();
+			}
 			try {
 				Thread.sleep(sceneManager.settings.tickLength);
 			} catch (InterruptedException e) {

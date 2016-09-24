@@ -11,23 +11,29 @@ public class Renderer extends JComponent {
 	private static MenuButtonManager menuButtonManager;
 	private static TextureManager textureManager = new TextureManager();;
 	private static BlockInformation blockInfo = new BlockInformation();
+	public static LaunchScreenManager launchScreenManager;
 
 	private static final long serialVersionUID = -1075263557773488547L;
 
-	public Renderer(SceneManager scnMgr, MenuButtonManager mbm) {
+	public Renderer(SceneManager scnMgr, MenuButtonManager mbm, LaunchScreenManager lsm) {
 		sceneManager = scnMgr;
 		menuButtonManager = mbm;
+		launchScreenManager = lsm;
 	}
 	public void paint (Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setBackground(Color.DARK_GRAY);
-		drawTerrain(g2);
-		drawFootprints(g2);
-		drawCharacterEffects(g2);
-		drawCharacter(g2);
-		drawLighting(g2);
-		if (sceneManager.settings.showDiag) drawDiagnostics(g2);
-		if (sceneManager.system.isKeyboardMenu) drawMenu(g2);
+		if (sceneManager.system.isGameOnLaunchScreen) {
+				launchScreenManager.renderScreen(g2,textureManager);
+		} else {
+			drawTerrain(g2);
+			drawFootprints(g2);
+			drawCharacterEffects(g2);
+			drawCharacter(g2);
+			drawLighting(g2);
+			if (sceneManager.settings.showDiag) drawDiagnostics(g2);
+			if (sceneManager.system.isKeyboardMenu) drawMenu(g2);
+		}
 	}
 	public void drawTerrain(Graphics2D g2) {
 		int minTileX = sceneManager.system.minTileX;

@@ -40,6 +40,7 @@ public class BlockInformation {
 		addBlock(211, "footsteps3", true, false);
 		
 		addBlock(300, "menuBackground", true, false);
+		addBlock(301, "launchScreenBackground", true, false);
 	}
 	
 	private void addBlock(Integer blockID, String name, boolean isPassable, boolean emitsLight) {
