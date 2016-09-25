@@ -31,6 +31,7 @@ public class Renderer extends JComponent {
 			drawCharacterEffects(g2);
 			drawCharacter(g2);
 			drawLighting(g2);
+			drawMouseSelection(g2);
 			if (sceneManager.settings.showDiag) drawDiagnostics(g2);
 			if (sceneManager.system.isKeyboardMenu) drawMenu(g2);
 		}
@@ -77,6 +78,17 @@ public class Renderer extends JComponent {
 				g2.drawImage(textureManager.getTexture("footsteps3", sceneManager), posX, posY, sceneManager.settings.blockSize / 3, (int)(sceneManager.settings.blockSize / 1.5), null);
 			}
 			g2.rotate(-Math.PI / 4.0 * Double.valueOf(fp.direction) - Math.PI, posX, posY);
+		}
+	}
+	public void drawMouseSelection(Graphics2D g2) {
+		double coordsOffsetX = sceneManager.system.charX - Double.valueOf(sceneManager.settings.screenWidth) / 2.0 / Double.valueOf(sceneManager.settings.blockSize);
+		double coordsOffsetY = sceneManager.system.charY - Double.valueOf(sceneManager.settings.screenHeight) / 2.0 / Double.valueOf(sceneManager.settings.blockSize);
+		int posX = (int)((sceneManager.system.mouseX - coordsOffsetX)*sceneManager.settings.blockSize);
+		int posY = (int)((sceneManager.system.mouseY - coordsOffsetY)*sceneManager.settings.blockSize);
+		if (sceneManager.system.isMouseFar) {
+			g2.drawImage(textureManager.getTexture("selectFar", sceneManager), posX, posY, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
+		} else {
+			g2.drawImage(textureManager.getTexture("select", sceneManager), posX, posY, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
 		}
 	}
 	public void drawCharacterEffects(Graphics2D g2) {
