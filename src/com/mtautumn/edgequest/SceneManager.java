@@ -1,5 +1,6 @@
 package com.mtautumn.edgequest;
 
+import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +36,10 @@ public class SceneManager implements Serializable {
 		public boolean blockGenerationLastTick = true;
 		public boolean characterMoving = false;
 		public int averagedFPS = 0;
+		public Point mousePosition = new Point();
+		public int mouseX = 0;
+		public int mouseY = 0;
+		public boolean isMouseFar = false;
 	}
 	public class World implements Serializable{
 		private static final long serialVersionUID = 1L;

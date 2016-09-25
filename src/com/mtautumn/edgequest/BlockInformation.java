@@ -38,6 +38,8 @@ public class BlockInformation {
 		addBlock(209, "footsteps", true, false);
 		addBlock(210, "footsteps2", true, false);
 		addBlock(211, "footsteps3", true, false);
+		addBlock(212, "select", true ,false);
+		addBlock(213, "selectFar", true ,false);
 		
 		addBlock(300, "menuBackground", true, false);
 		addBlock(301, "launchScreenBackground", true, false);

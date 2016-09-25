@@ -57,6 +57,7 @@ public class RendererManager extends Thread {
 		window.setVisible(true);
 		while (true) {
 			updateWindowSize();
+			updateMouse();
 			tempFPS = (int) (1000000000 / (System.nanoTime() - lastNanoTimeFPSGrabber));
 			lastNanoTimeFPSGrabber = System.nanoTime();
 			updateAverageFPS(tempFPS);
@@ -105,6 +106,16 @@ public class RendererManager extends Thread {
 			sceneManager.settings.screenWidth = window.getContentPane().getWidth();
 			sceneManager.settings.screenHeight = window.getContentPane().getHeight();
 			sceneManager.system.blockGenerationLastTick = true;
+		}
+	}
+	private void updateMouse() {
+		if (((JPanel) window.getContentPane()).getMousePosition() != null) {
+		sceneManager.system.mousePosition = ((JPanel) window.getContentPane()).getMousePosition();
+		double offsetX = (sceneManager.system.charX * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenWidth) / 2.0);
+		double offsetY = (sceneManager.system.charY * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenHeight) / 2.0);
+		sceneManager.system.mouseX = (int) Math.floor((offsetX + sceneManager.system.mousePosition.getX())/Double.valueOf(sceneManager.settings.blockSize));
+		sceneManager.system.mouseY = (int) Math.floor((offsetY + sceneManager.system.mousePosition.getY())/Double.valueOf(sceneManager.settings.blockSize));
+		sceneManager.system.isMouseFar =  (Math.sqrt(Math.pow(sceneManager.system.mouseX - Math.floor(sceneManager.system.charX), 2)+Math.pow(sceneManager.system.mouseY - Math.floor(sceneManager.system.charY), 2)) > 3);
 		}
 	}
 }
