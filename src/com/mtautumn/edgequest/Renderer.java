@@ -90,6 +90,9 @@ public class Renderer extends JComponent {
 		} else {
 			g2.drawImage(textureManager.getTexture("select", sceneManager), posX, posY, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
 		}
+		if (sceneManager.system.isKeyboardSprint) {
+			g2.drawImage(textureManager.getTexture("selectFlag", sceneManager), posX, posY - (int)(0.4375 * sceneManager.settings.blockSize), (int)(sceneManager.settings.blockSize * 1.25), (int)(sceneManager.settings.blockSize*1.4375), null);
+		}
 	}
 	public void drawCharacterEffects(Graphics2D g2) {
 		if (getCharaterBlockInfo()[0] == blockInfo.getBlockID("water") && getCharaterBlockInfo()[1] == 0.0) {

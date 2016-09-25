@@ -12,6 +12,7 @@ public class EdgeQuest {
 	public static TerrainManager terrainManager = new TerrainManager(sceneManager);
 	public static GameClock gameClock = new GameClock(sceneManager);
 	public static AnimationClock animationClock = new AnimationClock(sceneManager);
+	public static AutoCharacterWalk autoCharacterWalk = new AutoCharacterWalk(sceneManager);
 	public static void main(String[] args) throws InterruptedException {
 		keyboardManager.start();
 		characterManager.start();
@@ -20,6 +21,7 @@ public class EdgeQuest {
 		gameClock.start();
 		animationClock.start();
 		blockUpdateManager.start();
+		autoCharacterWalk.run();
 		while (true) {
 			Thread.sleep(10000);
 		}
