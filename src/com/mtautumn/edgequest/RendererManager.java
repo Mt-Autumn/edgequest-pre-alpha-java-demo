@@ -34,11 +34,15 @@ public class RendererManager extends Thread {
 				{
 					public void mouseClicked(MouseEvent me)
 					{
+						sceneManager.system.autoWalk = false;
 						if (sceneManager.system.isKeyboardMenu) {
 							mbm.buttonPressed(me.getX(), me.getY());
-						} 
-						if (sceneManager.system.isGameOnLaunchScreen) {
+						} else if (sceneManager.system.isGameOnLaunchScreen) {
 							lsm.buttonPressed(me.getX(), me.getY());
+						} else if (sceneManager.system.isKeyboardSprint){
+							sceneManager.system.autoWalkX = sceneManager.system.mouseX;
+							sceneManager.system.autoWalkY = sceneManager.system.mouseY;
+							sceneManager.system.autoWalk = true;
 						}
 					}
 				});

@@ -40,6 +40,9 @@ public class SceneManager implements Serializable {
 		public int mouseX = 0;
 		public int mouseY = 0;
 		public boolean isMouseFar = false;
+		public boolean autoWalk = false;
+		public int autoWalkX = 0;
+		public int autoWalkY = 0;
 	}
 	public class World implements Serializable{
 		private static final long serialVersionUID = 1L;

@@ -40,6 +40,7 @@ public class BlockInformation {
 		addBlock(211, "footsteps3", true, false);
 		addBlock(212, "select", true ,false);
 		addBlock(213, "selectFar", true ,false);
+		addBlock(214, "selectFlag", true ,false);
 		
 		addBlock(300, "menuBackground", true, false);
 		addBlock(301, "launchScreenBackground", true, false);
