@@ -28,20 +28,20 @@ public class BlockUpdateManager extends Thread {
 						}
 					}
 				}
-					updateLighting(i,j,1.0 - closestLightSource/Double.valueOf(lightDiffuseDistance));
+				updateLighting(i,j,1.0 - closestLightSource/Double.valueOf(lightDiffuseDistance));
 			}
 		}
 	}
 	public void run() {
 		int i = 0;
 		while (true) {
-			if (!sceneManager.system.isGameOnLaunchScreen) {
-				i++;
-				if (i % 30 == 0) meltSnow();
-			}
 			try {
+				if (!sceneManager.system.isGameOnLaunchScreen) {
+					i++;
+					if (i % 30 == 0) meltSnow();
+				}
 				Thread.sleep(sceneManager.settings.tickLength);
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

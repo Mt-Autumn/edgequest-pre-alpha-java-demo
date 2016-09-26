@@ -25,6 +25,6 @@ public class EdgeQuest {
 		while (true) {
 			Thread.sleep(10000);
 		}
-		
+
 	}
 }

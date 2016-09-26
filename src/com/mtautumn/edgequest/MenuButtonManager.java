@@ -20,7 +20,7 @@ public class MenuButtonManager {
 		buttonIDArray.add(new MenuButton(5,50,360,197,73,"loadGame"));
 		buttonIDArray.add(new MenuButton(6,503,360,197,73,"fullScreen"));
 	}
-	
+
 	public void buttonPressed(int posX, int posY) {
 		int adjustedX = posX - sceneManager.system.menuX;
 		int adjustedY = posY - sceneManager.system.menuY;
@@ -50,8 +50,8 @@ public class MenuButtonManager {
 			String ans2 = JOptionPane.showInputDialog("Type Seed Number:");
 			try {
 				long seed = Long.parseLong(ans2);
-					sceneManager.world.seed = seed;
-					JOptionPane.showMessageDialog(null, "Seed updated to: " + sceneManager.world.seed);
+				sceneManager.world.seed = seed;
+				JOptionPane.showMessageDialog(null, "Seed updated to: " + sceneManager.world.seed);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Seed needs to be an whole number");
 			}
@@ -77,12 +77,12 @@ public class MenuButtonManager {
 			break;
 		case 5:
 			String fileLoadName = JOptionPane.showInputDialog("FileName:");
-				try {
-					GameSaves.loadGame(fileLoadName, sceneManager);
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Unable to load game");
-					e.printStackTrace();
-				}
+			try {
+				GameSaves.loadGame(fileLoadName, sceneManager);
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Unable to load game");
+				e.printStackTrace();
+			}
 			break;
 		case 6:
 			if (sceneManager.settings.isFullScreen) {

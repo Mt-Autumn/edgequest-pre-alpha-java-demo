@@ -11,7 +11,7 @@ public class BlockInformation {
 	public Map<Integer, Boolean> emitsLightMap = new HashMap<Integer, Boolean>();
 	public Map<Integer, Boolean> isAnimatedMap = new HashMap<Integer, Boolean>();
 	public Map<Integer, Integer[]> animationStepsMap = new HashMap<Integer, Integer[]>();
-	
+
 	public BlockInformation() {
 		//--Define Blocks
 		addBlock(0, "noTexture", false, false);
@@ -21,10 +21,10 @@ public class BlockInformation {
 		addBlock(4, "sand", false, false);
 		addBlock(5, "snow", false ,false);
 		addBlock(6, "water", true, false, new Integer[]{0,1,2,3,2,1});
-		
+
 		addBlock(100, "torch", true ,true);
 		addBlock(101, "lilyPad", true ,false);
-		
+
 		//200+ values are non-block textures
 		addBlock(200, "characterUp", true, false);
 		addBlock(201, "characterUpRight", true, false);
@@ -42,12 +42,12 @@ public class BlockInformation {
 		addBlock(213, "selectFar", true ,false);
 		addBlock(214, "selectFlag", true ,false);
 		addBlock(214, "cursor", true ,false);
-		
+
 		addBlock(300, "menuBackground", true, false);
 		addBlock(301, "launchScreenBackground", true, false);
 		addBlock(302, "launchScreenLogo", true, false);
 	}
-	
+
 	private void addBlock(Integer blockID, String name, boolean isPassable, boolean emitsLight) {
 		blockHashMap.put(blockID, name);
 		reverseBlockHashMap.put(name, blockID);
