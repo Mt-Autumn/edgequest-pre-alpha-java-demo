@@ -45,6 +45,7 @@ public class SceneManager implements Serializable {
 		public int autoWalkY = 0;
 		public boolean setFullScreen = false;
 		public boolean setWindowed = false;
+		public boolean hideMouse = false;
 	}
 	public class World implements Serializable{
 		private static final long serialVersionUID = 1L;

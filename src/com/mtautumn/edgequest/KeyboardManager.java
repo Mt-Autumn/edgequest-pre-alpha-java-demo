@@ -21,6 +21,11 @@ public class KeyboardManager extends Thread {
 					sceneManager.system.isKeyboardDown = keyboard.keyDown( KeyEvent.VK_DOWN );
 					sceneManager.system.isKeyboardLeft = keyboard.keyDown( KeyEvent.VK_LEFT );
 					sceneManager.system.isKeyboardSprint = keyboard.keyDown( KeyEvent.VK_SHIFT );
+					if (keyboard.keyDown( KeyEvent.VK_UP ) || keyboard.keyDown( KeyEvent.VK_DOWN ) || keyboard.keyDown( KeyEvent.VK_RIGHT ) || keyboard.keyDown( KeyEvent.VK_LEFT )) {
+						sceneManager.system.hideMouse = true;
+					} else {
+						sceneManager.system.hideMouse = false;
+					}
 				}
 				if (keyboard.keyDownOnce(KeyEvent.VK_W)) {
 					sceneManager.settings.blockSize += 1;

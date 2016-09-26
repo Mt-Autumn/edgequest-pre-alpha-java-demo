@@ -1,11 +1,15 @@
 package com.mtautumn.edgequest;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,6 +22,7 @@ public class RendererManager extends Thread {
 	KeyboardInput keyboard = new KeyboardInput();
 	int[] lastXFPS = new int[5];
 	int tempFPS;
+	Cursor blankCursor;
 	static GraphicsDevice device = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getScreenDevices()[0];
 	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, MenuButtonManager mbm, LaunchScreenManager lsm) {
@@ -44,7 +49,7 @@ public class RendererManager extends Thread {
 							mbm.buttonPressed(me.getX(), me.getY());
 						} else if (sceneManager.system.isGameOnLaunchScreen) {
 							lsm.buttonPressed(me.getX(), me.getY());
-						} else if (sceneManager.system.isKeyboardSprint){
+						} else if (sceneManager.system.isKeyboardSprint && !sceneManager.system.hideMouse){
 							sceneManager.system.autoWalkX = sceneManager.system.mouseX;
 							sceneManager.system.autoWalkY = sceneManager.system.mouseY;
 							sceneManager.system.autoWalk = true;
@@ -55,6 +60,11 @@ public class RendererManager extends Thread {
 
 	public void run() {
 		window.setVisible(false);
+		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+
+		// Create a new blank cursor.
+		blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+		    cursorImg, new Point(0, 0), "blank cursor");
 		prepareFPSCounting();
 		long lastNanoTimeFPSGrabber = System.nanoTime();
 		try {
@@ -131,6 +141,11 @@ public class RendererManager extends Thread {
 		}
 	}
 	private void updateMouse() {
+		if (sceneManager.system.hideMouse) {
+			if (window.getContentPane().getCursor() != blankCursor) window.getContentPane().setCursor(blankCursor);
+		} else {
+			if (window.getContentPane().getCursor() != Cursor.getDefaultCursor()) window.getContentPane().setCursor(Cursor.getDefaultCursor());
+		}
 		if (((JPanel) window.getContentPane()).getMousePosition() != null) {
 		sceneManager.system.mousePosition = ((JPanel) window.getContentPane()).getMousePosition();
 		double offsetX = (sceneManager.system.charX * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenWidth) / 2.0);
