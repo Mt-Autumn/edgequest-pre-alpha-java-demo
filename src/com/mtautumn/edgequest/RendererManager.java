@@ -2,11 +2,14 @@ package com.mtautumn.edgequest;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public class RendererManager extends Thread {
 	static JFrame window = new JFrame("edgequest");
@@ -15,6 +18,8 @@ public class RendererManager extends Thread {
 	KeyboardInput keyboard = new KeyboardInput();
 	int[] lastXFPS = new int[5];
 	int tempFPS;
+	static GraphicsDevice device = GraphicsEnvironment
+			.getLocalGraphicsEnvironment().getScreenDevices()[0];
 	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, MenuButtonManager mbm, LaunchScreenManager lsm) {
 		sceneManager = scnMgr;
 		keyboard = kybd;
@@ -65,6 +70,19 @@ public class RendererManager extends Thread {
 			tempFPS = (int) (1000000000 / (System.nanoTime() - lastNanoTimeFPSGrabber));
 			lastNanoTimeFPSGrabber = System.nanoTime();
 			updateAverageFPS(tempFPS);
+			if (sceneManager.system.setFullScreen) {
+				sceneManager.settings.isFullScreen = true;
+				window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+				window.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				device.setFullScreenWindow(window);
+				sceneManager.system.setFullScreen = false;
+
+			}
+			if (sceneManager.system.setWindowed) {
+				device.setFullScreenWindow(null);
+				sceneManager.system.setWindowed = false;
+				sceneManager.settings.isFullScreen = false;
+			}
 			updateWindow();
 			try {
 				lastNanoPause += (1.0/Double.valueOf(sceneManager.settings.targetFPS) - 1.0/Double.valueOf(sceneManager.system.averagedFPS)) * 50000000.0;

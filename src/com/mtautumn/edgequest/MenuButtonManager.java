@@ -18,6 +18,7 @@ public class MenuButtonManager {
 		buttonIDArray.add(new MenuButton(3,50,230,197,73,"regenWorld"));
 		buttonIDArray.add(new MenuButton(4,503,230,197,73,"saveGame"));
 		buttonIDArray.add(new MenuButton(5,50,360,197,73,"loadGame"));
+		buttonIDArray.add(new MenuButton(6,503,360,197,73,"fullScreen"));
 	}
 	
 	public void buttonPressed(int posX, int posY) {
@@ -83,6 +84,16 @@ public class MenuButtonManager {
 					e.printStackTrace();
 				}
 			break;
+		case 6:
+			if (sceneManager.settings.isFullScreen) {
+				sceneManager.system.setWindowed = true;
+			} else {
+				sceneManager.system.setFullScreen = true;
+			}
+			for (int i = 0; i < buttonIDArray.size(); i++) {
+				if (buttonIDArray.get(i).name == "windowed") buttonIDArray.set(i, new MenuButton(6,503,360,197,73,"fullScreen"));
+				else if (buttonIDArray.get(i).name == "fullScreen") buttonIDArray.set(i, new MenuButton(6,503,360,197,73,"windowed"));
+			}
 		default:
 			break;
 		}
