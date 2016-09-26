@@ -9,7 +9,7 @@ import javax.swing.JComponent;
 public class Renderer extends JComponent {
 	private static SceneManager sceneManager;
 	private static MenuButtonManager menuButtonManager;
-	private static TextureManager textureManager = new TextureManager();;
+	private static TextureManager textureManager = new TextureManager();
 	private static BlockInformation blockInfo = new BlockInformation();
 	public static LaunchScreenManager launchScreenManager;
 
