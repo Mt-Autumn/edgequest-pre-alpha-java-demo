@@ -41,61 +41,61 @@ public class CharacterManager extends Thread{
 		long lastUpdate = System.currentTimeMillis();
 
 		while (true) {
-			if (!sceneManager.system.isGameOnLaunchScreen) {
-				updateFootprints();
-				double moveInterval = Double.valueOf(System.currentTimeMillis() - lastUpdate) / 600.0;
-				lastUpdate = System.currentTimeMillis();
-				double charYOffset = 0.0;
-				double charXOffset = 0.0;
-				if (sceneManager.system.isKeyboardUp) {
-					charYOffset -= moveInterval;
-				}
-				if (sceneManager.system.isKeyboardRight) {
-					charXOffset += moveInterval;
-				}
-				if (sceneManager.system.isKeyboardDown) {
-					charYOffset += moveInterval;
-				}
-				if (sceneManager.system.isKeyboardLeft) {
-					charXOffset -= moveInterval;
-				}
-				if (charXOffset != 0 && charYOffset != 0) {
-					charXOffset *= 0.70710678118;
-					charYOffset *= 0.70710678118;
-				}
-				if (sceneManager.system.isKeyboardSprint) {
-					charXOffset *= 2.0;
-					charYOffset *= 2.0;
-				}
-				if (getCharaterBlockInfo()[0] == blockInfo.getBlockID("water") && getCharaterBlockInfo()[1] == 0.0) {
-					charXOffset /= 1.7;
-					charYOffset /= 1.7;
-				}
-
-				sceneManager.system.charX += charXOffset;
-				sceneManager.system.charY += charYOffset;
-				if(charYOffset < 0 && charXOffset == 0) {
-					sceneManager.system.charDir = 0;
-				} else if (charYOffset < 0 && charXOffset < 0) {
-					sceneManager.system.charDir = 7;
-				} else if (charYOffset < 0 && charXOffset > 0) {
-					sceneManager.system.charDir = 1;
-				} else if (charYOffset == 0 && charXOffset < 0) {
-					sceneManager.system.charDir = 6;
-				} else if (charYOffset == 0 && charXOffset > 0) {
-					sceneManager.system.charDir = 2;
-				} else if (charYOffset > 0 && charXOffset < 0) {
-					sceneManager.system.charDir = 5;
-				} else if (charYOffset > 0 && charXOffset == 0) {
-					sceneManager.system.charDir = 4;
-				} else if (charYOffset > 0 && charXOffset > 0) {
-					sceneManager.system.charDir = 3;
-				}
-				sceneManager.system.characterMoving = (charXOffset != 0 || charYOffset != 0);
-			}
 			try {
+				if (!sceneManager.system.isGameOnLaunchScreen) {
+					updateFootprints();
+					double moveInterval = Double.valueOf(System.currentTimeMillis() - lastUpdate) / 600.0;
+					lastUpdate = System.currentTimeMillis();
+					double charYOffset = 0.0;
+					double charXOffset = 0.0;
+					if (sceneManager.system.isKeyboardUp) {
+						charYOffset -= moveInterval;
+					}
+					if (sceneManager.system.isKeyboardRight) {
+						charXOffset += moveInterval;
+					}
+					if (sceneManager.system.isKeyboardDown) {
+						charYOffset += moveInterval;
+					}
+					if (sceneManager.system.isKeyboardLeft) {
+						charXOffset -= moveInterval;
+					}
+					if (charXOffset != 0 && charYOffset != 0) {
+						charXOffset *= 0.70710678118;
+						charYOffset *= 0.70710678118;
+					}
+					if (sceneManager.system.isKeyboardSprint) {
+						charXOffset *= 2.0;
+						charYOffset *= 2.0;
+					}
+					if (getCharaterBlockInfo()[0] == blockInfo.getBlockID("water") && getCharaterBlockInfo()[1] == 0.0) {
+						charXOffset /= 1.7;
+						charYOffset /= 1.7;
+					}
+
+					sceneManager.system.charX += charXOffset;
+					sceneManager.system.charY += charYOffset;
+					if(charYOffset < 0 && charXOffset == 0) {
+						sceneManager.system.charDir = 0;
+					} else if (charYOffset < 0 && charXOffset < 0) {
+						sceneManager.system.charDir = 7;
+					} else if (charYOffset < 0 && charXOffset > 0) {
+						sceneManager.system.charDir = 1;
+					} else if (charYOffset == 0 && charXOffset < 0) {
+						sceneManager.system.charDir = 6;
+					} else if (charYOffset == 0 && charXOffset > 0) {
+						sceneManager.system.charDir = 2;
+					} else if (charYOffset > 0 && charXOffset < 0) {
+						sceneManager.system.charDir = 5;
+					} else if (charYOffset > 0 && charXOffset == 0) {
+						sceneManager.system.charDir = 4;
+					} else if (charYOffset > 0 && charXOffset > 0) {
+						sceneManager.system.charDir = 3;
+					}
+					sceneManager.system.characterMoving = (charXOffset != 0 || charYOffset != 0);
+				}
 				Thread.sleep(sceneManager.settings.tickLength);
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

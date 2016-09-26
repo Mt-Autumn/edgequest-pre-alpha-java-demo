@@ -24,7 +24,7 @@ public class Renderer extends JComponent {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setBackground(Color.DARK_GRAY);
 		if (sceneManager.system.isGameOnLaunchScreen) {
-				launchScreenManager.renderScreen(g2,textureManager);
+			launchScreenManager.renderScreen(g2,textureManager);
 		} else {
 			drawTerrain(g2);
 			drawFootprints(g2);

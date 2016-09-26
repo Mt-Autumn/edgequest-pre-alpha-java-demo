@@ -7,12 +7,12 @@ public class AnimationClock extends Thread {
 	}
 	public void run() {
 		while (true) {
-			if (!sceneManager.system.isGameOnLaunchScreen) {
-				sceneManager.system.animationClock++;
-			}
 			try {
+				if (!sceneManager.system.isGameOnLaunchScreen) {
+					sceneManager.system.animationClock++;
+				}
 				Thread.sleep(sceneManager.settings.tickLength * 8);
-			} catch (InterruptedException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}

@@ -11,7 +11,7 @@ public class SceneManager implements Serializable {
 	public System system = new System();
 	public World world = new World();
 	public Settings settings = new Settings();
-	
+
 	public class System implements Serializable{
 		private static final long serialVersionUID = 1L;
 		public boolean isKeyboardUp = false;

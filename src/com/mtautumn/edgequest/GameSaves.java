@@ -9,10 +9,10 @@ import java.io.ObjectOutputStream;
 public class GameSaves {
 	public static void saveGame(String saveFile, SceneManager sceneManager) throws IOException {
 		try {
-		FileOutputStream fout = new FileOutputStream(saveFile + ".egqst");
-		@SuppressWarnings("resource")
-		ObjectOutputStream oos = new ObjectOutputStream(fout);
-		oos.writeObject(sceneManager);
+			FileOutputStream fout = new FileOutputStream(saveFile + ".egqst");
+			@SuppressWarnings("resource")
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(sceneManager);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
