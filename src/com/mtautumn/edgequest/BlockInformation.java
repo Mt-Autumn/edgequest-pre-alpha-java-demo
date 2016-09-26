@@ -41,7 +41,7 @@ public class BlockInformation {
 		addBlock(212, "select", true ,false);
 		addBlock(213, "selectFar", true ,false);
 		addBlock(214, "selectFlag", true ,false);
-		addBlock(214, "cursor", true ,false);
+		addBlock(215, "cursor", true ,false);
 
 		addBlock(300, "menuBackground", true, false);
 		addBlock(301, "launchScreenBackground", true, false);
