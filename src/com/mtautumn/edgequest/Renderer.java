@@ -31,7 +31,7 @@ public class Renderer extends JComponent {
 			drawCharacterEffects(g2);
 			drawCharacter(g2);
 			drawLighting(g2);
-			drawMouseSelection(g2);
+			if (!sceneManager.system.hideMouse) drawMouseSelection(g2);
 			if (sceneManager.settings.showDiag) drawDiagnostics(g2);
 			if (sceneManager.system.isKeyboardMenu) drawMenu(g2);
 		}
