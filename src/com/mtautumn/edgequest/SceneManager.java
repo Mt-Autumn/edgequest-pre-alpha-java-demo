@@ -43,6 +43,8 @@ public class SceneManager implements Serializable {
 		public boolean autoWalk = false;
 		public int autoWalkX = 0;
 		public int autoWalkY = 0;
+		public boolean setFullScreen = false;
+		public boolean setWindowed = false;
 	}
 	public class World implements Serializable{
 		private static final long serialVersionUID = 1L;
@@ -81,6 +83,7 @@ public class SceneManager implements Serializable {
 		public int blockSize = 32;
 		public int screenWidth = 800;
 		public int screenHeight = 600;
+		public boolean isFullScreen = false;
 
 	}
 
