@@ -19,10 +19,12 @@ public class RendererManager extends Thread {
 	static JFrame window = new JFrame("edgequest");
 	private static boolean wasMenuUp = false;
 	private static SceneManager sceneManager;
+	private static TextureManager textureManager = new TextureManager();
 	KeyboardInput keyboard = new KeyboardInput();
 	int[] lastXFPS = new int[5];
 	int tempFPS;
 	Cursor blankCursor;
+	Cursor defaultCursor;
 	static GraphicsDevice device = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getScreenDevices()[0];
 	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, MenuButtonManager mbm, LaunchScreenManager lsm) {
@@ -60,11 +62,10 @@ public class RendererManager extends Thread {
 
 	public void run() {
 		window.setVisible(false);
-		BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-
-		// Create a new blank cursor.
 		blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-		    cursorImg, new Point(0, 0), "blank cursor");
+				new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "blank cursor");
+		defaultCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+				textureManager.getTexture("cursor", sceneManager), new Point(0, 0), "blank cursor");
 		prepareFPSCounting();
 		long lastNanoTimeFPSGrabber = System.nanoTime();
 		try {
@@ -144,7 +145,7 @@ public class RendererManager extends Thread {
 		if (sceneManager.system.hideMouse) {
 			if (window.getContentPane().getCursor() != blankCursor) window.getContentPane().setCursor(blankCursor);
 		} else {
-			if (window.getContentPane().getCursor() != Cursor.getDefaultCursor()) window.getContentPane().setCursor(Cursor.getDefaultCursor());
+			if (window.getContentPane().getCursor() != defaultCursor) window.getContentPane().setCursor(defaultCursor);
 		}
 		if (((JPanel) window.getContentPane()).getMousePosition() != null) {
 		sceneManager.system.mousePosition = ((JPanel) window.getContentPane()).getMousePosition();
