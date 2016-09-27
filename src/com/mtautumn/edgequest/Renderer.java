@@ -33,6 +33,7 @@ public class Renderer extends JComponent {
 			drawLighting(g2);
 			if (!sceneManager.system.hideMouse) drawMouseSelection(g2);
 			if (sceneManager.settings.showDiag) drawDiagnostics(g2);
+			if (sceneManager.system.isKeyboardBackpack) drawBackpack(g2);
 			if (sceneManager.system.isKeyboardMenu) drawMenu(g2);
 		}
 	}
@@ -155,6 +156,24 @@ public class Renderer extends JComponent {
 		for (int i = 0; i<menuButtonManager.buttonIDArray.size(); i++) {
 			MenuButtonManager.MenuButton button = menuButtonManager.buttonIDArray.get(i);repaint();
 			g2.drawImage(button.buttonImage, button.getPosX(sceneManager.system.menuX), button.getPosY(sceneManager.system.menuY), button.width, button.height, null);
+		}
+	}
+	public void drawBackpack(Graphics2D g2) {
+		g2.setColor(new Color(0.2f,0.2f,0.2f, 0.7f));
+		g2.fillRect(0, 0, sceneManager.settings.screenWidth, sceneManager.settings.screenHeight);
+		sceneManager.system.menuX = sceneManager.settings.screenWidth / 2 - 375;
+		sceneManager.system.menuY = sceneManager.settings.screenHeight/2 - 250;
+		g2.drawImage(textureManager.getTexture("backpack", sceneManager), sceneManager.system.menuX, sceneManager.system.menuY, 750,500,null);
+		for (int i = 0; i < sceneManager.system.backpackItems.length; i++) {
+			int posX = sceneManager.system.menuX + i * 64 + 37;
+			for (int j = 0; j < sceneManager.system.backpackItems[i].length; j++) {
+				int posY = sceneManager.system.menuY + j * 65 + 94;
+				try {
+				g2.drawImage(textureManager.getIcon(sceneManager.system.backpackItems[i][j].getItemID()), posX, posY, 48, 48, null);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	public double[] getCharaterBlockInfo() {

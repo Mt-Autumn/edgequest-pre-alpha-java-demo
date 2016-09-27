@@ -2,6 +2,7 @@ package com.mtautumn.edgequest;
 
 public class EdgeQuest {
 	public static SceneManager sceneManager = new SceneManager();
+	public static BackpackManager backpackManager = new BackpackManager(sceneManager);
 	public static MenuButtonManager menuButtonManager = new MenuButtonManager(sceneManager);
 	public static KeyboardInput keyboard = new KeyboardInput();
 	public static BlockUpdateManager blockUpdateManager = new BlockUpdateManager(sceneManager);

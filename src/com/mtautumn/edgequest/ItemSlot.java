@@ -1,0 +1,36 @@
+package com.mtautumn.edgequest;
+
+public class ItemSlot {
+	private static final int maxItemCount = 99;
+	
+	private int itemID = 0;
+	private int itemCount = 0;
+	public int getItemID() {
+		return itemID;
+	}
+	public void setItem(int itemID) {
+		this.itemID = itemID;
+	}
+	public int getItemCount() {
+		return itemCount;
+	}
+	public void setItemCount(int count) {
+		itemCount = count;
+		correctItemCount();
+	}
+	public boolean isSlotFull() {
+		return itemCount >= maxItemCount;
+	}
+	public void addOne() {
+		itemCount++;
+		correctItemCount();
+	}
+	public void subtractOne() {
+		itemCount--;
+		correctItemCount();
+	}
+	private void correctItemCount() {
+		if (itemCount > maxItemCount) itemCount = maxItemCount;
+		if (itemCount < 0) itemCount = 0;
+	}
+}

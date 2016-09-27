@@ -13,11 +13,19 @@ public class TextureManager {
 	
 	public TextureManager() {
 		String[] textureNames = blockInfo.getBlockList();
+		String[] iconTextureNames = blockInfo.getBlockIconList();
 		for(int i = 0; i < textureNames.length; i++) {
 			try {
 				textureList.put(textureNames[i], (BufferedImage) ImageIO.read(new File("textures/" + textureNames[i] + ".png")));
 			} catch (Exception e) {
 				System.out.println("Could not load texture: " + textureNames[i]);
+			}
+		}
+		for(int i = 0; i < iconTextureNames.length; i++) {
+			try {
+				textureList.put(iconTextureNames[i], (BufferedImage) ImageIO.read(new File("textures/" + iconTextureNames[i] + ".png")));
+			} catch (Exception e) {
+				System.out.println("Could not load texture: " + iconTextureNames[i]);
 			}
 		}
 	}
@@ -42,6 +50,9 @@ public class TextureManager {
 		} else {
 			return textureList.get(blockInfo.getBlockName(textureID));
 		}
+	}
+	public BufferedImage getIcon(int blockID) {
+		return textureList.get(blockInfo.getIconName(blockID));
 	}
 	public BufferedImage getCharacter(int direction) {
 		return getTexture(direction + 200);
