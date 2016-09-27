@@ -20,6 +20,7 @@ public class SceneManager implements Serializable {
 		public boolean isKeyboardLeft = false;
 		public boolean isKeyboardSprint = false;
 		public boolean isKeyboardMenu = false;
+		public boolean isKeyboardBackpack = false;
 		public boolean isGameOnLaunchScreen = true;
 		public boolean isLaunchScreenLoaded = false;
 		public int animationClock = 0;
@@ -46,6 +47,7 @@ public class SceneManager implements Serializable {
 		public boolean setFullScreen = false;
 		public boolean setWindowed = false;
 		public boolean hideMouse = false;
+		public ItemSlot[][] backpackItems = new ItemSlot[6][6];
 	}
 	public class World implements Serializable{
 		private static final long serialVersionUID = 1L;

@@ -48,6 +48,9 @@ public class KeyboardManager extends Thread {
 						characterManager.charPlaceTorch();
 
 					}
+					if (keyboard.keyDownOnce(KeyEvent.VK_E)) {
+						sceneManager.system.isKeyboardBackpack = !sceneManager.system.isKeyboardBackpack;
+					}
 				}
 				Thread.sleep(sceneManager.settings.tickLength);
 			} catch (Exception e) {
