@@ -29,7 +29,6 @@ public class GameSaves {
 		sceneManager.world.biomeMap = loadedSM.world.biomeMap;
 		sceneManager.world.biomeMapFiltered = loadedSM.world.biomeMapFiltered;
 		sceneManager.world.lightMap = loadedSM.world.lightMap;
-		sceneManager.world.lightSourceMap = loadedSM.world.lightSourceMap;
 		sceneManager.system.blockGenerationLastTick = true;
 		sceneManager.system.charDir = loadedSM.system.charDir;
 		sceneManager.world.playerStructuresMap = loadedSM.world.playerStructuresMap;

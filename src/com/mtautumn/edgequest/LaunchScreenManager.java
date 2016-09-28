@@ -19,12 +19,12 @@ public class LaunchScreenManager {
 	}
 	public void renderScreen(Graphics2D g2,TextureManager textureManager) {
 		if (sceneManager.settings.screenWidth > 1.6 * sceneManager.settings.screenHeight) {
-			g2.drawImage(textureManager.getTexture("launchScreenBackground", sceneManager), 0, (int)(sceneManager.settings.screenHeight - sceneManager.settings.screenWidth / 1.6) / 2, sceneManager.settings.screenWidth,(int)(sceneManager.settings.screenWidth / 1.6),null);
+			g2.drawImage(textureManager.getTexture("launchScreenBackground"), 0, (int)(sceneManager.settings.screenHeight - sceneManager.settings.screenWidth / 1.6) / 2, sceneManager.settings.screenWidth,(int)(sceneManager.settings.screenWidth / 1.6),null);
 		} else {
-			g2.drawImage(textureManager.getTexture("launchScreenBackground", sceneManager), (int)(sceneManager.settings.screenWidth - sceneManager.settings.screenHeight * 1.6)/2, 0, (int)(sceneManager.settings.screenHeight * 1.6),sceneManager.settings.screenHeight,null);
+			g2.drawImage(textureManager.getTexture("launchScreenBackground"), (int)(sceneManager.settings.screenWidth - sceneManager.settings.screenHeight * 1.6)/2, 0, (int)(sceneManager.settings.screenHeight * 1.6),sceneManager.settings.screenHeight,null);
 
 		}
-		g2.drawImage(textureManager.getTexture("launchScreenLogo", sceneManager), (sceneManager.settings.screenWidth / 2 - 200), 80, 400, 48, null);
+		g2.drawImage(textureManager.getTexture("launchScreenLogo"), (sceneManager.settings.screenWidth / 2 - 200), 80, 400, 48, null);
 		for (int i = 0; i<buttonIDArray.size(); i++) {
 			MenuButton button = buttonIDArray.get(i);
 			g2.drawImage(button.buttonImage, button.getPosX(sceneManager.settings.screenWidth), button.getPosY(sceneManager.settings.screenHeight), button.width, button.height, null);
@@ -50,7 +50,6 @@ public class LaunchScreenManager {
 				sceneManager.world.playerStructuresMap.clear();
 				sceneManager.world.map.clear();
 				sceneManager.world.lightMap.clear();
-				sceneManager.world.lightSourceMap.clear();
 				sceneManager.world.footPrints.clear();
 				sceneManager.system.blockGenerationLastTick = true;
 				sceneManager.system.isGameOnLaunchScreen = false;

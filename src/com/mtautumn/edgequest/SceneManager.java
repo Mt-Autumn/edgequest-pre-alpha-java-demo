@@ -48,16 +48,17 @@ public class SceneManager implements Serializable {
 		public boolean setWindowed = false;
 		public boolean hideMouse = false;
 		public ItemSlot[][] backpackItems = new ItemSlot[6][6];
+		public Map<Short, BlockItem> blockIDMap = new HashMap<Short, BlockItem>();
+		public Map<String, BlockItem> blockNameMap = new HashMap<String, BlockItem>();
 	}
 	public class World implements Serializable{
 		private static final long serialVersionUID = 1L;
 		public int time = 800;
-		public Map<String, Integer> map = new HashMap<String, Integer>();
+		public Map<String, Short> map = new HashMap<String, Short>();
 		public Map<String, Double> lightMap = new HashMap<String, Double>();
-		public Map<String, Boolean> lightSourceMap = new HashMap<String, Boolean>();
-		public Map<String, Integer> playerStructuresMap = new HashMap<String, Integer>();
-		public Map<String, Integer> biomeMap = new HashMap<String, Integer>();
-		public Map<String, Integer> biomeMapFiltered = new HashMap<String, Integer>();
+		public Map<String, Short> playerStructuresMap = new HashMap<String, Short>();
+		public Map<String, Short> biomeMap = new HashMap<String, Short>();
+		public Map<String, Short> biomeMapFiltered = new HashMap<String, Short>();
 		public ArrayList<FootPrint> footPrints = new ArrayList<FootPrint>();
 		public long seed = 7;
 		public double getBrightness() {

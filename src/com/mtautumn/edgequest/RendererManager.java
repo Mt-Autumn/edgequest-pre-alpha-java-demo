@@ -65,7 +65,7 @@ public class RendererManager extends Thread {
 		blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
 				new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "blank cursor");
 		defaultCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-				textureManager.getTexture("cursor", sceneManager), new Point(0, 0), "blank cursor");
+				textureManager.getTexture("cursor"), new Point(0, 0), "blank cursor");
 		prepareFPSCounting();
 		long lastNanoTimeFPSGrabber = System.nanoTime();
 		try {
