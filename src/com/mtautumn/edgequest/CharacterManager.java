@@ -3,7 +3,6 @@ package com.mtautumn.edgequest;
 public class CharacterManager extends Thread{
 	SceneManager sceneManager;
 	BlockUpdateManager blockUpdateManager;
-	BlockInformation blockInfo = new BlockInformation();
 	double lastFootX = 0.0;
 	double lastFootY = 0.0;
 	public CharacterManager(SceneManager scnMgr, BlockUpdateManager bum) {
@@ -13,10 +12,14 @@ public class CharacterManager extends Thread{
 	public void charPlaceTorch() {
 		int charX = (int) Math.floor(sceneManager.system.charX);
 		int charY = (int) Math.floor(sceneManager.system.charY);
-		if (sceneManager.world.map.containsKey(charX + "," + charY)) {
-			if (getCharaterBlockInfo()[0] != blockInfo.getBlockID("water")) {
-				blockUpdateManager.addLightSource((int) Math.floor(sceneManager.system.charX), (int) Math.floor(sceneManager.system.charY));
+		if (!sceneManager.world.playerStructuresMap.containsKey(charX + "," + charY)) {
+			if ((short)getCharaterBlockInfo()[0] != sceneManager.system.blockNameMap.get("water").getID()) {
+				sceneManager.world.playerStructuresMap.put(charX + "," + charY, sceneManager.system.blockNameMap.get("torch").getID());
+				blockUpdateManager.updateLighting(charX, charY);
 			}
+		} else {
+			sceneManager.world.playerStructuresMap.remove(charX + "," + charY);
+			blockUpdateManager.updateLighting(charX, charY);
 		}
 	}
 	public double[] getCharaterBlockInfo() {
@@ -68,9 +71,10 @@ public class CharacterManager extends Thread{
 						charXOffset *= 2.0;
 						charYOffset *= 2.0;
 					}
-					if (getCharaterBlockInfo()[0] == blockInfo.getBlockID("water") && getCharaterBlockInfo()[1] == 0.0) {
+					if (sceneManager.system.blockIDMap.get((short)getCharaterBlockInfo()[0]).isLiquid && getCharaterBlockInfo()[1] == 0.0) {
 						charXOffset /= 1.7;
 						charYOffset /= 1.7;
+						
 					}
 
 					sceneManager.system.charX += charXOffset;
@@ -101,8 +105,10 @@ public class CharacterManager extends Thread{
 		}
 	}
 	public void updateFootprints() {
-		if (sceneManager.world.map.containsKey((int)Math.floor(sceneManager.system.charX) + "," + (int)Math.floor(sceneManager.system.charY))) {
-			if (sceneManager.world.map.get((int)Math.floor(sceneManager.system.charX) + "," + (int)Math.floor(sceneManager.system.charY)) == blockInfo.getBlockID("snow")) {
+		int charX = (int) Math.floor(sceneManager.system.charX);
+		int charY = (int) Math.floor(sceneManager.system.charY);
+		if (sceneManager.world.map.containsKey(charX + "," + charY)) {
+			if (sceneManager.system.blockIDMap.get(sceneManager.world.map.get(charX + "," + charY)).canHavePrints) {
 				if (Math.sqrt(Math.pow(sceneManager.system.charX - lastFootX, 2)+Math.pow(sceneManager.system.charY - lastFootY, 2)) > 0.7) {
 					lastFootX = sceneManager.system.charX;
 					lastFootY = sceneManager.system.charY;

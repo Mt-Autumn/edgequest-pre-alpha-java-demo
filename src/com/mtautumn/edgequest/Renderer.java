@@ -10,7 +10,6 @@ public class Renderer extends JComponent {
 	private static SceneManager sceneManager;
 	private static MenuButtonManager menuButtonManager;
 	private static TextureManager textureManager = new TextureManager();
-	private static BlockInformation blockInfo = new BlockInformation();
 	public static LaunchScreenManager launchScreenManager;
 
 	private static final long serialVersionUID = -1075263557773488547L;
@@ -48,15 +47,15 @@ public class Renderer extends JComponent {
 		for(int i = minTileX; i <= maxTileX; i++) {
 			int yPos = (int)((minTileY - charY) * sceneManager.settings.blockSize + sceneManager.settings.screenHeight/2.0);
 			for (int j = minTileY; j <= maxTileY; j++) {
-				int blockValue;
+				short blockValue;
 				if (sceneManager.world.map.containsKey(i + "," + j)) {
 					blockValue = sceneManager.world.map.get(i + "," + j);
 				} else {
 					blockValue = 0;
 				}
-				g2.drawImage(textureManager.getTexture(blockValue, sceneManager),xPos, yPos, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
+				g2.drawImage(sceneManager.system.blockIDMap.get(blockValue).getBlockImg(sceneManager.world.time),xPos, yPos, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
 				if (sceneManager.world.playerStructuresMap.containsKey(i + "," + j)) {
-					g2.drawImage(textureManager.getTexture(sceneManager.world.playerStructuresMap.get(i + "," + j), sceneManager),xPos, yPos, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
+					g2.drawImage(sceneManager.system.blockIDMap.get(sceneManager.world.playerStructuresMap.get(i + "," + j)).getBlockImg(sceneManager.world.time),xPos, yPos, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
 				}
 				yPos += sceneManager.settings.blockSize;
 			}
@@ -72,11 +71,11 @@ public class Renderer extends JComponent {
 			int posY = (int)((fp.posY - coordsOffsetY)*sceneManager.settings.blockSize);
 			g2.rotate(Math.PI / 4.0 * Double.valueOf(fp.direction) + Math.PI, posX, posY);
 			if (fp.opacity > 0.4) {
-				g2.drawImage(textureManager.getTexture("footsteps", sceneManager), posX, posY, sceneManager.settings.blockSize / 3, (int)(sceneManager.settings.blockSize / 1.5), null);
+				g2.drawImage(textureManager.getTexture("footsteps"), posX, posY, sceneManager.settings.blockSize / 3, (int)(sceneManager.settings.blockSize / 1.5), null);
 			} else if (fp.opacity > 0.2) {
-				g2.drawImage(textureManager.getTexture("footsteps2", sceneManager), posX, posY, sceneManager.settings.blockSize / 3, (int)(sceneManager.settings.blockSize / 1.5), null);
+				g2.drawImage(textureManager.getTexture("footsteps2"), posX, posY, sceneManager.settings.blockSize / 3, (int)(sceneManager.settings.blockSize / 1.5), null);
 			} else {
-				g2.drawImage(textureManager.getTexture("footsteps3", sceneManager), posX, posY, sceneManager.settings.blockSize / 3, (int)(sceneManager.settings.blockSize / 1.5), null);
+				g2.drawImage(textureManager.getTexture("footsteps3"), posX, posY, sceneManager.settings.blockSize / 3, (int)(sceneManager.settings.blockSize / 1.5), null);
 			}
 			g2.rotate(-Math.PI / 4.0 * Double.valueOf(fp.direction) - Math.PI, posX, posY);
 		}
@@ -87,17 +86,17 @@ public class Renderer extends JComponent {
 		int posX = (int)((sceneManager.system.mouseX - coordsOffsetX)*sceneManager.settings.blockSize);
 		int posY = (int)((sceneManager.system.mouseY - coordsOffsetY)*sceneManager.settings.blockSize);
 		if (sceneManager.system.isMouseFar) {
-			g2.drawImage(textureManager.getTexture("selectFar", sceneManager), posX, posY, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
+			g2.drawImage(textureManager.getTexture("selectFar"), posX, posY, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
 		} else {
-			g2.drawImage(textureManager.getTexture("select", sceneManager), posX, posY, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
+			g2.drawImage(textureManager.getTexture("select"), posX, posY, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
 		}
 		if (sceneManager.system.isKeyboardSprint) {
-			g2.drawImage(textureManager.getTexture("selectFlag", sceneManager), posX, posY - (int)(0.4375 * sceneManager.settings.blockSize), (int)(sceneManager.settings.blockSize * 1.25), (int)(sceneManager.settings.blockSize*1.4375), null);
+			g2.drawImage(textureManager.getTexture("selectFlag"), posX, posY - (int)(0.4375 * sceneManager.settings.blockSize), (int)(sceneManager.settings.blockSize * 1.25), (int)(sceneManager.settings.blockSize*1.4375), null);
 		}
 	}
 	public void drawCharacterEffects(Graphics2D g2) {
-		if (getCharaterBlockInfo()[0] == blockInfo.getBlockID("water") && getCharaterBlockInfo()[1] == 0.0) {
-			g2.drawImage(textureManager.getTexture("waterSplash", sceneManager), (int) ((sceneManager.settings.screenWidth- sceneManager.settings.blockSize) / 2.0), (int) ((sceneManager.settings.screenHeight - sceneManager.settings.blockSize) / 2.0), sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
+		if (sceneManager.system.blockIDMap.get((short)getCharaterBlockInfo()[0]).isLiquid && getCharaterBlockInfo()[1] == 0.0) {
+			g2.drawImage(textureManager.getAnimatedTexture("waterSplash", sceneManager), (int) ((sceneManager.settings.screenWidth- sceneManager.settings.blockSize) / 2.0), (int) ((sceneManager.settings.screenHeight - sceneManager.settings.blockSize) / 2.0), sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
 		}
 	}
 	public void drawCharacter(Graphics2D g2) {
@@ -152,7 +151,7 @@ public class Renderer extends JComponent {
 		g2.fillRect(0, 0, sceneManager.settings.screenWidth, sceneManager.settings.screenHeight);
 		sceneManager.system.menuX = sceneManager.settings.screenWidth / 2 - 375;
 		sceneManager.system.menuY = sceneManager.settings.screenHeight/2 - 250;
-		g2.drawImage(textureManager.getTexture("menuBackground", sceneManager), sceneManager.system.menuX, sceneManager.system.menuY, 750,500,null);
+		g2.drawImage(textureManager.getTexture("menuBackground"), sceneManager.system.menuX, sceneManager.system.menuY, 750,500,null);
 		for (int i = 0; i<menuButtonManager.buttonIDArray.size(); i++) {
 			MenuButtonManager.MenuButton button = menuButtonManager.buttonIDArray.get(i);repaint();
 			g2.drawImage(button.buttonImage, button.getPosX(sceneManager.system.menuX), button.getPosY(sceneManager.system.menuY), button.width, button.height, null);
@@ -163,13 +162,13 @@ public class Renderer extends JComponent {
 		g2.fillRect(0, 0, sceneManager.settings.screenWidth, sceneManager.settings.screenHeight);
 		sceneManager.system.menuX = sceneManager.settings.screenWidth / 2 - 375;
 		sceneManager.system.menuY = sceneManager.settings.screenHeight/2 - 250;
-		g2.drawImage(textureManager.getTexture("backpack", sceneManager), sceneManager.system.menuX, sceneManager.system.menuY, 750,500,null);
+		g2.drawImage(textureManager.getTexture("backpack"), sceneManager.system.menuX, sceneManager.system.menuY, 750,500,null);
 		for (int i = 0; i < sceneManager.system.backpackItems.length; i++) {
 			int posX = sceneManager.system.menuX + i * 64 + 37;
 			for (int j = 0; j < sceneManager.system.backpackItems[i].length; j++) {
 				int posY = sceneManager.system.menuY + j * 65 + 94;
 				try {
-				g2.drawImage(textureManager.getIcon(sceneManager.system.backpackItems[i][j].getItemID()), posX, posY, 48, 48, null);
+				g2.drawImage(sceneManager.system.blockIDMap.get(sceneManager.system.backpackItems[i][j].getItemID()).getItemImg(sceneManager.world.time), posX, posY, 48, 48, null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

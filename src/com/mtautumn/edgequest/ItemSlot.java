@@ -3,12 +3,12 @@ package com.mtautumn.edgequest;
 public class ItemSlot {
 	private static final int maxItemCount = 99;
 	
-	private int itemID = 0;
+	private Short itemID = -1;
 	private int itemCount = 0;
-	public int getItemID() {
+	public Short getItemID() {
 		return itemID;
 	}
-	public void setItem(int itemID) {
+	public void setItem(Short itemID) {
 		this.itemID = itemID;
 	}
 	public int getItemCount() {

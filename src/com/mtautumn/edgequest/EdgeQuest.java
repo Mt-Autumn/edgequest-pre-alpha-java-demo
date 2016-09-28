@@ -15,6 +15,7 @@ public class EdgeQuest {
 	public static AnimationClock animationClock = new AnimationClock(sceneManager);
 	public static AutoCharacterWalk autoCharacterWalk = new AutoCharacterWalk(sceneManager);
 	public static void main(String[] args) throws InterruptedException {
+		DefineBlockItems.setDefinitions(sceneManager);
 		keyboardManager.start();
 		characterManager.start();
 		terrainManager.start();

@@ -2,19 +2,11 @@ package com.mtautumn.edgequest;
 
 public class BlockUpdateManager extends Thread {
 	SceneManager sceneManager;
-	BlockInformation blockInfo = new BlockInformation();
 	private int lightDiffuseDistance = 8;
 	public BlockUpdateManager(SceneManager scnMgr) {
 		sceneManager = scnMgr;
 	}
-	public void addLightSource(int x, int y) {
-		if (sceneManager.world.playerStructuresMap.containsKey(x+","+y)) {
-			sceneManager.world.lightSourceMap.put(x + "," + y, false);
-			sceneManager.world.playerStructuresMap.remove(x + "," + y);
-		} else {
-			sceneManager.world.lightSourceMap.put(x + "," + y, true);
-			sceneManager.world.playerStructuresMap.put(x + "," + y, blockInfo.getBlockID("torch"));
-		}
+	public void updateLighting(int x, int y) {
 		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
 			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
 				double closestLightSource = lightDiffuseDistance + 1;
@@ -38,7 +30,7 @@ public class BlockUpdateManager extends Thread {
 			try {
 				if (!sceneManager.system.isGameOnLaunchScreen) {
 					i++;
-					if (i % 30 == 0) meltSnow();
+					if (i % 30 == 0) melt();
 				}
 				Thread.sleep(sceneManager.settings.tickLength);
 			} catch (Exception e) {
@@ -52,23 +44,23 @@ public class BlockUpdateManager extends Thread {
 		sceneManager.world.lightMap.put(x + "," + y, brightness);
 	}
 	private boolean doesContainLightSource(int x, int y) {
-		if (sceneManager.world.lightSourceMap.containsKey(x + "," + y)) {
-			return sceneManager.world.lightSourceMap.get(x + "," + y);
+		if (sceneManager.world.playerStructuresMap.containsKey(x + "," + y)) {
+			return sceneManager.system.blockIDMap.get(sceneManager.world.playerStructuresMap.get(x + "," + y)).isLightSource;
 		}
 		return false;
 	}
-	private void meltSnow() {
+	private void melt() {
 		for(int x = sceneManager.system.minTileX; x <= sceneManager.system.maxTileX; x++) {
 			for(int y = sceneManager.system.minTileY; y <= sceneManager.system.maxTileY; y++) {
 				if (sceneManager.world.map.containsKey(x+","+y)) {
-					if (blockInfo.getBlockName(sceneManager.world.map.get(x + "," + y)) == "snow") {
+					if (sceneManager.system.blockIDMap.get(sceneManager.world.map.get(x + "," + y)).melts) {
 						double brightness = 0;
 						if (sceneManager.world.lightMap.containsKey(x+","+y)) {
 							brightness = sceneManager.world.lightMap.get(x+","+y);
 						}
 						if (brightness > 0.7) {
 							if (1 - Math.random() < (brightness - 0.7) / 50.0) {
-								sceneManager.world.map.put(x+","+y, blockInfo.getBlockID("grass"));
+								sceneManager.world.map.put(x+","+y, sceneManager.system.blockNameMap.get(sceneManager.system.blockIDMap.get(sceneManager.world.map.get(x + "," + y)).meltsInto).getID());
 							}
 						}
 					}
