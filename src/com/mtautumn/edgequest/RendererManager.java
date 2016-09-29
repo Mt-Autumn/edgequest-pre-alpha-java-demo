@@ -149,11 +149,11 @@ public class RendererManager extends Thread {
 		}
 		if (((JPanel) window.getContentPane()).getMousePosition() != null) {
 			sceneManager.system.mousePosition = ((JPanel) window.getContentPane()).getMousePosition();
-			double offsetX = (sceneManager.system.charX * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenWidth) / 2.0);
-			double offsetY = (sceneManager.system.charY * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenHeight) / 2.0);
+			double offsetX = (sceneManager.savable.charX * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenWidth) / 2.0);
+			double offsetY = (sceneManager.savable.charY * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenHeight) / 2.0);
 			sceneManager.system.mouseX = (int) Math.floor((offsetX + sceneManager.system.mousePosition.getX())/Double.valueOf(sceneManager.settings.blockSize));
 			sceneManager.system.mouseY = (int) Math.floor((offsetY + sceneManager.system.mousePosition.getY())/Double.valueOf(sceneManager.settings.blockSize));
-			sceneManager.system.isMouseFar =  (Math.sqrt(Math.pow(sceneManager.system.mouseX - Math.floor(sceneManager.system.charX), 2)+Math.pow(sceneManager.system.mouseY - Math.floor(sceneManager.system.charY), 2)) > 3);
+			sceneManager.system.isMouseFar =  (Math.sqrt(Math.pow(sceneManager.system.mouseX - Math.floor(sceneManager.savable.charX), 2)+Math.pow(sceneManager.system.mouseY - Math.floor(sceneManager.savable.charY), 2)) > 3);
 		}
 	}
 }

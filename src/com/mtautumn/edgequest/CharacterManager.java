@@ -10,33 +10,33 @@ public class CharacterManager extends Thread{
 		blockUpdateManager = bum;
 	}
 	public void charPlaceTorch() {
-		int charX = (int) Math.floor(sceneManager.system.charX);
-		int charY = (int) Math.floor(sceneManager.system.charY);
-		if (!sceneManager.world.playerStructuresMap.containsKey(charX + "," + charY)) {
+		int charX = (int) Math.floor(sceneManager.savable.charX);
+		int charY = (int) Math.floor(sceneManager.savable.charY);
+		if (!sceneManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
 			if ((short)getCharaterBlockInfo()[0] != sceneManager.system.blockNameMap.get("water").getID()) {
-				sceneManager.world.playerStructuresMap.put(charX + "," + charY, sceneManager.system.blockNameMap.get("torch").getID());
+				sceneManager.savable.playerStructuresMap.put(charX + "," + charY, sceneManager.system.blockNameMap.get("torch").getID());
 				blockUpdateManager.updateLighting(charX, charY);
 			}
 		} else {
-			sceneManager.world.playerStructuresMap.remove(charX + "," + charY);
+			sceneManager.savable.playerStructuresMap.remove(charX + "," + charY);
 			blockUpdateManager.updateLighting(charX, charY);
 		}
 	}
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
-		int charX = (int) Math.floor(sceneManager.system.charX);
-		int charY = (int) Math.floor(sceneManager.system.charY);
-		if (sceneManager.world.map.containsKey(charX + "," + charY)) {
-			blockInfo[0] = sceneManager.world.map.get(charX + "," + charY);
+		int charX = (int) Math.floor(sceneManager.savable.charX);
+		int charY = (int) Math.floor(sceneManager.savable.charY);
+		if (sceneManager.savable.map.containsKey(charX + "," + charY)) {
+			blockInfo[0] = sceneManager.savable.map.get(charX + "," + charY);
 		}
-		if (sceneManager.world.playerStructuresMap.containsKey(charX + "," + charY)) {
-			blockInfo[1] = sceneManager.world.playerStructuresMap.get(charX + "," + charY);
+		if (sceneManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
+			blockInfo[1] = sceneManager.savable.playerStructuresMap.get(charX + "," + charY);
 		}
-		if (sceneManager.world.biomeMapFiltered.containsKey(charX + "," + charY)) {
-			blockInfo[2] = sceneManager.world.biomeMapFiltered.get(charX + "," + charY);
+		if (sceneManager.savable.biomeMapFiltered.containsKey(charX + "," + charY)) {
+			blockInfo[2] = sceneManager.savable.biomeMapFiltered.get(charX + "," + charY);
 		}
-		if (sceneManager.world.lightMap.containsKey(charX + "," + charY)) {
-			blockInfo[3] = sceneManager.world.lightMap.get(charX + "," + charY);
+		if (sceneManager.savable.lightMap.containsKey(charX + "," + charY)) {
+			blockInfo[3] = sceneManager.savable.lightMap.get(charX + "," + charY);
 		}
 		return blockInfo;
 	}
@@ -77,24 +77,24 @@ public class CharacterManager extends Thread{
 						
 					}
 
-					sceneManager.system.charX += charXOffset;
-					sceneManager.system.charY += charYOffset;
+					sceneManager.savable.charX += charXOffset;
+					sceneManager.savable.charY += charYOffset;
 					if(charYOffset < 0 && charXOffset == 0) {
-						sceneManager.system.charDir = 0;
+						sceneManager.savable.charDir = 0;
 					} else if (charYOffset < 0 && charXOffset < 0) {
-						sceneManager.system.charDir = 7;
+						sceneManager.savable.charDir = 7;
 					} else if (charYOffset < 0 && charXOffset > 0) {
-						sceneManager.system.charDir = 1;
+						sceneManager.savable.charDir = 1;
 					} else if (charYOffset == 0 && charXOffset < 0) {
-						sceneManager.system.charDir = 6;
+						sceneManager.savable.charDir = 6;
 					} else if (charYOffset == 0 && charXOffset > 0) {
-						sceneManager.system.charDir = 2;
+						sceneManager.savable.charDir = 2;
 					} else if (charYOffset > 0 && charXOffset < 0) {
-						sceneManager.system.charDir = 5;
+						sceneManager.savable.charDir = 5;
 					} else if (charYOffset > 0 && charXOffset == 0) {
-						sceneManager.system.charDir = 4;
+						sceneManager.savable.charDir = 4;
 					} else if (charYOffset > 0 && charXOffset > 0) {
-						sceneManager.system.charDir = 3;
+						sceneManager.savable.charDir = 3;
 					}
 					sceneManager.system.characterMoving = (charXOffset != 0 || charYOffset != 0);
 				}
@@ -105,21 +105,21 @@ public class CharacterManager extends Thread{
 		}
 	}
 	public void updateFootprints() {
-		int charX = (int) Math.floor(sceneManager.system.charX);
-		int charY = (int) Math.floor(sceneManager.system.charY);
-		if (sceneManager.world.map.containsKey(charX + "," + charY)) {
-			if (sceneManager.system.blockIDMap.get(sceneManager.world.map.get(charX + "," + charY)).canHavePrints) {
-				if (Math.sqrt(Math.pow(sceneManager.system.charX - lastFootX, 2)+Math.pow(sceneManager.system.charY - lastFootY, 2)) > 0.7) {
-					lastFootX = sceneManager.system.charX;
-					lastFootY = sceneManager.system.charY;
-					sceneManager.world.footPrints.add(new FootPrint(sceneManager.system.charX, sceneManager.system.charY, sceneManager.system.charDir));
+		int charX = (int) Math.floor(sceneManager.savable.charX);
+		int charY = (int) Math.floor(sceneManager.savable.charY);
+		if (sceneManager.savable.map.containsKey(charX + "," + charY)) {
+			if (sceneManager.system.blockIDMap.get(sceneManager.savable.map.get(charX + "," + charY)).canHavePrints) {
+				if (Math.sqrt(Math.pow(sceneManager.savable.charX - lastFootX, 2)+Math.pow(sceneManager.savable.charY - lastFootY, 2)) > 0.7) {
+					lastFootX = sceneManager.savable.charX;
+					lastFootY = sceneManager.savable.charY;
+					sceneManager.savable.footPrints.add(new FootPrint(sceneManager.savable.charX, sceneManager.savable.charY, sceneManager.savable.charDir));
 				}
 			}
 		}
-		for (int i = 0; i < sceneManager.world.footPrints.size(); i++) {
-			sceneManager.world.footPrints.get(i).opacity -= 0.001;
-			if (sceneManager.world.footPrints.get(i).opacity <= 0) {
-				sceneManager.world.footPrints.remove(i);
+		for (int i = 0; i < sceneManager.savable.footPrints.size(); i++) {
+			sceneManager.savable.footPrints.get(i).opacity -= 0.001;
+			if (sceneManager.savable.footPrints.get(i).opacity <= 0) {
+				sceneManager.savable.footPrints.remove(i);
 			}
 
 		}
