@@ -1,6 +1,10 @@
 package com.mtautumn.edgequest;
 
-public class ItemSlot {
+import java.io.Serializable;
+
+public class ItemSlot implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private static final int maxItemCount = 99;
 	
 	private Short itemID = -1;

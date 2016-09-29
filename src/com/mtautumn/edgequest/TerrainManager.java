@@ -16,14 +16,14 @@ public class TerrainManager extends Thread {
 					double tileHeight = Double.valueOf(sceneManager.settings.screenHeight) / sceneManager.settings.blockSize / 2.0 + 1;
 					if (sceneManager.system.blockGenerationLastTick || sceneManager.system.characterMoving) {
 						blocksPerTick = 0;
-						sceneManager.system.minTileX = (int) (sceneManager.system.charX - tileWidth - 1);
-						sceneManager.system.maxTileX = (int) (sceneManager.system.charX + tileWidth);
-						sceneManager.system.minTileY = (int) (sceneManager.system.charY - tileHeight - 1);
-						sceneManager.system.maxTileY = (int) (sceneManager.system.charY + tileHeight);
+						sceneManager.system.minTileX = (int) (sceneManager.savable.charX - tileWidth - 1);
+						sceneManager.system.maxTileX = (int) (sceneManager.savable.charX + tileWidth);
+						sceneManager.system.minTileY = (int) (sceneManager.savable.charY - tileHeight - 1);
+						sceneManager.system.maxTileY = (int) (sceneManager.savable.charY + tileHeight);
 
 						for(int i = sceneManager.system.minTileX - 2; i <= sceneManager.system.maxTileX + 1; i++) {
 							for (int j = sceneManager.system.minTileY - 2; j <= sceneManager.system.maxTileY + 1; j++) {
-								if (!sceneManager.world.map.containsKey(i + "," + j) && blocksPerTick < 1000) {
+								if (!sceneManager.savable.map.containsKey(i + "," + j) && blocksPerTick < 1000) {
 									terrainGenerator.generateBlock(i, j);
 									blocksPerTick++;
 								}

@@ -2,11 +2,13 @@ package com.mtautumn.edgequest;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-public class BlockItem {
+public class BlockItem implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private static final String blockImageDirectory = "blocks";
 	private static final String itemImageDirectory = "items";
 	private ArrayList<BufferedImage> blockImg = new ArrayList<BufferedImage>();

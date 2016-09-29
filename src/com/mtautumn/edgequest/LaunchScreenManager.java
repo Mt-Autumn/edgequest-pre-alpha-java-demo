@@ -44,13 +44,13 @@ public class LaunchScreenManager {
 			String ans2 = JOptionPane.showInputDialog("Type Seed Number:");
 			try {
 				long seed = Long.parseLong(ans2);
-				sceneManager.world.seed = seed;
-				sceneManager.world.biomeMap.clear();
-				sceneManager.world.biomeMapFiltered.clear();
-				sceneManager.world.playerStructuresMap.clear();
-				sceneManager.world.map.clear();
-				sceneManager.world.lightMap.clear();
-				sceneManager.world.footPrints.clear();
+				sceneManager.savable.seed = seed;
+				sceneManager.system.biomeMap.clear();
+				sceneManager.savable.biomeMapFiltered.clear();
+				sceneManager.savable.playerStructuresMap.clear();
+				sceneManager.savable.map.clear();
+				sceneManager.savable.lightMap.clear();
+				sceneManager.savable.footPrints.clear();
 				sceneManager.system.blockGenerationLastTick = true;
 				sceneManager.system.isGameOnLaunchScreen = false;
 				sceneManager.system.isLaunchScreenLoaded = false;

@@ -9,8 +9,8 @@ public class AutoCharacterWalk extends Thread{
 		while (true) {
 			try {
 				if (sceneManager.system.autoWalk) {
-					double charX = sceneManager.system.charX;
-					double charY = sceneManager.system.charY;
+					double charX = sceneManager.savable.charX;
+					double charY = sceneManager.savable.charY;
 					double targetX = sceneManager.system.autoWalkX + 0.5;
 					double targetY = sceneManager.system.autoWalkY + 0.5;
 					sceneManager.system.isKeyboardLeft = false;

@@ -1,19 +1,15 @@
 package com.mtautumn.edgequest;
 
 import java.awt.Point;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SceneManager implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class SceneManager {
 	public System system = new System();
-	public World world = new World();
+	public Savable savable = new Savable();
 	public Settings settings = new Settings();
 
-	public class System implements Serializable{
-		private static final long serialVersionUID = 1L;
+	public class System{
 		public boolean isKeyboardUp = false;
 		public boolean isKeyboardRight = false;
 		public boolean isKeyboardDown = false;
@@ -25,9 +21,6 @@ public class SceneManager implements Serializable {
 		public boolean isLaunchScreenLoaded = false;
 		public int animationClock = 0;
 		public String timeReadable = "";
-		public double charX = 5;
-		public double charY = 5;
-		public int charDir = 0;
 		public int menuX = 0;
 		public int menuY = 0;
 		public int minTileX = 0;
@@ -47,39 +40,11 @@ public class SceneManager implements Serializable {
 		public boolean setFullScreen = false;
 		public boolean setWindowed = false;
 		public boolean hideMouse = false;
-		public ItemSlot[][] backpackItems = new ItemSlot[6][6];
 		public Map<Short, BlockItem> blockIDMap = new HashMap<Short, BlockItem>();
 		public Map<String, BlockItem> blockNameMap = new HashMap<String, BlockItem>();
+		public Map<String, Byte> biomeMap = new HashMap<String, Byte>();
 	}
-	public class World implements Serializable{
-		private static final long serialVersionUID = 1L;
-		public int time = 800;
-		public Map<String, Short> map = new HashMap<String, Short>();
-		public Map<String, Double> lightMap = new HashMap<String, Double>();
-		public Map<String, Short> playerStructuresMap = new HashMap<String, Short>();
-		public Map<String, Short> biomeMap = new HashMap<String, Short>();
-		public Map<String, Short> biomeMapFiltered = new HashMap<String, Short>();
-		public ArrayList<FootPrint> footPrints = new ArrayList<FootPrint>();
-		public long seed = 7;
-		public double getBrightness() {
-			int tempTime = time - 200;
-			double brightness = 0.0;
-			if (tempTime < 1200) tempTime += 2400;
-			double distFromMidnight = Math.abs(tempTime - 2400);
-			if (distFromMidnight > 600) {
-				brightness = 1;
-			} else if (distFromMidnight > 400){
-				brightness = distFromMidnight * 0.004 - 1.4;
-			} else {
-				brightness = 0.2;
-			}
-			if (brightness > 1) brightness = 1;
-			if (brightness < 0) brightness = 0;
-			return brightness;
-		}
-	}
-	public class Settings implements Serializable{
-		private static final long serialVersionUID = 1L;
+	public class Settings{
 		public int tickLength = 30;
 		public int targetFPS = 60;
 		public int chunkSize = 16;

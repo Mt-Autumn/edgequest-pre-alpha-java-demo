@@ -50,19 +50,19 @@ public class MenuButtonManager {
 			String ans2 = JOptionPane.showInputDialog("Type Seed Number:");
 			try {
 				long seed = Long.parseLong(ans2);
-				sceneManager.world.seed = seed;
-				JOptionPane.showMessageDialog(null, "Seed updated to: " + sceneManager.world.seed);
+				sceneManager.savable.seed = seed;
+				JOptionPane.showMessageDialog(null, "Seed updated to: " + sceneManager.savable.seed);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, "Seed needs to be an whole number");
 			}
 			break;
 		case 3:
-			sceneManager.world.biomeMap.clear();
-			sceneManager.world.biomeMapFiltered.clear();
-			sceneManager.world.playerStructuresMap.clear();
-			sceneManager.world.map.clear();
-			sceneManager.world.lightMap.clear();
-			sceneManager.world.footPrints.clear();
+			sceneManager.system.biomeMap.clear();
+			sceneManager.savable.biomeMapFiltered.clear();
+			sceneManager.savable.playerStructuresMap.clear();
+			sceneManager.savable.map.clear();
+			sceneManager.savable.lightMap.clear();
+			sceneManager.savable.footPrints.clear();
 			sceneManager.system.blockGenerationLastTick = true;
 			JOptionPane.showMessageDialog(null, "World reset");
 			break;

@@ -9,10 +9,11 @@ import java.io.ObjectOutputStream;
 public class GameSaves {
 	public static void saveGame(String saveFile, SceneManager sceneManager) throws IOException {
 		try {
+			Savable saveClass = sceneManager.savable;
 			FileOutputStream fout = new FileOutputStream(saveFile + ".egqst");
 			@SuppressWarnings("resource")
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(sceneManager);
+			oos.writeObject(saveClass);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -21,18 +22,7 @@ public class GameSaves {
 		FileInputStream fin = new FileInputStream(saveFile + ".egqst");
 		@SuppressWarnings("resource")
 		ObjectInputStream ois = new ObjectInputStream(fin);
-		SceneManager loadedSM = (SceneManager) ois.readObject();
-		sceneManager.world.time = loadedSM.world.time;
-		sceneManager.system.charX = loadedSM.system.charX;
-		sceneManager.system.charY = loadedSM.system.charY;
-		sceneManager.world.map = loadedSM.world.map;
-		sceneManager.world.biomeMap = loadedSM.world.biomeMap;
-		sceneManager.world.biomeMapFiltered = loadedSM.world.biomeMapFiltered;
-		sceneManager.world.lightMap = loadedSM.world.lightMap;
-		sceneManager.system.blockGenerationLastTick = true;
-		sceneManager.system.charDir = loadedSM.system.charDir;
-		sceneManager.world.playerStructuresMap = loadedSM.world.playerStructuresMap;
-		sceneManager.world.seed = loadedSM.world.seed;
-		sceneManager.world.footPrints = loadedSM.world.footPrints;
+		Savable loadedSM = (Savable) ois.readObject();
+		sceneManager.savable = loadedSM;
 	}
 }

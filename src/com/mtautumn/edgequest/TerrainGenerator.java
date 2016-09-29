@@ -8,11 +8,11 @@ public class TerrainGenerator {
 		sceneManager = scnMgr;
 	}
 	private double getChunkRNG(int x, int y) {
-		return Math.sqrt((new Random(sceneManager.world.seed * x + x).doubles().skip(Math.abs(y)).findFirst().getAsDouble()) * (new Random(sceneManager.world.seed * 2 * y + 2 * y).doubles().skip(Math.abs(x)).findFirst().getAsDouble()));
+		return Math.sqrt((new Random(sceneManager.savable.seed * x + x).doubles().skip(Math.abs(y)%65535).findFirst().getAsDouble()) * (new Random(sceneManager.savable.seed * 2 * y + 2 * y).doubles().skip(Math.abs(x)%65535).findFirst().getAsDouble()));
 	}
 	public int getBlockBiome(int x, int y) {
-		if (sceneManager.world.biomeMap.containsKey(x + "," + y)) {
-			return sceneManager.world.biomeMap.get(x + "," + y);
+		if (sceneManager.system.biomeMap.containsKey(x + "," + y)) {
+			return sceneManager.system.biomeMap.get(x + "," + y);
 		} else {
 			int chunkX = (int) Math.floor(x / sceneManager.settings.chunkSize);
 			int chunkY = (int) Math.floor(y / sceneManager.settings.chunkSize);
@@ -26,22 +26,22 @@ public class TerrainGenerator {
 			}
 			double chunkRNGAverage = chunkRNGSum / 24.0;
 			if (chunkRNGAverage < 0.40) {
-				sceneManager.world.biomeMap.put(x + "," + y, (short) 4); //desert
+				sceneManager.system.biomeMap.put(x + "," + y, (byte) 4); //desert
 				return 4;
 			} else if (chunkRNGAverage < 0.43) {
-				sceneManager.world.biomeMap.put(x + "," + y, (short) 1); //grass
+				sceneManager.system.biomeMap.put(x + "," + y, (byte) 1); //grass
 				return 1;
 			} else if (chunkRNGAverage < 0.455) {
-				sceneManager.world.biomeMap.put(x + "," + y, (short) 5); //water
+				sceneManager.system.biomeMap.put(x + "," + y, (byte) 5); //water
 				return 5;
 			} else if (chunkRNGAverage < 0.47) {
-				sceneManager.world.biomeMap.put(x + "," + y, (short) 1); //grass
+				sceneManager.system.biomeMap.put(x + "," + y, (byte) 1); //grass
 				return 1;
 			} else if (chunkRNGAverage < 0.51) {
-				sceneManager.world.biomeMap.put(x + "," + y, (short) 2); //snow
+				sceneManager.system.biomeMap.put(x + "," + y, (byte) 2); //snow
 				return 2;
 			} else {
-				sceneManager.world.biomeMap.put(x + "," + y, (short) 3); //stone
+				sceneManager.system.biomeMap.put(x + "," + y, (byte) 3); //stone
 				return 3;
 			}
 		}
@@ -54,19 +54,19 @@ public class TerrainGenerator {
 			}
 		}
 		if (isLocationGreatest(biomeCount, 1)) {
-			sceneManager.world.biomeMapFiltered.put(x + "," + y, (short) 1);
+			sceneManager.savable.biomeMapFiltered.put(x + "," + y, (byte) 1);
 			createBlockForBiome(x, y, 1);
 		} else if (isLocationGreatest(biomeCount, 2)) {
-			sceneManager.world.biomeMapFiltered.put(x + "," + y, (short) 2);
+			sceneManager.savable.biomeMapFiltered.put(x + "," + y, (byte) 2);
 			createBlockForBiome(x, y, 2);
 		} else if (isLocationGreatest(biomeCount, 3)){
-			sceneManager.world.biomeMapFiltered.put(x + "," + y, (short) 3);
+			sceneManager.savable.biomeMapFiltered.put(x + "," + y, (byte) 3);
 			createBlockForBiome(x, y, 3);
 		} else if (isLocationGreatest(biomeCount, 4)){
-			sceneManager.world.biomeMapFiltered.put(x + "," + y, (short) 4);
+			sceneManager.savable.biomeMapFiltered.put(x + "," + y, (byte) 4);
 			createBlockForBiome(x, y, 4);
 		} else {
-			sceneManager.world.biomeMapFiltered.put(x + "," + y, (short) 5);
+			sceneManager.savable.biomeMapFiltered.put(x + "," + y, (byte) 5);
 			createBlockForBiome(x, y, 5);
 		}
 	}
@@ -80,32 +80,31 @@ public class TerrainGenerator {
 		return isGreatest;
 	}
 	public void createBlockForBiome(int x, int y, int biome) {
-		sceneManager.world.lightMap.put(x + "," + y, 0.0);
 		switch (biome) {
 		case 1: //grass
-			sceneManager.world.map.put(x + "," + y, sceneManager.system.blockNameMap.get("grass").getID());
+			sceneManager.savable.map.put(x + "," + y, sceneManager.system.blockNameMap.get("grass").getID());
 			break;
 		case 2: //snow
-			sceneManager.world.map.put(x + "," + y, sceneManager.system.blockNameMap.get("snow").getID());
+			sceneManager.savable.map.put(x + "," + y, sceneManager.system.blockNameMap.get("snow").getID());
 			break;
 		case 3: //stone
 			if (getChunkRNG(x, y) < 0.75) {
-				sceneManager.world.map.put(x + "," + y, sceneManager.system.blockNameMap.get("stone").getID());
+				sceneManager.savable.map.put(x + "," + y, sceneManager.system.blockNameMap.get("stone").getID());
 			} else {
-				sceneManager.world.map.put(x + "," + y, sceneManager.system.blockNameMap.get("dirt").getID());
+				sceneManager.savable.map.put(x + "," + y, sceneManager.system.blockNameMap.get("dirt").getID());
 			}
 			break;
 		case 4: //desert
-			sceneManager.world.map.put(x + "," + y, sceneManager.system.blockNameMap.get("sand").getID());
+			sceneManager.savable.map.put(x + "," + y, sceneManager.system.blockNameMap.get("sand").getID());
 			break;
 		case 5: //water
-			sceneManager.world.map.put(x + "," + y, sceneManager.system.blockNameMap.get("water").getID());
+			sceneManager.savable.map.put(x + "," + y, sceneManager.system.blockNameMap.get("water").getID());
 			if (getChunkRNG(x, y) < 0.03) {
-				sceneManager.world.playerStructuresMap.put(x + "," + y, sceneManager.system.blockNameMap.get("lilyPad").getID());
+				sceneManager.savable.playerStructuresMap.put(x + "," + y, sceneManager.system.blockNameMap.get("lilyPad").getID());
 			}
 			break;
 		default:
-			sceneManager.world.map.put(x + "," + y, sceneManager.system.blockNameMap.get("noTexture").getID());
+			sceneManager.savable.map.put(x + "," + y, sceneManager.system.blockNameMap.get("noTexture").getID());
 			break;
 		}
 	}

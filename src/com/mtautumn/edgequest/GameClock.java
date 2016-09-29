@@ -9,16 +9,16 @@ public class GameClock extends Thread {
 		while(true) {
 			try {
 				if (!sceneManager.system.isGameOnLaunchScreen) {
-					if (sceneManager.world.time < 2399) {
-						sceneManager.world.time++;
+					if (sceneManager.savable.time < 2399) {
+						sceneManager.savable.time++;
 					} else {
-						sceneManager.world.time = 0;
+						sceneManager.savable.time = 0;
 					}
-					int hours = (int) Math.floor(sceneManager.world.time / 100) % 12;
-					int minutes = (int) Math.round(Double.valueOf(sceneManager.world.time % 100) * 0.05);
+					int hours = (int) Math.floor(sceneManager.savable.time / 100) % 12;
+					int minutes = (int) Math.round(Double.valueOf(sceneManager.savable.time % 100) * 0.05);
 					if (hours == 0) hours = 12;
 
-					if (sceneManager.world.time < 1200) {
+					if (sceneManager.savable.time < 1200) {
 						sceneManager.system.timeReadable = "" + hours + ":" + minutes + "0 AM";
 					} else {
 						sceneManager.system.timeReadable = "" + hours + ":" + minutes + "0 PM";

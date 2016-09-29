@@ -1,6 +1,9 @@
 package com.mtautumn.edgequest;
 
-public class FootPrint {
+import java.io.Serializable;
+
+public class FootPrint implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public double posX;
 	public double posY;
 	public double opacity;
