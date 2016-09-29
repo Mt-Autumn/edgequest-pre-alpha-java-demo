@@ -108,6 +108,7 @@ public class RendererManager extends Thread {
 	public static void updateWindow() {
 		if (!wasMenuUp) {
 			if (!sceneManager.system.isLaunchScreenLoaded) {
+				findViewDimensions();
 				window.getContentPane().repaint();
 				window.setVisible(true);
 				if (sceneManager.system.isGameOnLaunchScreen) {
@@ -154,6 +155,16 @@ public class RendererManager extends Thread {
 			sceneManager.system.mouseX = (int) Math.floor((offsetX + sceneManager.system.mousePosition.getX())/Double.valueOf(sceneManager.settings.blockSize));
 			sceneManager.system.mouseY = (int) Math.floor((offsetY + sceneManager.system.mousePosition.getY())/Double.valueOf(sceneManager.settings.blockSize));
 			sceneManager.system.isMouseFar =  (Math.sqrt(Math.pow(sceneManager.system.mouseX - Math.floor(sceneManager.savable.charX), 2)+Math.pow(sceneManager.system.mouseY - Math.floor(sceneManager.savable.charY), 2)) > 3);
+		}
+	}
+	private static void findViewDimensions() {
+		if (sceneManager.system.characterMoving || sceneManager.system.blockGenerationLastTick) {
+			double tileWidth = Double.valueOf(sceneManager.settings.screenWidth) / sceneManager.settings.blockSize / 2.0 + 1;
+			double tileHeight = Double.valueOf(sceneManager.settings.screenHeight) / sceneManager.settings.blockSize / 2.0 + 1;
+			sceneManager.system.minTileX = (int) (sceneManager.savable.charX - tileWidth - 1);
+			sceneManager.system.maxTileX = (int) (sceneManager.savable.charX + tileWidth);
+			sceneManager.system.minTileY = (int) (sceneManager.savable.charY - tileHeight - 1);
+			sceneManager.system.maxTileY = (int) (sceneManager.savable.charY + tileHeight);
 		}
 	}
 }
