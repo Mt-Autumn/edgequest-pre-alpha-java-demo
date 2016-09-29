@@ -29,12 +29,14 @@ public class KeyboardManager extends Thread {
 						}
 					}
 					if (keyboard.keyDownOnce(KeyEvent.VK_W)) {
-						sceneManager.settings.blockSize += 1;
+						if (sceneManager.settings.blockSize < 128) {
+						sceneManager.settings.blockSize *= 2;
 						sceneManager.system.blockGenerationLastTick = true;
+						}
 					}
 					if (keyboard.keyDownOnce(KeyEvent.VK_S)) {
-						if (sceneManager.settings.blockSize > 1) {
-							sceneManager.settings.blockSize -= 1;
+						if (sceneManager.settings.blockSize > 16) {
+							sceneManager.settings.blockSize /= 2;
 							sceneManager.system.blockGenerationLastTick = true;
 						}	
 					}
