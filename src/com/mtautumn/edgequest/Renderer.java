@@ -55,7 +55,8 @@ public class Renderer extends JComponent {
 				}
 				g2.drawImage(sceneManager.system.blockIDMap.get(blockValue).getBlockImg(sceneManager.savable.time),xPos, yPos, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
 				if (sceneManager.savable.playerStructuresMap.containsKey(i + "," + j)) {
-					g2.drawImage(sceneManager.system.blockIDMap.get(sceneManager.savable.playerStructuresMap.get(i + "," + j)).getBlockImg(sceneManager.savable.time),xPos, yPos, sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
+					
+					g2.drawImage(sceneManager.system.blockIDMap.get(sceneManager.savable.playerStructuresMap.get(i + "," + j)).getBlockImg(sceneManager.savable.time),xPos, yPos - sceneManager.system.blockIDMap.get(sceneManager.savable.playerStructuresMap.get(i + "," + j)).blockHeight * sceneManager.settings.blockSize, sceneManager.settings.blockSize, sceneManager.settings.blockSize + sceneManager.system.blockIDMap.get(sceneManager.savable.playerStructuresMap.get(i + "," + j)).blockHeight * sceneManager.settings.blockSize, null);
 				}
 				yPos += sceneManager.settings.blockSize;
 			}

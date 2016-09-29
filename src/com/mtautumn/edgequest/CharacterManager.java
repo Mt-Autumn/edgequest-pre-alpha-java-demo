@@ -74,11 +74,14 @@ public class CharacterManager extends Thread{
 					if (sceneManager.system.blockIDMap.get((short)getCharaterBlockInfo()[0]).isLiquid && getCharaterBlockInfo()[1] == 0.0) {
 						charXOffset /= 1.7;
 						charYOffset /= 1.7;
-						
-					}
 
-					sceneManager.savable.charX += charXOffset;
-					sceneManager.savable.charY += charYOffset;
+					}
+					if (checkMoveProposal(charXOffset, true)) {
+						sceneManager.savable.charX += charXOffset;
+					}
+					if (checkMoveProposal(charYOffset, false)) {
+						sceneManager.savable.charY += charYOffset;
+					}
 					if(charYOffset < 0 && charXOffset == 0) {
 						sceneManager.savable.charDir = 0;
 					} else if (charYOffset < 0 && charXOffset < 0) {
@@ -102,6 +105,22 @@ public class CharacterManager extends Thread{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	private boolean checkMoveProposal(double charOffset, boolean isX) {
+		int charX;
+		int charY;
+		if (isX) {
+			charX = (int) Math.floor(charOffset + sceneManager.savable.charX);
+			charY = (int) Math.floor(sceneManager.savable.charY);
+		} else {
+			charY = (int) Math.floor(charOffset + sceneManager.savable.charY);
+			charX = (int) Math.floor(sceneManager.savable.charX);
+		}
+		if (sceneManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
+			return (sceneManager.system.blockIDMap.get(sceneManager.savable.playerStructuresMap.get(charX + "," + charY)).isPassable);
+		} else {
+			return true;
 		}
 	}
 	public void updateFootprints() {
