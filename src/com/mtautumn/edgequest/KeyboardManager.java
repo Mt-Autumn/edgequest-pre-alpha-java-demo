@@ -27,6 +27,10 @@ public class KeyboardManager extends Thread {
 						} else {
 							sceneManager.system.hideMouse = false;
 						}
+					} else {
+						if (keyboard.keyDown( KeyEvent.VK_UP ) || keyboard.keyDown( KeyEvent.VK_DOWN ) || keyboard.keyDown( KeyEvent.VK_RIGHT ) || keyboard.keyDown( KeyEvent.VK_LEFT )) {
+							sceneManager.system.autoWalk = false;
+						}
 					}
 					if (keyboard.keyDownOnce(KeyEvent.VK_W)) {
 						if (sceneManager.settings.blockSize < 128) {
