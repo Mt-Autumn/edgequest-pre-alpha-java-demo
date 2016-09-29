@@ -83,6 +83,9 @@ public class TerrainGenerator {
 		switch (biome) {
 		case 1: //grass
 			sceneManager.savable.map.put(x + "," + y, sceneManager.system.blockNameMap.get("grass").getID());
+			if (getChunkRNG(x, y) < 0.03) {
+				sceneManager.savable.playerStructuresMap.put(x + "," + y, sceneManager.system.blockNameMap.get("tree").getID());
+			}
 			break;
 		case 2: //snow
 			sceneManager.savable.map.put(x + "," + y, sceneManager.system.blockNameMap.get("snow").getID());

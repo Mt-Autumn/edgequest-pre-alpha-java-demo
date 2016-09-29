@@ -17,6 +17,7 @@ public class DefineBlockItems {
 		waterDefinition();
 		torchDefinition();
 		lilyPadDefinition();
+		treeDefinition();
 		sceneManager.system.blockIDMap = blockIDMap;
 		sceneManager.system.blockNameMap = blockNameMap;
 	}
@@ -68,6 +69,11 @@ public class DefineBlockItems {
 		BlockItem lilyPad = new BlockItem(101, true, true, "lilyPad", new int[]{0} , new int[]{0});
 		lilyPad.isPassable = true;
 		addToMaps(lilyPad);
+	}
+	private static void treeDefinition() {
+		BlockItem tree = new BlockItem(102, true, false, "tree", new int[]{0} , new int[]{0});
+		tree.blockHeight = 1;
+		addToMaps(tree);
 	}
 	
 	

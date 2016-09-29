@@ -31,6 +31,7 @@ public class BlockItem implements Serializable {
 	public boolean isLiquid = false;
 	public boolean isPassable = false;
 	public boolean canHavePrints = false;
+	public int blockHeight = 0;
 
 	public BlockItem(int id, boolean isBlock, boolean isItem, String name, int[] blockAnimation, int[] itemAnimation) {
 		this.isItem = isItem;
