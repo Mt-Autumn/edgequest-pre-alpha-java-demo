@@ -16,45 +16,56 @@ public class KeyboardManager extends Thread {
 			try {
 				if (!sceneManager.system.isGameOnLaunchScreen) {
 					keyboard.poll();
+					boolean keyUp = keyboard.keyDown(sceneManager.settings.upKey);
+					boolean keyDown = keyboard.keyDown(sceneManager.settings.downKey);
+					boolean keyLeft = keyboard.keyDown(sceneManager.settings.leftKey);
+					boolean keyRight = keyboard.keyDown(sceneManager.settings.rightKey);
+					boolean keySprint = keyboard.keyDown(sceneManager.settings.sprintKey);
+					boolean keyMenu = keyboard.keyDown(sceneManager.settings.menuKey);
+					boolean keyBackpack = keyboard.keyDown(sceneManager.settings.backpackKey);
+					boolean keyZoomIn = keyboard.keyDown(sceneManager.settings.zoomInKey);
+					boolean keyZoomOut = keyboard.keyDown(sceneManager.settings.zoomOutKey);
+					boolean keyShowDiag = keyboard.keyDown(sceneManager.settings.showDiagKey);
+					boolean keyPlaceTorch = keyboard.keyDown(sceneManager.settings.placeTorchKey);
 					if (!sceneManager.system.autoWalk) {
-						sceneManager.system.isKeyboardUp = keyboard.keyDown( KeyEvent.VK_UP );
-						sceneManager.system.isKeyboardRight = keyboard.keyDown( KeyEvent.VK_RIGHT );
-						sceneManager.system.isKeyboardDown = keyboard.keyDown( KeyEvent.VK_DOWN );
-						sceneManager.system.isKeyboardLeft = keyboard.keyDown( KeyEvent.VK_LEFT );
-						sceneManager.system.isKeyboardSprint = keyboard.keyDown( KeyEvent.VK_SHIFT );
-						if (keyboard.keyDown( KeyEvent.VK_UP ) || keyboard.keyDown( KeyEvent.VK_DOWN ) || keyboard.keyDown( KeyEvent.VK_RIGHT ) || keyboard.keyDown( KeyEvent.VK_LEFT )) {
+						sceneManager.system.isKeyboardUp = keyUp;
+						sceneManager.system.isKeyboardRight = keyRight;
+						sceneManager.system.isKeyboardDown = keyDown;
+						sceneManager.system.isKeyboardLeft = keyLeft;
+						sceneManager.system.isKeyboardSprint = keySprint;
+						if (keyUp || keyDown || keyLeft || keyRight) {
 							sceneManager.system.hideMouse = true;
 						} else {
 							sceneManager.system.hideMouse = false;
 						}
 					} else {
-						if (keyboard.keyDown( KeyEvent.VK_UP ) || keyboard.keyDown( KeyEvent.VK_DOWN ) || keyboard.keyDown( KeyEvent.VK_RIGHT ) || keyboard.keyDown( KeyEvent.VK_LEFT )) {
+						if (keyUp || keyDown || keyRight || keyLeft) {
 							sceneManager.system.autoWalk = false;
 						}
 					}
-					if (keyboard.keyDownOnce(KeyEvent.VK_W)) {
+					if (keyZoomIn) {
 						if (sceneManager.settings.blockSize < 128) {
-						sceneManager.settings.blockSize *= 2;
-						sceneManager.system.blockGenerationLastTick = true;
+							sceneManager.settings.blockSize *= 2;
+							sceneManager.system.blockGenerationLastTick = true;
 						}
 					}
-					if (keyboard.keyDownOnce(KeyEvent.VK_S)) {
+					if (keyZoomOut) {
 						if (sceneManager.settings.blockSize > 16) {
 							sceneManager.settings.blockSize /= 2;
 							sceneManager.system.blockGenerationLastTick = true;
 						}	
 					}
-					if (keyboard.keyDownOnce(KeyEvent.VK_SPACE)) {
+					if (keyShowDiag) {
 						sceneManager.settings.showDiag = !sceneManager.settings.showDiag;
 					}
-					if (keyboard.keyDownOnce(KeyEvent.VK_ESCAPE)) {
+					if (keyMenu) {
 						sceneManager.system.isKeyboardMenu = !sceneManager.system.isKeyboardMenu;
 					}
-					if (keyboard.keyDownOnce(KeyEvent.VK_Q)) {
+					if (keyPlaceTorch) {
 						characterManager.charPlaceTorch();
 
 					}
-					if (keyboard.keyDownOnce(KeyEvent.VK_E)) {
+					if (keyBackpack) {
 						sceneManager.system.isKeyboardBackpack = !sceneManager.system.isKeyboardBackpack;
 					}
 				}
