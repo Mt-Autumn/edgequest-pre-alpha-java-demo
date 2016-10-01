@@ -23,8 +23,8 @@ public class RendererManager extends Thread {
 	KeyboardInput keyboard = new KeyboardInput();
 	int[] lastXFPS = new int[5];
 	int tempFPS;
-	Cursor blankCursor;
-	Cursor defaultCursor;
+	static Cursor blankCursor;
+	static Cursor defaultCursor;
 	static GraphicsDevice device = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getScreenDevices()[0];
 	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, MenuButtonManager mbm, LaunchScreenManager lsm) {
@@ -105,7 +105,7 @@ public class RendererManager extends Thread {
 		}
 
 	}
-	public static void updateWindow() {
+	private static void updateWindow() {
 		if (!wasMenuUp) {
 			if (!sceneManager.system.isLaunchScreenLoaded) {
 				findViewDimensions();
