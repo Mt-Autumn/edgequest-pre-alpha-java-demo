@@ -10,7 +10,7 @@ public class Renderer extends JComponent {
 	private static SceneManager sceneManager;
 	private static MenuButtonManager menuButtonManager;
 	private static TextureManager textureManager = new TextureManager();
-	public static LaunchScreenManager launchScreenManager;
+	private static LaunchScreenManager launchScreenManager;
 
 	private static final long serialVersionUID = -1075263557773488547L;
 
@@ -36,7 +36,7 @@ public class Renderer extends JComponent {
 			if (sceneManager.system.isKeyboardMenu) drawMenu(g2);
 		}
 	}
-	public void drawTerrain(Graphics2D g2) {
+	private void drawTerrain(Graphics2D g2) {
 		int minTileX = sceneManager.system.minTileX;
 		int minTileY = sceneManager.system.minTileY;
 		int maxTileX = sceneManager.system.maxTileX;
@@ -63,7 +63,7 @@ public class Renderer extends JComponent {
 			xPos += sceneManager.settings.blockSize;
 		}
 	}
-	public void drawFootprints(Graphics2D g2) {
+	private void drawFootprints(Graphics2D g2) {
 		for (int i = 0; i < sceneManager.savable.footPrints.size(); i++) {
 			FootPrint fp = sceneManager.savable.footPrints.get(i);
 			double coordsOffsetX = sceneManager.savable.charX - Double.valueOf(sceneManager.settings.screenWidth) / 2.0 / Double.valueOf(sceneManager.settings.blockSize);
@@ -81,7 +81,7 @@ public class Renderer extends JComponent {
 			g2.rotate(-Math.PI / 4.0 * Double.valueOf(fp.direction) - Math.PI, posX, posY);
 		}
 	}
-	public void drawMouseSelection(Graphics2D g2) {
+	private void drawMouseSelection(Graphics2D g2) {
 		double coordsOffsetX = sceneManager.savable.charX - Double.valueOf(sceneManager.settings.screenWidth) / 2.0 / Double.valueOf(sceneManager.settings.blockSize);
 		double coordsOffsetY = sceneManager.savable.charY - Double.valueOf(sceneManager.settings.screenHeight) / 2.0 / Double.valueOf(sceneManager.settings.blockSize);
 		int posX = (int)((sceneManager.system.mouseX - coordsOffsetX)*sceneManager.settings.blockSize);
@@ -95,16 +95,16 @@ public class Renderer extends JComponent {
 			g2.drawImage(textureManager.getTexture("selectFlag"), posX, posY - (int)(0.4375 * sceneManager.settings.blockSize), (int)(sceneManager.settings.blockSize * 1.25), (int)(sceneManager.settings.blockSize*1.4375), null);
 		}
 	}
-	public void drawCharacterEffects(Graphics2D g2) {
+	private void drawCharacterEffects(Graphics2D g2) {
 		if (sceneManager.system.blockIDMap.get((short)getCharaterBlockInfo()[0]).isLiquid && getCharaterBlockInfo()[1] == 0.0) {
 			g2.drawImage(textureManager.getAnimatedTexture("waterSplash", sceneManager), (int) ((sceneManager.settings.screenWidth- sceneManager.settings.blockSize) / 2.0), (int) ((sceneManager.settings.screenHeight - sceneManager.settings.blockSize) / 2.0), sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
 		}
 	}
-	public void drawCharacter(Graphics2D g2) {
+	private void drawCharacter(Graphics2D g2) {
 		g2.drawImage(textureManager.getCharacter(sceneManager.savable.charDir), (int) ((sceneManager.settings.screenWidth- sceneManager.settings.blockSize) / 2.0), (int) ((sceneManager.settings.screenHeight - sceneManager.settings.blockSize) / 2.0), sceneManager.settings.blockSize, sceneManager.settings.blockSize, null);
 
 	}
-	public void drawLighting(Graphics2D g2) {
+	private void drawLighting(Graphics2D g2) {
 		int minTileX = sceneManager.system.minTileX;
 		int minTileY = sceneManager.system.minTileY;
 		int maxTileX = sceneManager.system.maxTileX;
@@ -134,7 +134,7 @@ public class Renderer extends JComponent {
 			xPos += sceneManager.settings.blockSize;
 		}
 	}
-	public void drawDiagnostics(Graphics2D g2) {
+	private void drawDiagnostics(Graphics2D g2) {
 		g2.setColor(new Color(0.7f,0.7f,0.7f, 0.7f));
 		g2.fillRoundRect(10, 10, 250, 210, 8, 8);
 		g2.setColor(new Color(0.0f,0.0f,0.0f, 0.7f));
@@ -160,7 +160,7 @@ public class Renderer extends JComponent {
 			g2.drawImage(button.buttonImage, button.getPosX(sceneManager.system.menuX), button.getPosY(sceneManager.system.menuY), button.width, button.height, null);
 		}
 	}
-	public void drawBackpack(Graphics2D g2) {
+	private void drawBackpack(Graphics2D g2) {
 		g2.setColor(new Color(0.2f,0.2f,0.2f, 0.7f));
 		g2.fillRect(0, 0, sceneManager.settings.screenWidth, sceneManager.settings.screenHeight);
 		sceneManager.system.menuX = sceneManager.settings.screenWidth / 2 - 375;
@@ -178,7 +178,7 @@ public class Renderer extends JComponent {
 			}
 		}
 	}
-	public double[] getCharaterBlockInfo() {
+	private double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
 		int charX = (int) Math.floor(sceneManager.savable.charX);
 		int charY = (int) Math.floor(sceneManager.savable.charY);
