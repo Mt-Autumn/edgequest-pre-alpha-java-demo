@@ -78,7 +78,7 @@ public class RendererManager extends Thread {
 		}
 		lastXFPS[0] = FPS;
 		fpsSum += lastXFPS[0];
-		sceneManager.system.averagedFPS = fpsSum / lastXFPS.length;
+		sceneManager.system.averagedFPS = (int) Math.ceil(Double.valueOf(fpsSum) / Double.valueOf(lastXFPS.length));
 	}
 	private void prepareFPSCounting() {
 		sceneManager.system.averagedFPS = sceneManager.settings.targetFPS;
@@ -108,13 +108,13 @@ public class RendererManager extends Thread {
 			double offsetY = (sceneManager.savable.charY * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenHeight) / 2.0);
 			sceneManager.system.mouseX = (int) Math.floor((offsetX + sceneManager.system.mousePosition.getX())/Double.valueOf(sceneManager.settings.blockSize));
 			sceneManager.system.mouseY = (int) Math.floor((offsetY + sceneManager.system.mousePosition.getY())/Double.valueOf(sceneManager.settings.blockSize));
-			sceneManager.system.isMouseFar =  (Math.sqrt(Math.pow(mouseX - Math.floor(sceneManager.savable.charX), 2)+Math.pow(mouseY - Math.floor(sceneManager.savable.charY), 2)) > 3);
+			sceneManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(sceneManager.system.mouseX) - Math.floor(sceneManager.savable.charX), 2.0)+Math.pow(Double.valueOf(sceneManager.system.mouseY) - Math.floor(sceneManager.savable.charY), 2.0)) > 3.0);
 			if (Mouse.isButtonDown(0) && !wasMouseDown) {
 				sceneManager.system.autoWalk = false;
 				if (sceneManager.system.isKeyboardMenu) {
-					renderer.menuButtonManager.buttonPressed(mouseX, mouseY);
+					Renderer.menuButtonManager.buttonPressed(mouseX, mouseY);
 				} else if (sceneManager.system.isGameOnLaunchScreen) {
-					renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
+					Renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
 				} else if (sceneManager.system.isKeyboardSprint && !sceneManager.system.hideMouse){
 					sceneManager.system.autoWalkX = sceneManager.system.mouseX;
 					sceneManager.system.autoWalkY = sceneManager.system.mouseY;
@@ -173,7 +173,7 @@ public class RendererManager extends Thread {
 					}
 				}
 				if (keyZoomOut && !wasKeyDown[sceneManager.settings.zoomOutKey]) {
-					if (sceneManager.settings.blockSize > 16) {
+					if (sceneManager.settings.blockSize > 1) {
 						sceneManager.settings.blockSize /= 2;
 						sceneManager.system.blockGenerationLastTick = true;
 					}	

@@ -1,10 +1,13 @@
 package com.mtautumn.edgequest;
 
+import java.awt.Font;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 
 import com.mtautumn.edgequest.LaunchScreenManager.MenuButton;
@@ -14,30 +17,38 @@ public class Renderer {
 	public static MenuButtonManager menuButtonManager;
 	private static TextureManager textureManager;
 	public static LaunchScreenManager launchScreenManager;
+	Font awtFont = new Font("Arial", Font.BOLD, 12);
+	TrueTypeFont font;
 
 	public Renderer(SceneManager scnMgr) {
 		sceneManager = scnMgr;
 	}
-	private void fillRect(int x, int y, int width, int height, float r, float g, float b, float a) {
-        GL11.glColor4f (r,g,b,a);
-        GL11.glVertex2f(x,y);
-        GL11.glVertex2f(x+width,y);
-        GL11.glVertex2f(x+width,y+height);
-        GL11.glVertex2f(x,y+height);
+	public void fillRect(int x, int y, int width, int height, float r, float g, float b, float a) {
+		GL11.glColor4f (r,g,b,a);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glVertex2f(x,y);
+		GL11.glVertex2f(x+width,y);
+		GL11.glVertex2f(x+width,y+height);
+		GL11.glVertex2f(x,y+height);
+		GL11.glEnd();
 	}
 	public void loadManagers() {
 		textureManager = new TextureManager();
 		launchScreenManager = new LaunchScreenManager(sceneManager);
 		menuButtonManager = new MenuButtonManager(sceneManager);
+		font = new TrueTypeFont(awtFont, false);
 	}
-	private float scaleX = 1;
-	private float scaleY = 1;
+	private double oldX = 800;
+	private double oldY = 600;
 	public void drawFrame() {
 		GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
-		scaleX = 800f/Display.getWidth();
-		scaleY = 600f/Display.getHeight();
+		if (oldX != sceneManager.settings.screenWidth || oldY != sceneManager.settings.screenHeight) {
+			GL11.glScaled(oldX/sceneManager.settings.screenWidth, oldY/sceneManager.settings.screenHeight, 1);
+			oldX = sceneManager.settings.screenWidth;
+			oldY = sceneManager.settings.screenHeight;
+		}
 		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-        
+
 		if (sceneManager.system.isGameOnLaunchScreen) {
 			renderLaunchScreen();
 		} else {
@@ -45,87 +56,87 @@ public class Renderer {
 			//drawFootprints();
 			drawCharacterEffects();
 			drawCharacter();
+			drawTexture(textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			drawLighting();
-			if (!sceneManager.system.hideMouse) drawMouseSelection();
+			drawTexture(textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (sceneManager.settings.showDiag) drawDiagnostics();
+			if (!sceneManager.system.hideMouse) drawMouseSelection();
+			drawTexture(textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (sceneManager.system.isKeyboardBackpack) drawBackpack();
 			if (sceneManager.system.isKeyboardMenu) drawMenu();
 		}
-		
-		 Display.update();
-         Display.sync(100);
 
-         if (Display.isCloseRequested()) {
-             Display.destroy();
-             System.exit(0);
-         }
-	}
-	  public void initGL(int width, int height) {
-	        try {
-	            Display.setDisplayMode(new DisplayMode(width,height));
-	            Display.create();
-	            Display.setVSyncEnabled(true);
-	            Display.setResizable(true);
-	        } catch (LWJGLException e) {
-	            e.printStackTrace();
-	            System.exit(0);
-	        }
-	        GL11.glEnable(GL11.GL_TEXTURE_2D);               
-	         
-	        GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);          
-	         
-	            // enable alpha blending
-	            GL11.glEnable(GL11.GL_BLEND);
-	            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-	            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
-	         
-	            GL11.glViewport(0,0,width,height);
-	        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-	 
-	        GL11.glMatrixMode(GL11.GL_PROJECTION);
-	        GL11.glLoadIdentity();
-	        GL11.glOrtho(0, width, height, 0, 1, -1);
-	        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-	    }
-	  private void drawTexture(Texture texture, float x, float y, float width, float height) {
-	    	texture.bind();
-	    	x *= scaleX;
-	    	y *= scaleY;
-	    	width *= scaleX;
-	    	height *= scaleY;
-	    	float paddingX = texture.getImageWidth();
-	    	paddingX /= nearestPower2(paddingX);
-	    	float paddingY = texture.getImageHeight();
-	    	paddingY /= nearestPower2(paddingY);
-	    	GL11.glBegin(GL11.GL_QUADS);
-	        GL11.glTexCoord2f(0,0);
-	        GL11.glVertex2f(x,y);
-	        GL11.glTexCoord2f(1f*paddingX,0);
-	        GL11.glVertex2f(x+width,y);
-	        GL11.glTexCoord2f(1f*paddingX,1f*paddingY);
-	        GL11.glVertex2f(x+width,y+height);
-	        GL11.glTexCoord2f(0,1f*paddingY);
-	        GL11.glVertex2f(x,y+height);
-	        GL11.glEnd();
-	  }
-	  private float nearestPower2(float size) {
-		  int i = 1;
-		  for (; i < size; i *= 2);
-		  return i;
-	  }
-		public void renderLaunchScreen() {
-			if (sceneManager.settings.screenWidth > 1.6 * sceneManager.settings.screenHeight) {
-				drawTexture(textureManager.getTexture("launchScreenBackground"), 0, (int)(sceneManager.settings.screenHeight - sceneManager.settings.screenWidth / 1.6) / 2, sceneManager.settings.screenWidth,(int)(sceneManager.settings.screenWidth / 1.6));
-			} else {
-				drawTexture(textureManager.getTexture("launchScreenBackground"), (int)(sceneManager.settings.screenWidth - sceneManager.settings.screenHeight * 1.6)/2, 0, (int)(sceneManager.settings.screenHeight * 1.6),sceneManager.settings.screenHeight);
+		Display.update();
+		Display.sync(100);
 
-			}
-			drawTexture(textureManager.getTexture("launchScreenLogo"), (sceneManager.settings.screenWidth / 2 - 200), 80, 400, 48);
-			for (int i = 0; i<launchScreenManager.buttonIDArray.size(); i++) {
-				MenuButton button = launchScreenManager.buttonIDArray.get(i);
-				drawTexture(button.buttonImage, button.getPosX(sceneManager.settings.screenWidth), button.getPosY(sceneManager.settings.screenHeight), button.width, button.height);
-			}
+		if (Display.isCloseRequested()) {
+			Display.destroy();
+			System.exit(0);
 		}
+	}
+	public void initGL(int width, int height) {
+		try {
+			Display.setDisplayMode(new DisplayMode(width,height));
+			Display.create();
+			Display.setVSyncEnabled(true);
+			Display.setResizable(true);
+		} catch (LWJGLException e) {
+			e.printStackTrace();
+			System.exit(0);
+		}
+		GL11.glEnable(GL11.GL_TEXTURE_2D);               
+
+		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);          
+		GL11.glEnable(GL11.GL_COLOR_ARRAY);
+		GL11.glColorMask(true, true, true, true);
+
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+
+		GL11.glViewport(0,0,width,height);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, width, height, 0, 1, -1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+	}
+	private void drawTexture(Texture texture, float x, float y, float width, float height) {
+		texture.bind();
+		float paddingX = texture.getImageWidth();
+		paddingX /= nearestPower2(paddingX);
+		float paddingY = texture.getImageHeight();
+		paddingY /= nearestPower2(paddingY);
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0,0);
+		GL11.glVertex2f(x,y);
+		GL11.glTexCoord2f(1f*paddingX,0);
+		GL11.glVertex2f(x+width,y);
+		GL11.glTexCoord2f(1f*paddingX,1f*paddingY);
+		GL11.glVertex2f(x+width,y+height);
+		GL11.glTexCoord2f(0,1f*paddingY);
+		GL11.glVertex2f(x,y+height);
+		GL11.glEnd();
+	}
+	private float nearestPower2(float size) {
+		int i = 1;
+		for (; i < size; i *= 2);
+		return i;
+	}
+	public void renderLaunchScreen() {
+		if (sceneManager.settings.screenWidth > 1.6 * sceneManager.settings.screenHeight) {
+			drawTexture(textureManager.getTexture("launchScreenBackground"), 0, (int)(sceneManager.settings.screenHeight - sceneManager.settings.screenWidth / 1.6) / 2, sceneManager.settings.screenWidth,(int)(sceneManager.settings.screenWidth / 1.6));
+		} else {
+			drawTexture(textureManager.getTexture("launchScreenBackground"), (int)(sceneManager.settings.screenWidth - sceneManager.settings.screenHeight * 1.6)/2, 0, (int)(sceneManager.settings.screenHeight * 1.6),sceneManager.settings.screenHeight);
+
+		}
+		drawTexture(textureManager.getTexture("launchScreenLogo"), (sceneManager.settings.screenWidth / 2 - 200), 80, 400, 48);
+		for (int i = 0; i<launchScreenManager.buttonIDArray.size(); i++) {
+			MenuButton button = launchScreenManager.buttonIDArray.get(i);
+			drawTexture(button.buttonImage, button.getPosX(sceneManager.settings.screenWidth), button.getPosY(sceneManager.settings.screenHeight), button.width, button.height);
+		}
+	}
 	private void drawTerrain() {
 		Color.white.bind();
 		int minTileX = sceneManager.system.minTileX;
@@ -146,7 +157,7 @@ public class Renderer {
 				}
 				drawTexture(sceneManager.system.blockIDMap.get(blockValue).getBlockImg(sceneManager.savable.time),xPos, yPos, sceneManager.settings.blockSize, sceneManager.settings.blockSize);
 				if (sceneManager.savable.playerStructuresMap.containsKey(i + "," + j)) {
-					
+
 					drawTexture(sceneManager.system.blockIDMap.get(sceneManager.savable.playerStructuresMap.get(i + "," + j)).getBlockImg(sceneManager.savable.time),xPos, yPos - sceneManager.system.blockIDMap.get(sceneManager.savable.playerStructuresMap.get(i + "," + j)).blockHeight * sceneManager.settings.blockSize, sceneManager.settings.blockSize, sceneManager.settings.blockSize + sceneManager.system.blockIDMap.get(sceneManager.savable.playerStructuresMap.get(i + "," + j)).blockHeight * sceneManager.settings.blockSize);
 				}
 				yPos += sceneManager.settings.blockSize;
@@ -154,8 +165,8 @@ public class Renderer {
 			xPos += sceneManager.settings.blockSize;
 		}
 	}
-/*	private void drawFootprints() {
- * Color.white.bind();
+	/*	private void drawFootprints() {
+	 * Color.white.bind();
 		for (int i = 0; i < sceneManager.savable.footPrints.size(); i++) {
 			FootPrint fp = sceneManager.savable.footPrints.get(i);
 			double coordsOffsetX = sceneManager.savable.charX - Double.valueOf(sceneManager.settings.screenWidth) / 2.0 / Double.valueOf(sceneManager.settings.blockSize);
@@ -199,7 +210,8 @@ public class Renderer {
 		drawTexture(textureManager.getCharacter(sceneManager.savable.charDir), (int) ((sceneManager.settings.screenWidth- sceneManager.settings.blockSize) / 2.0), (int) ((sceneManager.settings.screenHeight - sceneManager.settings.blockSize) / 2.0), sceneManager.settings.blockSize, sceneManager.settings.blockSize);
 
 	}
-	private void drawLighting() {
+	public void drawLighting() {
+		Color.white.bind();
 		int minTileX = sceneManager.system.minTileX;
 		int minTileY = sceneManager.system.minTileY;
 		int maxTileX = sceneManager.system.maxTileX;
@@ -220,7 +232,10 @@ public class Renderer {
 				nightBrightness = (1 - sceneManager.savable.getBrightness()) * brightness + sceneManager.savable.getBrightness();
 				if (sceneManager.savable.getBrightness() < 1) {
 					fillRect(xPos, yPos, sceneManager.settings.blockSize, sceneManager.settings.blockSize, 0.01f,0.0f,0.15f,(float) (1.0 - nightBrightness));
-					fillRect(xPos, yPos, sceneManager.settings.blockSize, sceneManager.settings.blockSize, 1.0f,0.6f,0.05f, (float)(0.2 * (nightBrightness - sceneManager.savable.getBrightness())));
+					float blockBrightness = (float)(0.2 * (nightBrightness - sceneManager.savable.getBrightness()));
+					if (blockBrightness > 0) {
+						fillRect(xPos, yPos, sceneManager.settings.blockSize, sceneManager.settings.blockSize, 1.0f,0.6f,0.05f, blockBrightness);
+					}
 				}
 				yPos += sceneManager.settings.blockSize;
 			}
@@ -228,18 +243,20 @@ public class Renderer {
 		}
 	}
 	private void drawDiagnostics() {
-		fillRect(10, 10, 250, 210, 0.7f,0.7f,0.7f, 0.7f);
-		/*g2.setColor(new Color(0.0f,0.0f,0.0f, 0.7f));
-		g2.drawString("FPS: " + sceneManager.system.averagedFPS, 20, 30);
-		g2.drawString("Time: " + sceneManager.savable.time, 20, 50);
-		g2.drawString("Time Human: " + sceneManager.system.timeReadable, 20, 70);
-		g2.drawString("Brightness: " + sceneManager.savable.getBrightness(), 20, 90);
-		g2.drawString("CharX: " + sceneManager.savable.charX, 20, 110);
-		g2.drawString("CharY: " + sceneManager.savable.charY, 20, 130);
-		g2.drawString("CharDir: " + sceneManager.savable.charDir, 20, 150);
-		g2.drawString("CharMove: " + sceneManager.system.characterMoving, 20, 170);
-		g2.drawString("TerrGen: " + sceneManager.system.blockGenerationLastTick, 20, 190);
-		g2.drawString("Zoom: " + sceneManager.settings.blockSize, 20, 210);*/
+		Color.blue.bind();
+		//TODO: Create class for generating texture from string
+		fillRect(10,10, 215, 220, 0.7f, 0.7f, 0.7f, 0.7f);
+		int i = 0;
+		font.drawString(20, i+=20, "FPS: " + sceneManager.system.averagedFPS);
+		font.drawString(20, i+=20, "Time: " + sceneManager.savable.time);
+		font.drawString(20, i+=20, "Time Human: " + sceneManager.system.timeReadable);
+		font.drawString(20, i+=20, "Brightness: " + sceneManager.savable.getBrightness());
+		font.drawString(20, i+=20, "CharX: " + sceneManager.savable.charX);
+		font.drawString(20, i+=20, "CharY: " + sceneManager.savable.charY);
+		font.drawString(20, i+=20, "CharDir: " + sceneManager.savable.charDir);
+		font.drawString(20, i+=20, "CharMove: " + sceneManager.system.characterMoving);
+		font.drawString(20, i+=20, "Terrain Gen: " + sceneManager.system.blockGenerationLastTick);
+		font.drawString(20, i+=20, "Block Size: " + sceneManager.settings.blockSize);
 	}
 	public void drawMenu() {
 		fillRect(0, 0, sceneManager.settings.screenWidth, sceneManager.settings.screenHeight, 0.2f,0.2f,0.2f, 0.7f);
