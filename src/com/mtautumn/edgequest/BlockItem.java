@@ -1,18 +1,18 @@
 package com.mtautumn.edgequest;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class BlockItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String blockImageDirectory = "blocks";
 	private static final String itemImageDirectory = "items";
-	private ArrayList<BufferedImage> blockImg = new ArrayList<BufferedImage>();
-	private ArrayList<BufferedImage> itemImg = new ArrayList<BufferedImage>();
+	private ArrayList<Texture> blockImg = new ArrayList<Texture>();
+	private ArrayList<Texture> itemImg = new ArrayList<Texture>();
 	private boolean isItem;
 	private boolean isBlock;
 	private String name;
@@ -50,16 +50,16 @@ public class BlockItem implements Serializable {
 		}
 	}
 
-	public BufferedImage getItemImg(int time) {
+	public Texture getItemImg(int time) {
 		if (isItem) return itemImg.get(time % itemImg.size());
 		if (isBlock) return blockImg.get(time % blockImg.size());
-		return new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
+		return null;
 	}
 
-	public BufferedImage getBlockImg(int time) {
+	public Texture getBlockImg(int time) {
 		if (isBlock) return blockImg.get(time % blockImg.size());
 		if (isItem) return itemImg.get(time % itemImg.size());
-		return new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
+		return null;
 	}
 
 	public boolean getIsBlock() { return isBlock; }
@@ -74,12 +74,12 @@ public class BlockItem implements Serializable {
 
 	public boolean isID(Short testID) { return testID == id; }
 
-	private BufferedImage getTexture(String name, String directory) {
+	private Texture getTexture(String name, String directory) {
 		try {
-			return (BufferedImage) ImageIO.read(new File("textures/" + directory + "/" + name + ".png"));
+			return TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/" + directory + "/" + name + ".png"));
 		} catch (Exception e) {
 			System.out.println("Could not load texture: " + "textures/" + directory + "/" + name + ".png");
-			return new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
+			return null;
 		}
 	}
 }

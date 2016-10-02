@@ -1,12 +1,12 @@
 package com.mtautumn.edgequest;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 
 public class LaunchScreenManager {
@@ -16,19 +16,6 @@ public class LaunchScreenManager {
 		sceneManager = scnMgr;
 		buttonIDArray.add(new MenuButton(1,-247,-36,197,73,"newGame"));
 		buttonIDArray.add(new MenuButton(2,50,-36,197,73,"loadGame"));
-	}
-	public void renderScreen(Graphics2D g2,TextureManager textureManager) {
-		if (sceneManager.settings.screenWidth > 1.6 * sceneManager.settings.screenHeight) {
-			g2.drawImage(textureManager.getTexture("launchScreenBackground"), 0, (int)(sceneManager.settings.screenHeight - sceneManager.settings.screenWidth / 1.6) / 2, sceneManager.settings.screenWidth,(int)(sceneManager.settings.screenWidth / 1.6),null);
-		} else {
-			g2.drawImage(textureManager.getTexture("launchScreenBackground"), (int)(sceneManager.settings.screenWidth - sceneManager.settings.screenHeight * 1.6)/2, 0, (int)(sceneManager.settings.screenHeight * 1.6),sceneManager.settings.screenHeight,null);
-
-		}
-		g2.drawImage(textureManager.getTexture("launchScreenLogo"), (sceneManager.settings.screenWidth / 2 - 200), 80, 400, 48, null);
-		for (int i = 0; i<buttonIDArray.size(); i++) {
-			MenuButton button = buttonIDArray.get(i);
-			g2.drawImage(button.buttonImage, button.getPosX(sceneManager.settings.screenWidth), button.getPosY(sceneManager.settings.screenHeight), button.width, button.height, null);
-		}
 	}
 	public void buttonPressed(int posX, int posY) {
 		for (int i = 0; i < buttonIDArray.size(); i++) {
@@ -79,7 +66,7 @@ public class LaunchScreenManager {
 		public int width = 0;
 		public int height = 0;
 		public int id = -1;
-		public BufferedImage buttonImage;
+		public Texture buttonImage;
 		public String name = "";
 		public MenuButton(int id, int posX, int posY, int width, int height, String name) {
 			this.posX = posX;
@@ -89,7 +76,7 @@ public class LaunchScreenManager {
 			this.name = name;
 			this.id = id;
 			try {
-				this.buttonImage = ImageIO.read(new File("textures/" + name + ".png"));
+				this.buttonImage = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/" + name + ".png"));
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

@@ -1,12 +1,13 @@
 package com.mtautumn.edgequest;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class MenuButtonManager {
 	ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
@@ -103,7 +104,7 @@ public class MenuButtonManager {
 		public int width = 0;
 		public int height = 0;
 		public int id = -1;
-		public BufferedImage buttonImage;
+		public Texture buttonImage;
 		public String name = "";
 		public MenuButton(int id, int posX, int posY, int width, int height, String name) {
 			this.posX = posX;
@@ -113,7 +114,7 @@ public class MenuButtonManager {
 			this.name = name;
 			this.id = id;
 			try {
-				this.buttonImage = ImageIO.read(new File("textures/" + name + ".png"));
+				this.buttonImage = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/" + name + ".png"));
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
