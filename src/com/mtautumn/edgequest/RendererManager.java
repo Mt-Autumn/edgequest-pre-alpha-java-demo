@@ -12,6 +12,7 @@ import org.lwjgl.opengl.Display;
 public class RendererManager extends Thread {
 	private static SceneManager sceneManager;
 	private static Renderer renderer;
+	private static CharacterManager characterManager;
 
 
 	KeyboardInput keyboard = new KeyboardInput();
@@ -21,9 +22,10 @@ public class RendererManager extends Thread {
 	static Cursor defaultCursor;
 	static GraphicsDevice device = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getScreenDevices()[0];
-	public RendererManager(SceneManager scnMgr, KeyboardInput kybd) {
+	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, CharacterManager cm) {
 		sceneManager = scnMgr;
 		keyboard = kybd;
+		characterManager = cm;
 		renderer = new Renderer(sceneManager);
 	}
 	public void run() {
@@ -185,7 +187,7 @@ public class RendererManager extends Thread {
 					sceneManager.system.isKeyboardMenu = !sceneManager.system.isKeyboardMenu;
 				}
 				if (keyPlaceTorch && !wasKeyDown[sceneManager.settings.placeTorchKey]) {
-					//CharacterManager.charPlaceTorch();
+					characterManager.charPlaceTorch();
 
 				}
 				if (keyBackpack && !wasKeyDown[sceneManager.settings.backpackKey]) {
