@@ -20,7 +20,7 @@ public class EdgeQuest {
 		gameClock.start();
 		animationClock.start();
 		blockUpdateManager.start();
-		autoCharacterWalk.run();
+		autoCharacterWalk.start();
 		while (true) {
 			Thread.sleep(10000);
 		}
