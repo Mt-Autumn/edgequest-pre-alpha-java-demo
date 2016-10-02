@@ -50,7 +50,7 @@ public class SceneManager {
 		public int tickLength = 30;
 		public int targetFPS = 60;
 		public int chunkSize = 16;
-		public boolean showDiag = true;
+		public boolean showDiag = false;
 		public int blockSize = 32;
 		public int screenWidth = 800;
 		public int screenHeight = 600;
