@@ -1,7 +1,5 @@
 package com.mtautumn.edgequest;
 
-import java.awt.event.KeyEvent;
-
 public class KeyboardManager extends Thread {
 	KeyboardInput keyboard;
 	SceneManager sceneManager;
