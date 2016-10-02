@@ -58,11 +58,10 @@ public class Renderer {
 			drawCharacter();
 			drawTexture(textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			drawLighting();
-			drawTexture(textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
-			if (sceneManager.settings.showDiag) drawDiagnostics();
 			if (!sceneManager.system.hideMouse) drawMouseSelection();
 			drawTexture(textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (sceneManager.system.isKeyboardBackpack) drawBackpack();
+			if (sceneManager.settings.showDiag) drawDiagnostics();
 			if (sceneManager.system.isKeyboardMenu) drawMenu();
 		}
 
