@@ -53,7 +53,7 @@ public class Renderer {
 			renderLaunchScreen();
 		} else {
 			drawTerrain();
-			//drawFootprints();
+			drawFootprints();
 			drawCharacterEffects();
 			drawCharacter();
 			drawTexture(textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
@@ -118,6 +118,30 @@ public class Renderer {
 		GL11.glVertex2f(x,y+height);
 		GL11.glEnd();
 	}
+	private void drawTexture(Texture texture, float x, float y, float width, float height, float angle) {
+		GL11.glPushMatrix();
+		float halfWidth = width/2f;
+		float halfHeight = height/2f;
+		GL11.glTranslatef(x+halfWidth,y+halfHeight, 0);
+		GL11.glRotatef( angle, 0, 0, 1 );
+		float paddingX = texture.getImageWidth();
+		paddingX /= nearestPower2(paddingX);
+		float paddingY = texture.getImageHeight();
+		paddingY /= nearestPower2(paddingY);
+		texture.bind();
+		GL11.glBegin(GL11.GL_QUADS);
+		GL11.glTexCoord2f(0,0);
+		GL11.glVertex2f(-halfWidth,-halfHeight);
+		GL11.glTexCoord2f(1*paddingX,0);
+		GL11.glVertex2f(+halfWidth,-halfHeight);
+		GL11.glTexCoord2f(1*paddingX,1*paddingY);
+		GL11.glVertex2f(+halfWidth,+halfHeight);
+		GL11.glTexCoord2f(0,1*paddingY);
+		GL11.glVertex2f(-halfWidth,+halfHeight);
+		GL11.glEnd();
+
+		GL11.glPopMatrix();
+	}
 	private float nearestPower2(float size) {
 		int i = 1;
 		for (; i < size; i *= 2);
@@ -164,25 +188,24 @@ public class Renderer {
 			xPos += sceneManager.settings.blockSize;
 		}
 	}
-	/*	private void drawFootprints() {
-	 * Color.white.bind();
+		private void drawFootprints() {
+	    Color.white.bind();
 		for (int i = 0; i < sceneManager.savable.footPrints.size(); i++) {
 			FootPrint fp = sceneManager.savable.footPrints.get(i);
 			double coordsOffsetX = sceneManager.savable.charX - Double.valueOf(sceneManager.settings.screenWidth) / 2.0 / Double.valueOf(sceneManager.settings.blockSize);
 			double coordsOffsetY = sceneManager.savable.charY - Double.valueOf(sceneManager.settings.screenHeight) / 2.0 / Double.valueOf(sceneManager.settings.blockSize);
 			int posX = (int)((fp.posX - coordsOffsetX)*sceneManager.settings.blockSize);
 			int posY = (int)((fp.posY - coordsOffsetY)*sceneManager.settings.blockSize);
-			g2.rotate(Math.PI / 4.0 * Double.valueOf(fp.direction) + Math.PI, posX, posY);
 			if (fp.opacity > 0.4) {
-				g2.drawImage(textureManager.getTexture("footsteps"), posX, posY, sceneManager.settings.blockSize / 3, (int)(sceneManager.settings.blockSize / 1.5), null);
+				drawTexture(textureManager.getTexture("footsteps"), posX - (float)sceneManager.settings.blockSize / 6f, posY - (float)sceneManager.settings.blockSize / 3f, (float)sceneManager.settings.blockSize / 3f, (float)sceneManager.settings.blockSize / 1.5f, 45f * Float.valueOf(fp.direction));
 			} else if (fp.opacity > 0.2) {
-				g2.drawImage(textureManager.getTexture("footsteps2"), posX, posY, sceneManager.settings.blockSize / 3, (int)(sceneManager.settings.blockSize / 1.5), null);
+				drawTexture(textureManager.getTexture("footsteps2"), posX - (float)sceneManager.settings.blockSize / 6f, posY - (float)sceneManager.settings.blockSize / 3f, (float)sceneManager.settings.blockSize / 3f, (float)sceneManager.settings.blockSize / 1.5f, 45f * Float.valueOf(fp.direction));
+
 			} else {
-				g2.drawImage(textureManager.getTexture("footsteps3"), posX, posY, sceneManager.settings.blockSize / 3, (int)(sceneManager.settings.blockSize / 1.5), null);
+				drawTexture(textureManager.getTexture("footsteps3"), posX - (float)sceneManager.settings.blockSize / 6f, posY - (float)sceneManager.settings.blockSize / 3f, (float)sceneManager.settings.blockSize / 3f, (float)sceneManager.settings.blockSize / 1.5f, 45f * Float.valueOf(fp.direction));
 			}
-			g2.rotate(-Math.PI / 4.0 * Double.valueOf(fp.direction) - Math.PI, posX, posY);
 		}
-	}*/
+	}
 	private void drawMouseSelection() {
 		Color.white.bind();
 		double coordsOffsetX = sceneManager.savable.charX - Double.valueOf(sceneManager.settings.screenWidth) / 2.0 / Double.valueOf(sceneManager.settings.blockSize);
