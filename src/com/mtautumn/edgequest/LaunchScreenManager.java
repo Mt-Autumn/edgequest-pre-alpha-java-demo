@@ -10,7 +10,7 @@ import org.newdawn.slick.util.ResourceLoader;
 
 
 public class LaunchScreenManager {
-	ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
+	public ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
 	SceneManager sceneManager;
 	public LaunchScreenManager(SceneManager scnMgr) {
 		sceneManager = scnMgr;
