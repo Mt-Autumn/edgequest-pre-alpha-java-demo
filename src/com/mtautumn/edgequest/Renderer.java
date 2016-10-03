@@ -2,10 +2,11 @@ package com.mtautumn.edgequest;
 
 import java.awt.Font;
 
+import static org.lwjgl.opengl.GL11.*;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
@@ -24,13 +25,13 @@ public class Renderer {
 		sceneManager = scnMgr;
 	}
 	public void fillRect(int x, int y, int width, int height, float r, float g, float b, float a) {
-		GL11.glColor4f (r,g,b,a);
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glVertex2f(x,y);
-		GL11.glVertex2f(x+width,y);
-		GL11.glVertex2f(x+width,y+height);
-		GL11.glVertex2f(x,y+height);
-		GL11.glEnd();
+		glColor4f (r,g,b,a);
+		glBegin(GL_QUADS);
+		glVertex2f(x,y);
+		glVertex2f(x+width,y);
+		glVertex2f(x+width,y+height);
+		glVertex2f(x,y+height);
+		glEnd();
 	}
 	public void loadManagers() {
 		textureManager = new TextureManager();
@@ -41,13 +42,13 @@ public class Renderer {
 	private double oldX = 800;
 	private double oldY = 600;
 	public void drawFrame() {
-		GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
+		glViewport(0, 0, Display.getWidth(), Display.getHeight());
 		if (oldX != sceneManager.settings.screenWidth || oldY != sceneManager.settings.screenHeight) {
-			GL11.glScaled(oldX/sceneManager.settings.screenWidth, oldY/sceneManager.settings.screenHeight, 1);
+			glScaled(oldX/sceneManager.settings.screenWidth, oldY/sceneManager.settings.screenHeight, 1);
 			oldX = sceneManager.settings.screenWidth;
 			oldY = sceneManager.settings.screenHeight;
 		}
-		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		if (sceneManager.system.isGameOnLaunchScreen) {
 			renderLaunchScreen();
@@ -83,23 +84,23 @@ public class Renderer {
 			e.printStackTrace();
 			System.exit(0);
 		}
-		GL11.glEnable(GL11.GL_TEXTURE_2D);               
+		glEnable(GL_TEXTURE_2D);               
 
-		GL11.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);          
-		GL11.glEnable(GL11.GL_COLOR_ARRAY);
-		GL11.glColorMask(true, true, true, true);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);          
+		glEnable(GL_COLOR_ARRAY);
+		glColorMask(true, true, true, true);
 
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		GL11.glViewport(0,0,width,height);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		glViewport(0,0,width,height);
+		glMatrixMode(GL_MODELVIEW);
 
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-		GL11.glOrtho(0, width, height, 0, 1, -1);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0, width, height, 0, 1, -1);
+		glMatrixMode(GL_MODELVIEW);
 	}
 	private void drawTexture(Texture texture, float x, float y, float width, float height) {
 		texture.bind();
@@ -107,40 +108,40 @@ public class Renderer {
 		paddingX /= nearestPower2(paddingX);
 		float paddingY = texture.getImageHeight();
 		paddingY /= nearestPower2(paddingY);
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0,0);
-		GL11.glVertex2f(x,y);
-		GL11.glTexCoord2f(1f*paddingX,0);
-		GL11.glVertex2f(x+width,y);
-		GL11.glTexCoord2f(1f*paddingX,1f*paddingY);
-		GL11.glVertex2f(x+width,y+height);
-		GL11.glTexCoord2f(0,1f*paddingY);
-		GL11.glVertex2f(x,y+height);
-		GL11.glEnd();
+		glBegin(GL_QUADS);
+		glTexCoord2f(0,0);
+		glVertex2f(x,y);
+		glTexCoord2f(1f*paddingX,0);
+		glVertex2f(x+width,y);
+		glTexCoord2f(1f*paddingX,1f*paddingY);
+		glVertex2f(x+width,y+height);
+		glTexCoord2f(0,1f*paddingY);
+		glVertex2f(x,y+height);
+		glEnd();
 	}
 	private void drawTexture(Texture texture, float x, float y, float width, float height, float angle) {
-		GL11.glPushMatrix();
+		glPushMatrix();
 		float halfWidth = width/2f;
 		float halfHeight = height/2f;
-		GL11.glTranslatef(x+halfWidth,y+halfHeight, 0);
-		GL11.glRotatef( angle, 0, 0, 1 );
+		glTranslatef(x+halfWidth,y+halfHeight, 0);
+		glRotatef( angle, 0, 0, 1 );
 		float paddingX = texture.getImageWidth();
 		paddingX /= nearestPower2(paddingX);
 		float paddingY = texture.getImageHeight();
 		paddingY /= nearestPower2(paddingY);
 		texture.bind();
-		GL11.glBegin(GL11.GL_QUADS);
-		GL11.glTexCoord2f(0,0);
-		GL11.glVertex2f(-halfWidth,-halfHeight);
-		GL11.glTexCoord2f(1*paddingX,0);
-		GL11.glVertex2f(+halfWidth,-halfHeight);
-		GL11.glTexCoord2f(1*paddingX,1*paddingY);
-		GL11.glVertex2f(+halfWidth,+halfHeight);
-		GL11.glTexCoord2f(0,1*paddingY);
-		GL11.glVertex2f(-halfWidth,+halfHeight);
-		GL11.glEnd();
+		glBegin(GL_QUADS);
+		glTexCoord2f(0,0);
+		glVertex2f(-halfWidth,-halfHeight);
+		glTexCoord2f(1*paddingX,0);
+		glVertex2f(+halfWidth,-halfHeight);
+		glTexCoord2f(1*paddingX,1*paddingY);
+		glVertex2f(+halfWidth,+halfHeight);
+		glTexCoord2f(0,1*paddingY);
+		glVertex2f(-halfWidth,+halfHeight);
+		glEnd();
 
-		GL11.glPopMatrix();
+		glPopMatrix();
 	}
 	private float nearestPower2(float size) {
 		int i = 1;

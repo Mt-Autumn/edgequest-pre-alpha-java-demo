@@ -3,15 +3,10 @@ package com.mtautumn.edgequest;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.nio.IntBuffer;
 
-import org.lwjgl.BufferUtils;
-import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
-import org.newdawn.slick.util.BufferedImageUtil;
 
 public class RendererManager extends Thread {
 	private static SceneManager sceneManager;
