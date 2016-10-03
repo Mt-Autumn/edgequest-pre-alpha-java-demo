@@ -10,73 +10,21 @@ import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 
-import com.mtautumn.edgequest.LaunchScreenManager;
-import com.mtautumn.edgequest.MenuButtonManager;
 import com.mtautumn.edgequest.SceneManager;
 import com.mtautumn.edgequest.TextureManager;
-
-import static com.mtautumn.edgequest.window.Layers.*;
+import com.mtautumn.edgequest.window.managers.LaunchScreenManager;
+import com.mtautumn.edgequest.window.managers.MenuButtonManager;
 
 public class Renderer {
-	SceneManager sceneManager;
-	MenuButtonManager menuButtonManager;
-	TextureManager textureManager;
-	LaunchScreenManager launchScreenManager;
+	public SceneManager sceneManager;
+	public MenuButtonManager menuButtonManager;
+	public TextureManager textureManager;
+	public LaunchScreenManager launchScreenManager;
 	Font awtFont = new Font("Arial", Font.BOLD, 12);
-	TrueTypeFont font;
+	public TrueTypeFont font;
 
 	public Renderer(SceneManager scnMgr) {
 		sceneManager = scnMgr;
-	}
-	public void fillRect(int x, int y, int width, int height, float r, float g, float b, float a) {
-		glColor4f (r,g,b,a);
-		glBegin(GL_QUADS);
-		glVertex2f(x,y);
-		glVertex2f(x+width,y);
-		glVertex2f(x+width,y+height);
-		glVertex2f(x,y+height);
-		glEnd();
-	}
-	public void loadManagers() {
-		textureManager = new TextureManager();
-		launchScreenManager = new LaunchScreenManager(sceneManager);
-		menuButtonManager = new MenuButtonManager(sceneManager);
-		font = new TrueTypeFont(awtFont, false);
-	}
-	private double oldX = 800;
-	private double oldY = 600;
-	public void drawFrame() {
-		glViewport(0, 0, Display.getWidth(), Display.getHeight());
-		if (oldX != sceneManager.settings.screenWidth || oldY != sceneManager.settings.screenHeight) {
-			glScaled(oldX/sceneManager.settings.screenWidth, oldY/sceneManager.settings.screenHeight, 1);
-			oldX = sceneManager.settings.screenWidth;
-			oldY = sceneManager.settings.screenHeight;
-		}
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		if (sceneManager.system.isGameOnLaunchScreen) {
-			drawLaunchScreen(this);
-		} else {
-			drawTerrain(this);
-			drawFootprints(this);
-			drawCharacterEffects(this);
-			drawCharacter(this);
-			drawTexture(textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
-			drawLighting(this);
-			if (!sceneManager.system.hideMouse) drawMouseSelection(this);
-			drawTexture(textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
-			if (sceneManager.system.isKeyboardBackpack) drawBackpack(this);
-			if (sceneManager.settings.showDiag) drawDiagnostics(this);
-			if (sceneManager.system.isKeyboardMenu) drawMenu(this);
-		}
-
-		Display.update();
-		Display.sync(100);
-
-		if (Display.isCloseRequested()) {
-			Display.destroy();
-			System.exit(0);
-		}
 	}
 	public void initGL(int width, int height) {
 		try {
@@ -106,7 +54,47 @@ public class Renderer {
 		glOrtho(0, width, height, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 	}
-	void drawTexture(Texture texture, float x, float y, float width, float height) {
+	public void loadManagers() {
+		textureManager = new TextureManager();
+		launchScreenManager = new LaunchScreenManager(sceneManager);
+		menuButtonManager = new MenuButtonManager(sceneManager);
+		font = new TrueTypeFont(awtFont, false);
+	}
+	
+	private double oldX = 800;
+	private double oldY = 600;
+	public void drawFrame() {
+		glViewport(0, 0, Display.getWidth(), Display.getHeight());
+		if (oldX != sceneManager.settings.screenWidth || oldY != sceneManager.settings.screenHeight) {
+			glScaled(oldX/sceneManager.settings.screenWidth, oldY/sceneManager.settings.screenHeight, 1);
+			oldX = sceneManager.settings.screenWidth;
+			oldY = sceneManager.settings.screenHeight;
+		}
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		Layers.draw(this);
+
+		Display.update();
+		Display.sync(100);
+
+		if (Display.isCloseRequested()) {
+			Display.destroy();
+			System.exit(0);
+		}
+	}
+	
+	
+	public void fillRect(int x, int y, int width, int height, float r, float g, float b, float a) {
+		glColor4f (r,g,b,a);
+		glBegin(GL_QUADS);
+		glVertex2f(x,y);
+		glVertex2f(x+width,y);
+		glVertex2f(x+width,y+height);
+		glVertex2f(x,y+height);
+		glEnd();
+	}
+	
+	public void drawTexture(Texture texture, float x, float y, float width, float height) {
 		texture.bind();
 		float paddingX = texture.getImageWidth();
 		paddingX /= nearestPower2(paddingX);
@@ -123,7 +111,7 @@ public class Renderer {
 		glVertex2f(x,y+height);
 		glEnd();
 	}
-	void drawTexture(Texture texture, float x, float y, float width, float height, float angle) {
+	public void drawTexture(Texture texture, float x, float y, float width, float height, float angle) {
 		glPushMatrix();
 		float halfWidth = width/2f;
 		float halfHeight = height/2f;
@@ -152,7 +140,9 @@ public class Renderer {
 		for (; i < size; i *= 2);
 		return i;
 	}
-	double[] getCharaterBlockInfo() {
+	
+	
+	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
 		int charX = (int) Math.floor(sceneManager.savable.charX);
 		int charY = (int) Math.floor(sceneManager.savable.charY);

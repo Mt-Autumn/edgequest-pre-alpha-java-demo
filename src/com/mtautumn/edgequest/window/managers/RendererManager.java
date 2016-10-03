@@ -1,4 +1,4 @@
-package com.mtautumn.edgequest.window;
+package com.mtautumn.edgequest.window.managers;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -12,6 +12,7 @@ import com.mtautumn.edgequest.CharacterManager;
 import com.mtautumn.edgequest.DefineBlockItems;
 import com.mtautumn.edgequest.KeyboardInput;
 import com.mtautumn.edgequest.SceneManager;
+import com.mtautumn.edgequest.window.Renderer;
 
 public class RendererManager extends Thread {
 	private static SceneManager sceneManager;

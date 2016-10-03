@@ -1,6 +1,6 @@
 package com.mtautumn.edgequest;
 
-import com.mtautumn.edgequest.window.RendererManager;
+import com.mtautumn.edgequest.window.managers.RendererManager;
 
 public class EdgeQuest {
 	public static SceneManager sceneManager = new SceneManager();
