@@ -1,13 +1,17 @@
 package com.mtautumn.edgequest;
 
-import java.awt.Cursor;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.image.BufferedImage;
+import java.nio.IntBuffer;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.input.Cursor;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.util.BufferedImageUtil;
 
 public class RendererManager extends Thread {
 	private static SceneManager sceneManager;
@@ -18,8 +22,6 @@ public class RendererManager extends Thread {
 	KeyboardInput keyboard = new KeyboardInput();
 	int[] lastXFPS = new int[5];
 	int tempFPS;
-	static Cursor blankCursor;
-	static Cursor defaultCursor;
 	static GraphicsDevice device = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getScreenDevices()[0];
 	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, CharacterManager cm) {
@@ -43,8 +45,6 @@ public class RendererManager extends Thread {
 		while (true) {
 			try {
 				updateWindowSize();
-				updateMouse();
-				updateKeys();
 				tempFPS = (int) (1000000000 / (System.nanoTime() - lastNanoTimeFPSGrabber));
 				lastNanoTimeFPSGrabber = System.nanoTime();
 				updateAverageFPS(tempFPS);
@@ -58,6 +58,8 @@ public class RendererManager extends Thread {
 					sceneManager.system.setWindowed = false;
 					sceneManager.settings.isFullScreen = false;
 				}
+				updateMouse();
+				updateKeys();
 				updateWindow();
 				lastNanoPause += (1.0/Double.valueOf(sceneManager.settings.targetFPS) - 1.0/Double.valueOf(sceneManager.system.averagedFPS)) * 50000000.0;
 				if (lastNanoPause < 0) lastNanoPause = 0;
@@ -97,34 +99,44 @@ public class RendererManager extends Thread {
 	}
 	private boolean wasMouseDown = false;
 	private void updateMouse() {
-		/*if (sceneManager.system.hideMouse) {
-			if (window.getContentPane().getCursor() != blankCursor) window.getContentPane().setCursor(blankCursor);
-		} else {
-			if (window.getContentPane().getCursor() != defaultCursor) window.getContentPane().setCursor(defaultCursor);
-		}*/
-		Mouse.poll();
-			sceneManager.system.mousePosition = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
-			int mouseX = sceneManager.system.mousePosition.x;
-			int mouseY = sceneManager.system.mousePosition.y;
-			double offsetX = (sceneManager.savable.charX * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenWidth) / 2.0);
-			double offsetY = (sceneManager.savable.charY * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenHeight) / 2.0);
-			sceneManager.system.mouseX = (int) Math.floor((offsetX + sceneManager.system.mousePosition.getX())/Double.valueOf(sceneManager.settings.blockSize));
-			sceneManager.system.mouseY = (int) Math.floor((offsetY + sceneManager.system.mousePosition.getY())/Double.valueOf(sceneManager.settings.blockSize));
-			sceneManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(sceneManager.system.mouseX) - Math.floor(sceneManager.savable.charX), 2.0)+Math.pow(Double.valueOf(sceneManager.system.mouseY) - Math.floor(sceneManager.savable.charY), 2.0)) > 3.0);
-			if (Mouse.isButtonDown(0) && !wasMouseDown) {
-				sceneManager.system.autoWalk = false;
-				if (sceneManager.system.isKeyboardMenu) {
-					Renderer.menuButtonManager.buttonPressed(mouseX, mouseY);
-				} else if (sceneManager.system.isGameOnLaunchScreen) {
-					Renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
-				} else if (sceneManager.system.isKeyboardSprint && !sceneManager.system.hideMouse){
-					sceneManager.system.autoWalkX = sceneManager.system.mouseX;
-					sceneManager.system.autoWalkY = sceneManager.system.mouseY;
-					sceneManager.system.autoWalk = true;
+		try {
+			if (sceneManager.system.hideMouse) {
+				if (!Mouse.isGrabbed()) {
+					Mouse.setGrabbed(true);
 				}
-				
+			} else {
+				if (Mouse.isGrabbed()) {
+					Mouse.setGrabbed(false);
+					Mouse.setCursorPosition(sceneManager.system.mousePosition.x, sceneManager.system.mousePosition.y);
+					Mouse.updateCursor();
+				}
 			}
-			wasMouseDown = Mouse.isButtonDown(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Mouse.poll();
+		sceneManager.system.mousePosition = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
+		int mouseX = sceneManager.system.mousePosition.x;
+		int mouseY = sceneManager.system.mousePosition.y;
+		double offsetX = (sceneManager.savable.charX * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenWidth) / 2.0);
+		double offsetY = (sceneManager.savable.charY * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenHeight) / 2.0);
+		sceneManager.system.mouseX = (int) Math.floor((offsetX + sceneManager.system.mousePosition.getX())/Double.valueOf(sceneManager.settings.blockSize));
+		sceneManager.system.mouseY = (int) Math.floor((offsetY + sceneManager.system.mousePosition.getY())/Double.valueOf(sceneManager.settings.blockSize));
+		sceneManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(sceneManager.system.mouseX) - Math.floor(sceneManager.savable.charX), 2.0)+Math.pow(Double.valueOf(sceneManager.system.mouseY) - Math.floor(sceneManager.savable.charY), 2.0)) > 3.0);
+		if (Mouse.isButtonDown(0) && !wasMouseDown) {
+			sceneManager.system.autoWalk = false;
+			if (sceneManager.system.isKeyboardMenu) {
+				Renderer.menuButtonManager.buttonPressed(mouseX, mouseY);
+			} else if (sceneManager.system.isGameOnLaunchScreen) {
+				Renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
+			} else if (sceneManager.system.isKeyboardSprint && !sceneManager.system.hideMouse){
+				sceneManager.system.autoWalkX = sceneManager.system.mouseX;
+				sceneManager.system.autoWalkY = sceneManager.system.mouseY;
+				sceneManager.system.autoWalk = true;
+			}
+
+		}
+		wasMouseDown = Mouse.isButtonDown(0);
 	}
 	private static void findViewDimensions() {
 		if (sceneManager.system.characterMoving || sceneManager.system.blockGenerationLastTick) {
@@ -193,7 +205,7 @@ public class RendererManager extends Thread {
 				if (keyBackpack && !wasKeyDown[sceneManager.settings.backpackKey]) {
 					sceneManager.system.isKeyboardBackpack = !sceneManager.system.isKeyboardBackpack;
 				}
-				
+
 				wasKeyDown[sceneManager.settings.menuKey] = keyMenu;
 				wasKeyDown[sceneManager.settings.backpackKey] = keyBackpack;
 				wasKeyDown[sceneManager.settings.zoomInKey] = keyZoomIn;
