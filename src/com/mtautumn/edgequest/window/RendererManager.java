@@ -1,4 +1,4 @@
-package com.mtautumn.edgequest;
+package com.mtautumn.edgequest.window;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -7,6 +7,11 @@ import java.awt.Point;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+
+import com.mtautumn.edgequest.CharacterManager;
+import com.mtautumn.edgequest.DefineBlockItems;
+import com.mtautumn.edgequest.KeyboardInput;
+import com.mtautumn.edgequest.SceneManager;
 
 public class RendererManager extends Thread {
 	private static SceneManager sceneManager;
@@ -121,9 +126,9 @@ public class RendererManager extends Thread {
 		if (Mouse.isButtonDown(0) && !wasMouseDown) {
 			sceneManager.system.autoWalk = false;
 			if (sceneManager.system.isKeyboardMenu) {
-				Renderer.menuButtonManager.buttonPressed(mouseX, mouseY);
+				renderer.menuButtonManager.buttonPressed(mouseX, mouseY);
 			} else if (sceneManager.system.isGameOnLaunchScreen) {
-				Renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
+				renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
 			} else if (sceneManager.system.isKeyboardSprint && !sceneManager.system.hideMouse){
 				sceneManager.system.autoWalkX = sceneManager.system.mouseX;
 				sceneManager.system.autoWalkY = sceneManager.system.mouseY;

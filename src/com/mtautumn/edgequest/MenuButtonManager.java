@@ -10,7 +10,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
 public class MenuButtonManager {
-	ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
+	public ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
 	SceneManager sceneManager;
 	public MenuButtonManager(SceneManager scnMgr) {
 		sceneManager = scnMgr;
