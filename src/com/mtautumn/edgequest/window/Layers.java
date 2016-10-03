@@ -22,6 +22,7 @@ public class Layers {
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.sceneManager.settings.showDiag) DiagnosticsWindow.draw(r);
 		}
+		OptionPane.draw(r);
 	}
 	
 }

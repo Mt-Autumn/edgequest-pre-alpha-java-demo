@@ -35,6 +35,8 @@ public class TextureManager {
 		addTexture("waterSplash", new int[]{0,1,2});
 		textureAnimations.put("waterSplash", new int[]{0,0,1,1,2,2});
 		addTexture("windowed");
+		addTexture("optionPane");
+		addTexture("inputField");
 	}
 	public Texture getTexture(String texture) {
 			return textureList.get(texture);

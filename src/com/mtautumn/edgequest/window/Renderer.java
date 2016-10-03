@@ -21,7 +21,9 @@ public class Renderer {
 	public TextureManager textureManager;
 	public LaunchScreenManager launchScreenManager;
 	Font awtFont = new Font("Arial", Font.BOLD, 12);
+	Font awtFont2 = new Font("Helvetica", Font.PLAIN, 36);
 	public TrueTypeFont font;
+	public TrueTypeFont font2;
 
 	public Renderer(SceneManager scnMgr) {
 		sceneManager = scnMgr;
@@ -59,6 +61,7 @@ public class Renderer {
 		launchScreenManager = new LaunchScreenManager(sceneManager);
 		menuButtonManager = new MenuButtonManager(sceneManager);
 		font = new TrueTypeFont(awtFont, false);
+		font2 = new TrueTypeFont(awtFont2, false);
 	}
 	
 	private double oldX = 800;
