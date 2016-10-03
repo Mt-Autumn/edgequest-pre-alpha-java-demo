@@ -20,15 +20,15 @@ public class RendererManager extends Thread {
 	private static CharacterManager characterManager;
 
 
-	KeyboardInput keyboard = new KeyboardInput();
+	KeyboardInput keyboard;
 	int[] lastXFPS = new int[5];
 	int tempFPS;
 	static GraphicsDevice device = GraphicsEnvironment
 			.getLocalGraphicsEnvironment().getScreenDevices()[0];
-	public RendererManager(SceneManager scnMgr, KeyboardInput kybd, CharacterManager cm) {
+	public RendererManager(SceneManager scnMgr, CharacterManager cm) {
 		sceneManager = scnMgr;
-		keyboard = kybd;
 		characterManager = cm;
+		keyboard = new KeyboardInput(sceneManager);
 		renderer = new Renderer(sceneManager);
 	}
 	public void run() {
@@ -150,69 +150,73 @@ public class RendererManager extends Thread {
 		}
 	}
 	private static boolean[] wasKeyDown = new boolean[256];
-	public static void updateKeys() {
+	public void updateKeys() {
 		try {
-			if (!sceneManager.system.isGameOnLaunchScreen) {
-				Keyboard.poll();
-				boolean keyUp = Keyboard.isKeyDown(sceneManager.settings.upKey);
-				boolean keyDown = Keyboard.isKeyDown(sceneManager.settings.downKey);
-				boolean keyLeft = Keyboard.isKeyDown(sceneManager.settings.leftKey);
-				boolean keyRight = Keyboard.isKeyDown(sceneManager.settings.rightKey);
-				boolean keySprint = Keyboard.isKeyDown(sceneManager.settings.sprintKey);
-				boolean keyMenu = Keyboard.isKeyDown(sceneManager.settings.menuKey);
-				boolean keyBackpack = Keyboard.isKeyDown(sceneManager.settings.backpackKey);
-				boolean keyZoomIn = Keyboard.isKeyDown(sceneManager.settings.zoomInKey);
-				boolean keyZoomOut = Keyboard.isKeyDown(sceneManager.settings.zoomOutKey);
-				boolean keyShowDiag = Keyboard.isKeyDown(sceneManager.settings.showDiagKey);
-				boolean keyPlaceTorch = Keyboard.isKeyDown(sceneManager.settings.placeTorchKey);
-				if (!sceneManager.system.autoWalk) {
-					sceneManager.system.isKeyboardUp = keyUp;
-					sceneManager.system.isKeyboardRight = keyRight;
-					sceneManager.system.isKeyboardDown = keyDown;
-					sceneManager.system.isKeyboardLeft = keyLeft;
-					sceneManager.system.isKeyboardSprint = keySprint;
-					if (keyUp || keyDown || keyLeft || keyRight) {
-						sceneManager.system.hideMouse = true;
+			if (sceneManager.system.inputText.size() + sceneManager.system.noticeText.size() > 0) {
+				keyboard.poll();
+			} else {
+				if (!sceneManager.system.isGameOnLaunchScreen) {
+					Keyboard.poll();
+					boolean keyUp = Keyboard.isKeyDown(sceneManager.settings.upKey);
+					boolean keyDown = Keyboard.isKeyDown(sceneManager.settings.downKey);
+					boolean keyLeft = Keyboard.isKeyDown(sceneManager.settings.leftKey);
+					boolean keyRight = Keyboard.isKeyDown(sceneManager.settings.rightKey);
+					boolean keySprint = Keyboard.isKeyDown(sceneManager.settings.sprintKey);
+					boolean keyMenu = Keyboard.isKeyDown(sceneManager.settings.menuKey);
+					boolean keyBackpack = Keyboard.isKeyDown(sceneManager.settings.backpackKey);
+					boolean keyZoomIn = Keyboard.isKeyDown(sceneManager.settings.zoomInKey);
+					boolean keyZoomOut = Keyboard.isKeyDown(sceneManager.settings.zoomOutKey);
+					boolean keyShowDiag = Keyboard.isKeyDown(sceneManager.settings.showDiagKey);
+					boolean keyPlaceTorch = Keyboard.isKeyDown(sceneManager.settings.placeTorchKey);
+					if (!sceneManager.system.autoWalk) {
+						sceneManager.system.isKeyboardUp = keyUp;
+						sceneManager.system.isKeyboardRight = keyRight;
+						sceneManager.system.isKeyboardDown = keyDown;
+						sceneManager.system.isKeyboardLeft = keyLeft;
+						sceneManager.system.isKeyboardSprint = keySprint;
+						if (keyUp || keyDown || keyLeft || keyRight) {
+							sceneManager.system.hideMouse = true;
+						} else {
+							sceneManager.system.hideMouse = false;
+						}
 					} else {
-						sceneManager.system.hideMouse = false;
+						if (keyUp || keyDown || keyRight || keyLeft) {
+							sceneManager.system.autoWalk = false;
+						}
 					}
-				} else {
-					if (keyUp || keyDown || keyRight || keyLeft) {
-						sceneManager.system.autoWalk = false;
+					if (keyZoomIn && !wasKeyDown[sceneManager.settings.zoomInKey]) {
+						if (sceneManager.settings.blockSize < 128) {
+							sceneManager.settings.blockSize *= 2;
+							sceneManager.system.blockGenerationLastTick = true;
+						}
 					}
-				}
-				if (keyZoomIn && !wasKeyDown[sceneManager.settings.zoomInKey]) {
-					if (sceneManager.settings.blockSize < 128) {
-						sceneManager.settings.blockSize *= 2;
-						sceneManager.system.blockGenerationLastTick = true;
+					if (keyZoomOut && !wasKeyDown[sceneManager.settings.zoomOutKey]) {
+						if (sceneManager.settings.blockSize > 1) {
+							sceneManager.settings.blockSize /= 2;
+							sceneManager.system.blockGenerationLastTick = true;
+						}	
 					}
-				}
-				if (keyZoomOut && !wasKeyDown[sceneManager.settings.zoomOutKey]) {
-					if (sceneManager.settings.blockSize > 1) {
-						sceneManager.settings.blockSize /= 2;
-						sceneManager.system.blockGenerationLastTick = true;
-					}	
-				}
-				if (keyShowDiag && !wasKeyDown[sceneManager.settings.showDiagKey]) {
-					sceneManager.settings.showDiag = !sceneManager.settings.showDiag;
-				}
-				if (keyMenu && !wasKeyDown[sceneManager.settings.menuKey]) {
-					sceneManager.system.isKeyboardMenu = !sceneManager.system.isKeyboardMenu;
-				}
-				if (keyPlaceTorch && !wasKeyDown[sceneManager.settings.placeTorchKey]) {
-					characterManager.charPlaceTorch();
+					if (keyShowDiag && !wasKeyDown[sceneManager.settings.showDiagKey]) {
+						sceneManager.settings.showDiag = !sceneManager.settings.showDiag;
+					}
+					if (keyMenu && !wasKeyDown[sceneManager.settings.menuKey]) {
+						sceneManager.system.isKeyboardMenu = !sceneManager.system.isKeyboardMenu;
+					}
+					if (keyPlaceTorch && !wasKeyDown[sceneManager.settings.placeTorchKey]) {
+						characterManager.charPlaceTorch();
 
-				}
-				if (keyBackpack && !wasKeyDown[sceneManager.settings.backpackKey]) {
-					sceneManager.system.isKeyboardBackpack = !sceneManager.system.isKeyboardBackpack;
-				}
+					}
+					if (keyBackpack && !wasKeyDown[sceneManager.settings.backpackKey]) {
+						sceneManager.system.isKeyboardBackpack = !sceneManager.system.isKeyboardBackpack;
+					}
 
-				wasKeyDown[sceneManager.settings.menuKey] = keyMenu;
-				wasKeyDown[sceneManager.settings.backpackKey] = keyBackpack;
-				wasKeyDown[sceneManager.settings.zoomInKey] = keyZoomIn;
-				wasKeyDown[sceneManager.settings.zoomOutKey] = keyZoomOut;
-				wasKeyDown[sceneManager.settings.showDiagKey] = keyShowDiag;
-				wasKeyDown[sceneManager.settings.placeTorchKey] = keyPlaceTorch;
+					wasKeyDown[sceneManager.settings.menuKey] = keyMenu;
+					wasKeyDown[sceneManager.settings.backpackKey] = keyBackpack;
+					wasKeyDown[sceneManager.settings.zoomInKey] = keyZoomIn;
+					wasKeyDown[sceneManager.settings.zoomOutKey] = keyZoomOut;
+					wasKeyDown[sceneManager.settings.showDiagKey] = keyShowDiag;
+					wasKeyDown[sceneManager.settings.placeTorchKey] = keyPlaceTorch;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -29,39 +29,7 @@ public class LaunchScreenManager {
 		}
 	}
 	private void runButtonAction(int id) {
-		switch (id) {
-		case 1: //New Game
-			String ans2 = JOptionPane.showInputDialog("Type Seed Number:");
-			try {
-				long seed = Long.parseLong(ans2);
-				sceneManager.savable.seed = seed;
-				sceneManager.system.biomeMap.clear();
-				sceneManager.savable.biomeMapFiltered.clear();
-				sceneManager.savable.playerStructuresMap.clear();
-				sceneManager.savable.map.clear();
-				sceneManager.savable.lightMap.clear();
-				sceneManager.savable.footPrints.clear();
-				sceneManager.system.blockGenerationLastTick = true;
-				sceneManager.system.isGameOnLaunchScreen = false;
-				sceneManager.system.isLaunchScreenLoaded = false;
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Seed needs to be an whole number");
-			}
-			break;
-		case 2: //load game
-			String fileLoadName = JOptionPane.showInputDialog("FileName:");
-			try {
-				GameSaves.loadGame(fileLoadName, sceneManager);
-				sceneManager.system.isGameOnLaunchScreen = false;
-				sceneManager.system.isLaunchScreenLoaded = false;
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Unable to load game");
-				e.printStackTrace();
-			}
-			break;
-		default:
-			break;
-		}
+		sceneManager.system.buttonActionQueue.add(id);
 	}
 	public class MenuButton {
 		public int posX = 0;

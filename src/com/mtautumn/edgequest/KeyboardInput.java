@@ -1,50 +1,27 @@
 package com.mtautumn.edgequest;
 
-import java.awt.event.KeyEvent;
+import org.lwjgl.input.Keyboard;
 
-import java.awt.event.KeyListener;
+import com.mtautumn.edgequest.window.layers.OptionPane;
 
-
-
-public class KeyboardInput implements KeyListener {
-
-
-
-	private static final int KEY_COUNT = 256;
-
-
+public class KeyboardInput {
+	SceneManager sceneManager;
 
 	private enum KeyState {
 
-		RELEASED, // Not down
-
-		PRESSED,  // Down, but not the first time
-
-		ONCE      // Down for the first time
+		RELEASED,
+		PRESSED,
+		ONCE
 
 	}
 
-
-
-	// Current state of the keyboard
-
-	private boolean[] currentKeys = null;
-
-
-
-	// Polled keyboard state
-
 	private KeyState[] keys = null;
 
+	public KeyboardInput(SceneManager sceneManager) {
+		this.sceneManager = sceneManager;
+		keys = new KeyState[ Keyboard.KEYBOARD_SIZE ];
 
-
-	public KeyboardInput() {
-
-		currentKeys = new boolean[ KEY_COUNT ];
-
-		keys = new KeyState[ KEY_COUNT ];
-
-		for( int i = 0; i < KEY_COUNT; ++i ) {
+		for( int i = 0; i < Keyboard.KEYBOARD_SIZE; ++i ) {
 
 			keys[ i ] = KeyState.RELEASED;
 
@@ -52,92 +29,111 @@ public class KeyboardInput implements KeyListener {
 
 	}
 
-
-
 	public synchronized void poll() {
-
-		for( int i = 0; i < KEY_COUNT; ++i ) {
-
-			// Set the key state 
-
-			if( currentKeys[ i ] ) {
-
-				// If the key is down now, but was not
-
-				// down last frame, set it to ONCE,
-
-				// otherwise, set it to PRESSED
-
-				if( keys[ i ] == KeyState.RELEASED )
-
-					keys[ i ] = KeyState.ONCE;
-
-				else
-
-					keys[ i ] = KeyState.PRESSED;
-
+		Keyboard.poll();
+		for( int i = 0; i < Keyboard.KEYBOARD_SIZE; ++i ) {
+			if (Keyboard.isKeyDown(i)) {
+				if (keys[i] == KeyState.ONCE) {
+					keys[i] = KeyState.PRESSED;
+				} else if (keys[i] == KeyState.RELEASED) {
+					keys[i] = KeyState.ONCE;
+					if (sceneManager.system.inputTextResponse.size() != 0 ) {						
+						String inputResponse = 	sceneManager.system.inputTextResponse.get(sceneManager.system.inputTextResponse.size() - 1);
+						if (Keyboard.getKeyName(i).equals("BACK") || Keyboard.getKeyName(i).equals("DELETE")) {
+							inputResponse = delete(inputResponse);
+						}
+						sceneManager.system.inputTextResponse.set(sceneManager.system.inputTextResponse.size() - 1, inputResponse + getKeyString(Keyboard.getKeyName(i)));
+					}
+					if (Keyboard.getKeyName(i).equals("RETURN") || Keyboard.getKeyName(i).equals("ENTER")) {
+						OptionPane.closeOptionPane(sceneManager);
+					}
+				}
 			} else {
-
-				keys[ i ] = KeyState.RELEASED;
-
+				keys[i] = KeyState.RELEASED;
 			}
 
 		}
 
 	}
 
-
-
-	public boolean keyDown( int keyCode ) {
-
-		return keys[ keyCode ] == KeyState.ONCE ||
-
-				keys[ keyCode ] == KeyState.PRESSED;
-
+	public boolean isKeyDown( int keyCode ) {
+		return keys[ keyCode ] == KeyState.ONCE || keys[ keyCode ] == KeyState.PRESSED;
 	}
 
 
 
-	public boolean keyDownOnce( int keyCode ) {
-
+	public boolean isKeyDownOnce( int keyCode ) {
 		return keys[ keyCode ] == KeyState.ONCE;
-
 	}
 
-
-
-	public synchronized void keyPressed( KeyEvent e ) {
-
-		int keyCode = e.getKeyCode();
-
-		if( keyCode >= 0 && keyCode < KEY_COUNT ) {
-
-			currentKeys[ keyCode ] = true;
-
+	private String getKeyString(String keyName) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
+			if (keyName.length() == 1) {
+				return keyName;
+			}
+			switch (keyName) {
+			case "SPACE":
+				return " ";
+			case "PERIOD":
+				return ">";
+			case "SEMICOLON":
+				return ":";
+			case "EQUALS":
+				return "+";
+			case "MINUS":
+				return "_";
+			case "LBRACKET":
+				return "{";
+			case "RBRACKET":
+				return "}";
+			case "BACKSLASH":
+				return "|";
+			case "APOSTROPHE":
+				return "\"";
+			case "COMMA":
+				return "<";
+			case "SLASH":
+				return "?";
+			default:
+				return "";
+			}
+		} else {
+			if (keyName.length() == 1) {
+				return keyName.toLowerCase();
+			}
+			switch (keyName) {
+			case "SPACE":
+				return " ";
+			case "PERIOD":
+				return ".";
+			case "SEMICOLON":
+				return ";";
+			case "EQUALS":
+				return "=";
+			case "MINUS":
+				return "-";
+			case "LBRACKET":
+				return "[";
+			case "RBRACKET":
+				return "]";
+			case "BACKSLASH":
+				return "\\";
+			case "APOSTROPHE":
+				return "'";
+			case "COMMA":
+				return ",";
+			case "SLASH":
+				return "/";
+			default:
+				return "";
+			}
 		}
-
 	}
-
-
-
-	public synchronized void keyReleased( KeyEvent e ) {
-
-		int keyCode = e.getKeyCode();
-
-		if( keyCode >= 0 && keyCode < KEY_COUNT ) {
-
-			currentKeys[ keyCode ] = false;
-
+	public String delete(String str) {
+		if (str != null && str.length() > 0) {
+			str = str.substring(0, str.length()-1);
 		}
-
-	}
-
-
-
-	public void keyTyped( KeyEvent e ) {
-
-		// Not needed
-
+		return str;
 	}
 
 }

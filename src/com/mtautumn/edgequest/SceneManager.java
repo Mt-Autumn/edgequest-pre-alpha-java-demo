@@ -1,6 +1,7 @@
 package com.mtautumn.edgequest;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,8 +11,14 @@ public class SceneManager {
 	public System system = new System();
 	public Savable savable = new Savable();
 	public Settings settings = new Settings();
+	public ButtonActionManager buttonActionManager = new ButtonActionManager(this);
 
 	public class System{
+		public ArrayList<String> inputText = new ArrayList<String>();
+		public ArrayList<String> inputTextResponse = new ArrayList<String>();
+		public ArrayList<String> noticeText = new ArrayList<String>();
+		public ArrayList<Integer> buttonActionQueue = new ArrayList<Integer>();
+		public String lastInputMessage = "";
 		public boolean isKeyboardUp = false;
 		public boolean isKeyboardRight = false;
 		public boolean isKeyboardDown = false;
