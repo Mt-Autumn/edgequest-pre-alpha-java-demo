@@ -11,7 +11,6 @@ public class SceneManager {
 	public System system = new System();
 	public Savable savable = new Savable();
 	public Settings settings = new Settings();
-	public ButtonActionManager buttonActionManager = new ButtonActionManager(this);
 
 	public class System{
 		public ArrayList<String> inputText = new ArrayList<String>();

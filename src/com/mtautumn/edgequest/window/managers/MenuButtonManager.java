@@ -1,15 +1,11 @@
 package com.mtautumn.edgequest.window.managers;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import com.mtautumn.edgequest.GameSaves;
 import com.mtautumn.edgequest.SceneManager;
 
 public class MenuButtonManager {
