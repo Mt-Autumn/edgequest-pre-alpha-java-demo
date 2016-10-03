@@ -13,6 +13,7 @@ import com.mtautumn.edgequest.DefineBlockItems;
 import com.mtautumn.edgequest.KeyboardInput;
 import com.mtautumn.edgequest.SceneManager;
 import com.mtautumn.edgequest.window.Renderer;
+import com.mtautumn.edgequest.window.layers.OptionPane;
 
 public class RendererManager extends Thread {
 	private static SceneManager sceneManager;
@@ -116,26 +117,31 @@ public class RendererManager extends Thread {
 			e.printStackTrace();
 		}
 		Mouse.poll();
-		sceneManager.system.mousePosition = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
-		int mouseX = sceneManager.system.mousePosition.x;
-		int mouseY = sceneManager.system.mousePosition.y;
-		double offsetX = (sceneManager.savable.charX * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenWidth) / 2.0);
-		double offsetY = (sceneManager.savable.charY * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenHeight) / 2.0);
-		sceneManager.system.mouseX = (int) Math.floor((offsetX + sceneManager.system.mousePosition.getX())/Double.valueOf(sceneManager.settings.blockSize));
-		sceneManager.system.mouseY = (int) Math.floor((offsetY + sceneManager.system.mousePosition.getY())/Double.valueOf(sceneManager.settings.blockSize));
-		sceneManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(sceneManager.system.mouseX) - Math.floor(sceneManager.savable.charX), 2.0)+Math.pow(Double.valueOf(sceneManager.system.mouseY) - Math.floor(sceneManager.savable.charY), 2.0)) > 3.0);
-		if (Mouse.isButtonDown(0) && !wasMouseDown) {
-			sceneManager.system.autoWalk = false;
-			if (sceneManager.system.isKeyboardMenu) {
-				renderer.menuButtonManager.buttonPressed(mouseX, mouseY);
-			} else if (sceneManager.system.isGameOnLaunchScreen) {
-				renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
-			} else if (sceneManager.system.isKeyboardSprint && !sceneManager.system.hideMouse){
-				sceneManager.system.autoWalkX = sceneManager.system.mouseX;
-				sceneManager.system.autoWalkY = sceneManager.system.mouseY;
-				sceneManager.system.autoWalk = true;
+		if (sceneManager.system.inputText.size() + sceneManager.system.noticeText.size() > 0) {
+			if (Mouse.isButtonDown(0) && !wasMouseDown) {
+				OptionPane.closeOptionPane(sceneManager);
 			}
-
+		} else {
+			sceneManager.system.mousePosition = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
+			int mouseX = sceneManager.system.mousePosition.x;
+			int mouseY = sceneManager.system.mousePosition.y;
+			double offsetX = (sceneManager.savable.charX * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenWidth) / 2.0);
+			double offsetY = (sceneManager.savable.charY * Double.valueOf(sceneManager.settings.blockSize) - Double.valueOf(sceneManager.settings.screenHeight) / 2.0);
+			sceneManager.system.mouseX = (int) Math.floor((offsetX + sceneManager.system.mousePosition.getX())/Double.valueOf(sceneManager.settings.blockSize));
+			sceneManager.system.mouseY = (int) Math.floor((offsetY + sceneManager.system.mousePosition.getY())/Double.valueOf(sceneManager.settings.blockSize));
+			sceneManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(sceneManager.system.mouseX) - Math.floor(sceneManager.savable.charX), 2.0)+Math.pow(Double.valueOf(sceneManager.system.mouseY) - Math.floor(sceneManager.savable.charY), 2.0)) > 3.0);
+			if (Mouse.isButtonDown(0) && !wasMouseDown) {
+				sceneManager.system.autoWalk = false;
+				if (sceneManager.system.isKeyboardMenu) {
+					renderer.menuButtonManager.buttonPressed(mouseX, mouseY);
+				} else if (sceneManager.system.isGameOnLaunchScreen) {
+					renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
+				} else if (sceneManager.system.isKeyboardSprint && !sceneManager.system.hideMouse){
+					sceneManager.system.autoWalkX = sceneManager.system.mouseX;
+					sceneManager.system.autoWalkY = sceneManager.system.mouseY;
+					sceneManager.system.autoWalk = true;
+				}
+			}
 		}
 		wasMouseDown = Mouse.isButtonDown(0);
 	}
