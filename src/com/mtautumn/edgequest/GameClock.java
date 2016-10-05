@@ -1,27 +1,29 @@
 package com.mtautumn.edgequest;
 
+import com.mtautumn.edgequest.data.DataManager;
+
 public class GameClock extends Thread {
-	SceneManager sceneManager;
-	public GameClock(SceneManager scnMgr) {
-		sceneManager = scnMgr;
+	DataManager dataManager;
+	public GameClock(DataManager dataManager) {
+		this.dataManager = dataManager;
 	}
 	public void run() {
 		while(true) {
 			try {
-				if (!sceneManager.system.isGameOnLaunchScreen) {
-					if (sceneManager.savable.time < 2399) {
-						sceneManager.savable.time++;
+				if (!dataManager.system.isGameOnLaunchScreen) {
+					if (dataManager.savable.time < 2399) {
+						dataManager.savable.time++;
 					} else {
-						sceneManager.savable.time = 0;
+						dataManager.savable.time = 0;
 					}
-					int hours = (int) Math.floor(sceneManager.savable.time / 100) % 12;
-					int minutes = (int) Math.round(Double.valueOf(sceneManager.savable.time % 100) * 0.05);
+					int hours = (int) Math.floor(dataManager.savable.time / 100) % 12;
+					int minutes = (int) Math.round(Double.valueOf(dataManager.savable.time % 100) * 0.05);
 					if (hours == 0) hours = 12;
 
-					if (sceneManager.savable.time < 1200) {
-						sceneManager.system.timeReadable = "" + hours + ":" + minutes + "0 AM";
+					if (dataManager.savable.time < 1200) {
+						dataManager.system.timeReadable = "" + hours + ":" + minutes + "0 AM";
 					} else {
-						sceneManager.system.timeReadable = "" + hours + ":" + minutes + "0 PM";
+						dataManager.system.timeReadable = "" + hours + ":" + minutes + "0 PM";
 					}
 				}
 				Thread.sleep(250);

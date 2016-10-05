@@ -6,13 +6,13 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import com.mtautumn.edgequest.SceneManager;
+import com.mtautumn.edgequest.data.DataManager;
 
 public class MenuButtonManager {
 	public ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
-	SceneManager sceneManager;
-	public MenuButtonManager(SceneManager scnMgr) {
-		sceneManager = scnMgr;
+	DataManager dataManager;
+	public MenuButtonManager(DataManager dataManager) {
+		this.dataManager = dataManager;
 		//buttonIDArray.add(new MenuButton(3,50,100,197,73,"setFPS"));
 		buttonIDArray.add(new MenuButton(1,50,100,197,73,"newGame"));
 		buttonIDArray.add(new MenuButton(4,50,230,197,73,"saveGame"));
@@ -21,8 +21,8 @@ public class MenuButtonManager {
 	}
 
 	public void buttonPressed(int posX, int posY) {
-		int adjustedX = posX - sceneManager.system.menuX;
-		int adjustedY = posY - sceneManager.system.menuY;
+		int adjustedX = posX - dataManager.system.menuX;
+		int adjustedY = posY - dataManager.system.menuY;
 		for (int i = 0; i < buttonIDArray.size(); i++) {
 			MenuButton button = buttonIDArray.get(i);
 			if (adjustedX > button.posX && adjustedX < button.posX + button.width && adjustedY > button.posY && adjustedY < button.posY + button.height) {
@@ -31,7 +31,7 @@ public class MenuButtonManager {
 		}
 	}
 	private void runButtonAction(int id) {
-		sceneManager.system.buttonActionQueue.add(id);
+		dataManager.system.buttonActionQueue.add(id);
 	}
 	public class MenuButton {
 		public int posX = 0;

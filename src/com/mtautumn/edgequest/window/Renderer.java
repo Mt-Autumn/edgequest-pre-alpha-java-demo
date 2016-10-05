@@ -10,13 +10,13 @@ import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 
-import com.mtautumn.edgequest.SceneManager;
 import com.mtautumn.edgequest.TextureManager;
+import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.managers.LaunchScreenManager;
 import com.mtautumn.edgequest.window.managers.MenuButtonManager;
 
 public class Renderer {
-	public SceneManager sceneManager;
+	public DataManager dataManager;
 	public MenuButtonManager menuButtonManager;
 	public TextureManager textureManager;
 	public LaunchScreenManager launchScreenManager;
@@ -25,8 +25,8 @@ public class Renderer {
 	public TrueTypeFont font;
 	public TrueTypeFont font2;
 
-	public Renderer(SceneManager scnMgr) {
-		sceneManager = scnMgr;
+	public Renderer(DataManager dataManager) {
+		this.dataManager = dataManager;
 	}
 	public void initGL(int width, int height) {
 		try {
@@ -58,8 +58,8 @@ public class Renderer {
 	}
 	public void loadManagers() {
 		textureManager = new TextureManager();
-		launchScreenManager = new LaunchScreenManager(sceneManager);
-		menuButtonManager = new MenuButtonManager(sceneManager);
+		launchScreenManager = new LaunchScreenManager(dataManager);
+		menuButtonManager = new MenuButtonManager(dataManager);
 		font = new TrueTypeFont(awtFont, false);
 		font2 = new TrueTypeFont(awtFont2, false);
 	}
@@ -68,10 +68,10 @@ public class Renderer {
 	private double oldY = 600;
 	public void drawFrame() {
 		glViewport(0, 0, Display.getWidth(), Display.getHeight());
-		if (oldX != sceneManager.settings.screenWidth || oldY != sceneManager.settings.screenHeight) {
-			glScaled(oldX/sceneManager.settings.screenWidth, oldY/sceneManager.settings.screenHeight, 1);
-			oldX = sceneManager.settings.screenWidth;
-			oldY = sceneManager.settings.screenHeight;
+		if (oldX != dataManager.settings.screenWidth || oldY != dataManager.settings.screenHeight) {
+			glScaled(oldX/dataManager.settings.screenWidth, oldY/dataManager.settings.screenHeight, 1);
+			oldX = dataManager.settings.screenWidth;
+			oldY = dataManager.settings.screenHeight;
 		}
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -147,19 +147,19 @@ public class Renderer {
 	
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
-		int charX = (int) Math.floor(sceneManager.savable.charX);
-		int charY = (int) Math.floor(sceneManager.savable.charY);
-		if (sceneManager.savable.map.containsKey(charX + "," + charY)) {
-			blockInfo[0] = sceneManager.savable.map.get(charX + "," + charY);
+		int charX = (int) Math.floor(dataManager.savable.charX);
+		int charY = (int) Math.floor(dataManager.savable.charY);
+		if (dataManager.savable.map.containsKey(charX + "," + charY)) {
+			blockInfo[0] = dataManager.savable.map.get(charX + "," + charY);
 		}
-		if (sceneManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
-			blockInfo[1] = sceneManager.savable.playerStructuresMap.get(charX + "," + charY);
+		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
+			blockInfo[1] = dataManager.savable.playerStructuresMap.get(charX + "," + charY);
 		}
-		if (sceneManager.savable.biomeMapFiltered.containsKey(charX + "," + charY)) {
-			blockInfo[2] = sceneManager.savable.biomeMapFiltered.get(charX + "," + charY);
+		if (dataManager.savable.biomeMapFiltered.containsKey(charX + "," + charY)) {
+			blockInfo[2] = dataManager.savable.biomeMapFiltered.get(charX + "," + charY);
 		}
-		if (sceneManager.savable.lightMap.containsKey(charX + "," + charY)) {
-			blockInfo[3] = sceneManager.savable.lightMap.get(charX + "," + charY);
+		if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
+			blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
 		}
 		return blockInfo;
 	}

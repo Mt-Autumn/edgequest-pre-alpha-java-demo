@@ -6,27 +6,27 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import com.mtautumn.edgequest.SceneManager;
+import com.mtautumn.edgequest.data.DataManager;
 
 
 public class LaunchScreenManager {
 	public ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
-	SceneManager sceneManager;
-	public LaunchScreenManager(SceneManager scnMgr) {
-		sceneManager = scnMgr;
+	DataManager dataManager;
+	public LaunchScreenManager(DataManager dataManager) {
+		this.dataManager = dataManager;
 		buttonIDArray.add(new MenuButton(1,-247,-36,197,73,"newGame"));
 		buttonIDArray.add(new MenuButton(2,50,-36,197,73,"loadGame"));
 	}
 	public void buttonPressed(int posX, int posY) {
 		for (int i = 0; i < buttonIDArray.size(); i++) {
 			MenuButton button = buttonIDArray.get(i);
-			if (posX > button.getPosX(sceneManager.settings.screenWidth) && posX < button.getPosX(sceneManager.settings.screenWidth) + button.width && posY > button.getPosY(sceneManager.settings.screenHeight) && posY < button.getPosY(sceneManager.settings.screenHeight) + button.height) {
+			if (posX > button.getPosX(dataManager.settings.screenWidth) && posX < button.getPosX(dataManager.settings.screenWidth) + button.width && posY > button.getPosY(dataManager.settings.screenHeight) && posY < button.getPosY(dataManager.settings.screenHeight) + button.height) {
 				runButtonAction(button.id);
 			}
 		}
 	}
 	private void runButtonAction(int id) {
-		sceneManager.system.buttonActionQueue.add(id);
+		dataManager.system.buttonActionQueue.add(id);
 	}
 	public class MenuButton {
 		public int posX = 0;

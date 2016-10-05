@@ -7,6 +7,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import com.mtautumn.edgequest.data.DataManager;
+
 public class TextureManager {
 	public Map<String, Texture> textureList = new HashMap<String, Texture>();
 	public Map<String, int[]> textureAnimations = new HashMap<String, int[]>();
@@ -41,8 +43,8 @@ public class TextureManager {
 	public Texture getTexture(String texture) {
 			return textureList.get(texture);
 	}
-	public Texture getAnimatedTexture(String texture, SceneManager sceneManager) {
-		return textureList.get(texture + textureAnimations.get(texture)[sceneManager.system.animationClock % textureAnimations.get(texture).length]);
+	public Texture getAnimatedTexture(String texture, DataManager dataManager) {
+		return textureList.get(texture + textureAnimations.get(texture)[dataManager.system.animationClock % textureAnimations.get(texture).length]);
 	}
 
 	public Texture getCharacter(int direction) {

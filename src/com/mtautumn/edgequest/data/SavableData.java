@@ -1,11 +1,14 @@
-package com.mtautumn.edgequest;
+package com.mtautumn.edgequest.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Savable implements Serializable {
+import com.mtautumn.edgequest.FootPrint;
+import com.mtautumn.edgequest.ItemSlot;
+
+public class SavableData implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public int time = 800;
 	public Map<String, Short> map = new HashMap<String, Short>();
