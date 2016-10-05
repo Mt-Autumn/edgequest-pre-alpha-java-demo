@@ -2,10 +2,11 @@ package com.mtautumn.edgequest;
 
 import org.lwjgl.input.Keyboard;
 
+import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.layers.OptionPane;
 
 public class KeyboardInput {
-	SceneManager sceneManager;
+	DataManager dataManager;
 
 	private enum KeyState {
 
@@ -17,8 +18,8 @@ public class KeyboardInput {
 
 	private KeyState[] keys = null;
 
-	public KeyboardInput(SceneManager sceneManager) {
-		this.sceneManager = sceneManager;
+	public KeyboardInput(DataManager dataManager) {
+		this.dataManager = dataManager;
 		keys = new KeyState[ Keyboard.KEYBOARD_SIZE ];
 
 		for( int i = 0; i < Keyboard.KEYBOARD_SIZE; ++i ) {
@@ -37,15 +38,15 @@ public class KeyboardInput {
 					keys[i] = KeyState.PRESSED;
 				} else if (keys[i] == KeyState.RELEASED) {
 					keys[i] = KeyState.ONCE;
-					if (sceneManager.system.inputTextResponse.size() != 0 ) {						
-						String inputResponse = 	sceneManager.system.inputTextResponse.get(sceneManager.system.inputTextResponse.size() - 1);
+					if (dataManager.system.inputTextResponse.size() != 0 ) {						
+						String inputResponse = 	dataManager.system.inputTextResponse.get(dataManager.system.inputTextResponse.size() - 1);
 						if (Keyboard.getKeyName(i).equals("BACK") || Keyboard.getKeyName(i).equals("DELETE")) {
 							inputResponse = delete(inputResponse);
 						}
-						sceneManager.system.inputTextResponse.set(sceneManager.system.inputTextResponse.size() - 1, inputResponse + getKeyString(Keyboard.getKeyName(i)));
+						dataManager.system.inputTextResponse.set(dataManager.system.inputTextResponse.size() - 1, inputResponse + getKeyString(Keyboard.getKeyName(i)));
 					}
 					if (Keyboard.getKeyName(i).equals("RETURN") || Keyboard.getKeyName(i).equals("ENTER")) {
-						OptionPane.closeOptionPane(sceneManager);
+						OptionPane.closeOptionPane(dataManager);
 					}
 				}
 			} else {

@@ -3,10 +3,12 @@ package com.mtautumn.edgequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mtautumn.edgequest.data.DataManager;
+
 public class DefineBlockItems {
 	public static Map<Short, BlockItem> blockIDMap = new HashMap<Short, BlockItem>();
 	public static Map<String, BlockItem> blockNameMap = new HashMap<String, BlockItem>();
-	public static void setDefinitions(SceneManager sceneManager) {
+	public static void setDefinitions(DataManager dataManager) {
 		noneDefinition();
 		noTextureDefinition();
 		grassDefinition();
@@ -18,8 +20,8 @@ public class DefineBlockItems {
 		torchDefinition();
 		lilyPadDefinition();
 		treeDefinition();
-		sceneManager.system.blockIDMap = blockIDMap;
-		sceneManager.system.blockNameMap = blockNameMap;
+		dataManager.system.blockIDMap = blockIDMap;
+		dataManager.system.blockNameMap = blockNameMap;
 	}
 	private static void noneDefinition() {
 		BlockItem none = new BlockItem(-1, true, true, "none", new int[]{0} , new int[]{0});

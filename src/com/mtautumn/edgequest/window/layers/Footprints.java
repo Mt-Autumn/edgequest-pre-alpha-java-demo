@@ -9,8 +9,8 @@ public class Footprints {
 	public static void draw(Renderer r) {
 	    Color.white.bind();
 	    
-		for (int i = 0; i < r.sceneManager.savable.footPrints.size(); i++) {
-			FootPrint fp = r.sceneManager.savable.footPrints.get(i);
+		for (int i = 0; i < r.dataManager.savable.footPrints.size(); i++) {
+			FootPrint fp = r.dataManager.savable.footPrints.get(i);
 			
 			if (fp.opacity > 0.4) {
 				drawPrint(r, fp, "footsteps");
@@ -23,27 +23,27 @@ public class Footprints {
 	}
 	
 	private static int xPos(Renderer r, FootPrint fp) {
-		return (int)((fp.posX - offsetX(r))*r.sceneManager.settings.blockSize);
+		return (int)((fp.posX - offsetX(r))*r.dataManager.settings.blockSize);
 	}
 	
 	private static int yPos(Renderer r, FootPrint fp) {
-		return (int)((fp.posY - offsetY(r))*r.sceneManager.settings.blockSize);
+		return (int)((fp.posY - offsetY(r))*r.dataManager.settings.blockSize);
 	}
 	
 	private static double offsetX(Renderer r) {
-		return r.sceneManager.savable.charX - Double.valueOf(r.sceneManager.settings.screenWidth) / 2.0 / Double.valueOf(r.sceneManager.settings.blockSize);
+		return r.dataManager.savable.charX - Double.valueOf(r.dataManager.settings.screenWidth) / 2.0 / Double.valueOf(r.dataManager.settings.blockSize);
 	}
 	
 	private static double offsetY(Renderer r) {
-		return r.sceneManager.savable.charY - Double.valueOf(r.sceneManager.settings.screenHeight) / 2.0 / Double.valueOf(r.sceneManager.settings.blockSize);
+		return r.dataManager.savable.charY - Double.valueOf(r.dataManager.settings.screenHeight) / 2.0 / Double.valueOf(r.dataManager.settings.blockSize);
 	}
 	
 	
 	private static void drawPrint(Renderer r, FootPrint fp, String name) {
 		int posX = xPos(r, fp);
 		int posY = yPos(r, fp);
-		float width = (float)r.sceneManager.settings.blockSize / 6f;
-		float length = (float)r.sceneManager.settings.blockSize / 3f;
+		float width = (float)r.dataManager.settings.blockSize / 6f;
+		float length = (float)r.dataManager.settings.blockSize / 3f;
 		r.drawTexture(r.textureManager.getTexture(name), posX - width , posY - length, length, length * 2f, 45f * Float.valueOf(fp.direction));
 	}
 }

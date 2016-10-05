@@ -1,31 +1,33 @@
 package com.mtautumn.edgequest;
 
+import com.mtautumn.edgequest.data.DataManager;
+
 public class TerrainManager extends Thread {
-	SceneManager sceneManager;
+	DataManager dataManager;
 	TerrainGenerator terrainGenerator;
-	public TerrainManager(SceneManager scnMgr) {
-		sceneManager = scnMgr;
-		terrainGenerator = new TerrainGenerator(scnMgr);
+	public TerrainManager(DataManager dataManager) {
+		this.dataManager = dataManager;
+		terrainGenerator = new TerrainGenerator(dataManager);
 	}
 	public void run() {
 		int blocksPerTick = 0;
 		while (true) {
 			try {
-				if (!sceneManager.system.isGameOnLaunchScreen) {
-					if (sceneManager.system.blockGenerationLastTick || sceneManager.system.characterMoving) {
+				if (!dataManager.system.isGameOnLaunchScreen) {
+					if (dataManager.system.blockGenerationLastTick || dataManager.system.characterMoving) {
 						blocksPerTick = 0;
-						for(int i = sceneManager.system.minTileX - 2; i <= sceneManager.system.maxTileX + 1 && blocksPerTick < 1000; i++) {
-							for (int j = sceneManager.system.minTileY - 2; j <= sceneManager.system.maxTileY + 1; j++) {
-								if (!sceneManager.savable.map.containsKey(i + "," + j)) {
+						for(int i = dataManager.system.minTileX - 2; i <= dataManager.system.maxTileX + 1 && blocksPerTick < 1000; i++) {
+							for (int j = dataManager.system.minTileY - 2; j <= dataManager.system.maxTileY + 1; j++) {
+								if (!dataManager.savable.map.containsKey(i + "," + j)) {
 									terrainGenerator.generateBlock(i, j);
 									blocksPerTick++;
 								}
 							}
 						}
-						sceneManager.system.blockGenerationLastTick = (blocksPerTick > 0);
+						dataManager.system.blockGenerationLastTick = (blocksPerTick > 0);
 					}
 				}
-				Thread.sleep(sceneManager.settings.tickLength);
+				Thread.sleep(dataManager.settings.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

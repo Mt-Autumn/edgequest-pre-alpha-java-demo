@@ -1,10 +1,12 @@
 package com.mtautumn.edgequest;
 
+import com.mtautumn.edgequest.data.DataManager;
+
 public class BlockUpdateManager extends Thread {
-	SceneManager sceneManager;
+	DataManager dataManager;
 	private int lightDiffuseDistance = 8;
-	public BlockUpdateManager(SceneManager scnMgr) {
-		sceneManager = scnMgr;
+	public BlockUpdateManager(DataManager dataManager) {
+		this.dataManager = dataManager;
 	}
 	public void updateLighting(int x, int y) {
 		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
@@ -28,11 +30,11 @@ public class BlockUpdateManager extends Thread {
 		int i = 0;
 		while (true) {
 			try {
-				if (!sceneManager.system.isGameOnLaunchScreen) {
+				if (!dataManager.system.isGameOnLaunchScreen) {
 					i++;
 					if (i % 30 == 0) melt();
 				}
-				Thread.sleep(sceneManager.settings.tickLength);
+				Thread.sleep(dataManager.settings.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -41,26 +43,26 @@ public class BlockUpdateManager extends Thread {
 	private void updateLighting(int x, int y, double brightness) {
 		if (brightness > 1) brightness = 1;
 		if (brightness < 0) brightness = 0;
-		sceneManager.savable.lightMap.put(x + "," + y, (byte)(brightness*255.0-128.0));
+		dataManager.savable.lightMap.put(x + "," + y, (byte)(brightness*255.0-128.0));
 	}
 	private boolean doesContainLightSource(int x, int y) {
-		if (sceneManager.savable.playerStructuresMap.containsKey(x + "," + y)) {
-			return sceneManager.system.blockIDMap.get(sceneManager.savable.playerStructuresMap.get(x + "," + y)).isLightSource;
+		if (dataManager.savable.playerStructuresMap.containsKey(x + "," + y)) {
+			return dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(x + "," + y)).isLightSource;
 		}
 		return false;
 	}
 	private void melt() {
-		for(int x = sceneManager.system.minTileX; x <= sceneManager.system.maxTileX; x++) {
-			for(int y = sceneManager.system.minTileY; y <= sceneManager.system.maxTileY; y++) {
-				if (sceneManager.savable.map.containsKey(x+","+y)) {
-					if (sceneManager.system.blockIDMap.get(sceneManager.savable.map.get(x + "," + y)).melts) {
+		for(int x = dataManager.system.minTileX; x <= dataManager.system.maxTileX; x++) {
+			for(int y = dataManager.system.minTileY; y <= dataManager.system.maxTileY; y++) {
+				if (dataManager.savable.map.containsKey(x+","+y)) {
+					if (dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y)).melts) {
 						double brightness = 0;
-						if (sceneManager.savable.lightMap.containsKey(x+","+y)) {
-							brightness = Double.valueOf(((int) sceneManager.savable.lightMap.get(x + "," + y) + 128)) / 255.0;
+						if (dataManager.savable.lightMap.containsKey(x+","+y)) {
+							brightness = Double.valueOf(((int) dataManager.savable.lightMap.get(x + "," + y) + 128)) / 255.0;
 						}
 						if (brightness > 0.7) {
 							if (1 - Math.random() < (brightness - 0.7) / 50.0) {
-								sceneManager.savable.map.put(x+","+y, sceneManager.system.blockNameMap.get(sceneManager.system.blockIDMap.get(sceneManager.savable.map.get(x + "," + y)).meltsInto).getID());
+								dataManager.savable.map.put(x+","+y, dataManager.system.blockNameMap.get(dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y)).meltsInto).getID());
 							}
 						}
 					}
