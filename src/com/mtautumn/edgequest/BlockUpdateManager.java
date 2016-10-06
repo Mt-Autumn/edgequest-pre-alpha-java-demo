@@ -47,7 +47,9 @@ public class BlockUpdateManager extends Thread {
 		if (deltaX != 0 || deltaY != 0) {
 			while(isInBetween(x1 + 0.5,x2 + 0.5,checkingPosX) && isInBetween(y1 + 0.5,y2 + 0.5,checkingPosY)) {
 				if (isBlockOpaque((int)Math.floor(checkingPosX), (int)Math.floor(checkingPosY))) {
-					answer = false;
+					if (x1 != Math.floor(checkingPosX) || y1 != Math.floor(checkingPosY)) {
+						answer = false;
+					}
 				}
 				double xNextLine;
 				double yNextLine;
