@@ -74,7 +74,6 @@ public class DefineBlockItems {
 	}
 	private static void treeDefinition() {
 		BlockItem tree = new BlockItem(102, true, false, "tree", new int[]{0} , new int[]{0});
-		tree.blockHeight = 1;
 		addToMaps(tree);
 	}
 	
