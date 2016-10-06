@@ -11,20 +11,83 @@ public class BlockUpdateManager extends Thread {
 	public void updateLighting(int x, int y) {
 		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
 			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
-				double closestLightSource = lightDiffuseDistance + 1;
-				for (int k = i - lightDiffuseDistance; k <= i + lightDiffuseDistance; k++) {
-					for (int l = j - lightDiffuseDistance; l <= j + lightDiffuseDistance; l++) {
-						if (doesContainLightSource(k,l)) {
-							double distance = Math.sqrt(Math.pow(k-i, 2)+Math.pow(l-j, 2));
-							if (distance < closestLightSource) {
-								closestLightSource = distance;
-							}
-						}
-					}
-				}
-				updateLighting(i,j,1.0 - closestLightSource/Double.valueOf(lightDiffuseDistance));
+				updateBlockLighting(i, j);
 			}
 		}
+	}
+	private void updateBlockLighting(int x, int y) {
+		double brightness = 0.0;
+		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
+			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
+				if (doesContainLightSource(i,j)) {
+					if (isLineOfSight(x,y,i,j)) {
+						double distance = Math.sqrt(Math.pow(x-i, 2) + Math.pow(y-j, 2));
+						double brightnessAdded = 1.0 - distance/Double.valueOf(lightDiffuseDistance);
+						if (brightnessAdded < 0) { brightnessAdded = 0; }
+						brightness += (1.0 - brightness) * brightnessAdded;
+					}
+				}
+			}
+		}
+		setBrightness(x, y, brightness);
+
+	}
+	private boolean isBlockOpaque(int x, int y) {
+		if (dataManager.savable.playerStructuresMap.containsKey(x + "," + y)) {
+			return !dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(x + "," + y)).isPassable;
+		}
+		return false;
+	}
+	private boolean isLineOfSight(int x1, int y1, int x2, int y2) {
+		double checkingPosX = x1 + 0.5;
+		double checkingPosY = y1 + 0.5;
+		double deltaX = (x2-x1);
+		double deltaY = (y2-y1);
+		boolean answer = true;
+		if (deltaX != 0 || deltaY != 0) {
+			while(isInBetween(x1 + 0.5,x2 + 0.5,checkingPosX) && isInBetween(y1 + 0.5,y2 + 0.5,checkingPosY)) {
+				if (isBlockOpaque((int)Math.floor(checkingPosX), (int)Math.floor(checkingPosY))) {
+					answer = false;
+				}
+				double xNextLine;
+				double yNextLine;
+				if (deltaX > 0) {
+					xNextLine = (Math.ceil(checkingPosX) - checkingPosX) / deltaX;
+				} else if (deltaX < 0) {
+					xNextLine = (checkingPosX - Math.floor(checkingPosX)) / deltaX;
+				} else {
+					xNextLine = lightDiffuseDistance + 1;
+				}
+				if (xNextLine == 0) {
+					xNextLine = 1.0 / deltaX;
+				}
+				if (deltaY > 0) {
+					yNextLine = (Math.ceil(checkingPosY) - checkingPosY) / deltaY;
+				} else if (deltaY < 0) {
+					yNextLine = (checkingPosY - Math.floor(checkingPosY)) / deltaY;
+				} else {
+					yNextLine = lightDiffuseDistance + 1;
+				}
+				if (yNextLine == 0) {
+					yNextLine = 1.0 / deltaY;
+				}
+				xNextLine = Math.abs(xNextLine);
+				yNextLine = Math.abs(yNextLine);
+				if (Math.abs(xNextLine) < Math.abs(yNextLine)) {
+					checkingPosX += xNextLine * deltaX;
+					checkingPosY += xNextLine * deltaY;
+				} else {
+					checkingPosX += yNextLine * deltaX;
+					checkingPosY += yNextLine * deltaY;
+				}
+
+			}
+		}
+		return answer;
+	}
+	private boolean isInBetween(double num1, double num2, double numCheck) {
+		if (num1 <= numCheck && num2 >= numCheck) { return true; }
+		return (num1 >= numCheck && num2 <= numCheck);
 	}
 	public void run() {
 		int i = 0;
@@ -40,7 +103,7 @@ public class BlockUpdateManager extends Thread {
 			}
 		}
 	}
-	private void updateLighting(int x, int y, double brightness) {
+	private void setBrightness(int x, int y, double brightness) {
 		if (brightness > 1) brightness = 1;
 		if (brightness < 0) brightness = 0;
 		dataManager.savable.lightMap.put(x + "," + y, (byte)(brightness*255.0-128.0));
