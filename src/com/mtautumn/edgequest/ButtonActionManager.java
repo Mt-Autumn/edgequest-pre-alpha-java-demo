@@ -97,6 +97,7 @@ public class ButtonActionManager extends Thread {
 				dataManager.menuButtonManager.getButtonFromName("fullScreen").visible = true;
 				dataManager.menuButtonManager.getButtonFromName("windowed").visible = false;
 			}
+			break;
 		case 7:
 			dataManager.settings.vSyncOn = !dataManager.settings.vSyncOn;
 			if (dataManager.settings.vSyncOn) {
@@ -106,6 +107,7 @@ public class ButtonActionManager extends Thread {
 				dataManager.menuButtonManager.getButtonFromName("vSyncOn").visible = true;
 				dataManager.menuButtonManager.getButtonFromName("vSyncOff").visible = false;
 			}
+			break;
 		case 8:
 			dataManager.system.running = false;
 		default:
