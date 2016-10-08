@@ -118,7 +118,6 @@ public class Renderer {
 		Layers.draw(this);
 
 		Display.update();
-		Display.sync(100);
 		if (Display.isCloseRequested()) {
 			Display.destroy();
 			System.exit(0);
