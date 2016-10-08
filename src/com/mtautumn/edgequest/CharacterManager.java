@@ -45,7 +45,7 @@ public class CharacterManager extends Thread{
 	public void run() {
 		long lastUpdate = System.currentTimeMillis();
 
-		while (true) {
+		while (dataManager.system.running) {
 			try {
 				if (!dataManager.system.isGameOnLaunchScreen) {
 					updateFootprints();

@@ -21,6 +21,7 @@ public class MenuButtonManager {
 		buttonIDArray.add(new MenuButton(7,503,230,197,73,"vSyncOff"));
 		buttonIDArray.add(new MenuButton(6,503,360,197,73,"fullScreen"));
 		buttonIDArray.add(new MenuButton(6,503,360,197,73,"windowed"));
+		buttonIDArray.add(new MenuButton(8,50,360,197,73,"quit"));
 		getButtonFromName("windowed").visible = false;
 		getButtonFromName("vSyncOn").visible = false;
 	}

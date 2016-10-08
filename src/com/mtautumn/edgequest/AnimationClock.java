@@ -8,7 +8,7 @@ public class AnimationClock extends Thread {
 		this.dataManager = dataManager;
 	}
 	public void run() {
-		while (true) {
+		while (dataManager.system.running) {
 			try {
 				if (!dataManager.system.isGameOnLaunchScreen) {
 					dataManager.system.animationClock++;

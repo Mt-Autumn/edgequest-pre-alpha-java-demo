@@ -8,6 +8,7 @@ import java.util.Map;
 import com.mtautumn.edgequest.BlockItem;
 
 public class SystemData {
+	public boolean running = true;
 	public ArrayList<String> inputText = new ArrayList<String>();
 	public ArrayList<String> inputTextResponse = new ArrayList<String>();
 	public ArrayList<String> noticeText = new ArrayList<String>();
