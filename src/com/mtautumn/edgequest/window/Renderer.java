@@ -7,7 +7,6 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 
@@ -30,17 +29,16 @@ public class Renderer {
 	}
 	public void initGL(int width, int height) {
 		try {
-	        DisplayMode displayMode = null;
-	        DisplayMode[] modes;
+			DisplayMode displayMode = null;
+			DisplayMode[] modes;
 			try {
 				modes = Display.getAvailableDisplayModes();
 
-	         for (int i = 0; i < modes.length; i++)
-	         {
-	                    displayMode = modes[i];
-	         }
+				for (int i = 0; i < modes.length; i++)
+				{
+					displayMode = modes[i];
+				}
 			} catch (LWJGLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			Display.setDisplayMode(displayMode);
@@ -121,7 +119,6 @@ public class Renderer {
 
 		Display.update();
 		Display.sync(100);
-
 		if (Display.isCloseRequested()) {
 			Display.destroy();
 			System.exit(0);

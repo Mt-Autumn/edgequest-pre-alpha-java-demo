@@ -13,9 +13,5 @@ public class EdgeQuest {
 		dataManager.blockUpdateManager.start();
 		dataManager.autoCharacterWalk.start();
 		dataManager.buttonActionManager.start();
-		while (true) {
-			Thread.sleep(10000);
-		}
-
 	}
 }

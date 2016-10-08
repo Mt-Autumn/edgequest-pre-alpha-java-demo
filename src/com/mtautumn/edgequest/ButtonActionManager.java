@@ -11,7 +11,7 @@ public class ButtonActionManager extends Thread {
 		this.dataManager = dataManager;
 	}
 	public void run() {
-		while (true) {
+		while (dataManager.system.running) {
 			runButtonActions();
 			try {
 				Thread.sleep(100);
@@ -106,6 +106,8 @@ public class ButtonActionManager extends Thread {
 				dataManager.menuButtonManager.getButtonFromName("vSyncOn").visible = true;
 				dataManager.menuButtonManager.getButtonFromName("vSyncOff").visible = false;
 			}
+		case 8:
+			dataManager.system.running = false;
 		default:
 			break;
 		}

@@ -126,7 +126,7 @@ public class BlockUpdateManager extends Thread {
 	}
 	public void run() {
 		int i = 0;
-		while (true) {
+		while (dataManager.system.running) {
 			try {
 				if (!dataManager.system.isGameOnLaunchScreen) {
 					i++;

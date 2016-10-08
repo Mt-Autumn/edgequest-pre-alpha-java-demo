@@ -8,7 +8,7 @@ public class AutoCharacterWalk extends Thread{
 		this.dataManager = dataManager;
 	}
 	public void run() {
-		while (true) {
+		while (dataManager.system.running) {
 			try {
 				if (dataManager.system.autoWalk) {
 					double charX = dataManager.savable.charX;

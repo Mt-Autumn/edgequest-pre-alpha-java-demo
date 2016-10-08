@@ -44,7 +44,7 @@ public class RendererManager extends Thread {
 		renderer.initGL(dataManager.settings.screenWidth, dataManager.settings.screenHeight);
 		renderer.loadManagers();
 		DefineBlockItems.setDefinitions(dataManager);
-		while (true) {
+		while (dataManager.system.running) {
 			try {
 				updateWindowSize();
 				tempFPS = (int) (1000000000 / (System.nanoTime() - lastNanoTimeFPSGrabber));
@@ -69,7 +69,8 @@ public class RendererManager extends Thread {
 				e.printStackTrace();
 			}
 		}
-
+		Display.destroy();
+		System.exit(0);
 	}
 	private void updateWindow() {
 		findViewDimensions();

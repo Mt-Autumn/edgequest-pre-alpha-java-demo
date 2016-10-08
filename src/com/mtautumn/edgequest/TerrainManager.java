@@ -11,7 +11,7 @@ public class TerrainManager extends Thread {
 	}
 	public void run() {
 		int blocksPerTick = 0;
-		while (true) {
+		while (dataManager.system.running) {
 			try {
 				if (!dataManager.system.isGameOnLaunchScreen) {
 					if (dataManager.system.blockGenerationLastTick || dataManager.system.characterMoving) {
