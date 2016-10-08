@@ -17,16 +17,29 @@ public class MenuButtonManager {
 		buttonIDArray.add(new MenuButton(1,50,100,197,73,"newGame"));
 		buttonIDArray.add(new MenuButton(4,50,230,197,73,"saveGame"));
 		buttonIDArray.add(new MenuButton(5,503,100,197,73,"loadGame"));
-		//buttonIDArray.add(new MenuButton(6,503,360,197,73,"fullScreen"));
+		buttonIDArray.add(new MenuButton(7,503,230,197,73,"vSyncOn"));
+		buttonIDArray.add(new MenuButton(7,503,230,197,73,"vSyncOff"));
+		buttonIDArray.add(new MenuButton(6,503,360,197,73,"fullScreen"));
+		buttonIDArray.add(new MenuButton(6,503,360,197,73,"windowed"));
+		getButtonFromName("windowed").visible = false;
+		getButtonFromName("vSyncOn").visible = false;
 	}
-
+	public MenuButton getButtonFromName(String name) {
+		MenuButton button = null;
+		for (int i = 0; i < buttonIDArray.size(); i++) {
+			if (buttonIDArray.get(i).name.equals(name)) {
+				button = buttonIDArray.get(i);
+			}
+		}
+		return button;
+	}
 	public void buttonPressed(int posX, int posY) {
 		int adjustedX = posX - dataManager.system.menuX;
 		int adjustedY = posY - dataManager.system.menuY;
 		for (int i = 0; i < buttonIDArray.size(); i++) {
 			MenuButton button = buttonIDArray.get(i);
 			if (adjustedX > button.posX && adjustedX < button.posX + button.width && adjustedY > button.posY && adjustedY < button.posY + button.height) {
-				runButtonAction(button.id);
+				if (button.visible) runButtonAction(button.id);
 			}
 		}
 	}
@@ -41,6 +54,7 @@ public class MenuButtonManager {
 		public int id = -1;
 		public Texture buttonImage;
 		public String name = "";
+		public boolean visible = true;
 		public MenuButton(int id, int posX, int posY, int width, int height, String name) {
 			this.posX = posX;
 			this.posY = posY;

@@ -8,6 +8,7 @@ import com.mtautumn.edgequest.ButtonActionManager;
 import com.mtautumn.edgequest.CharacterManager;
 import com.mtautumn.edgequest.GameClock;
 import com.mtautumn.edgequest.TerrainManager;
+import com.mtautumn.edgequest.window.managers.MenuButtonManager;
 import com.mtautumn.edgequest.window.managers.RendererManager;
 
 public class DataManager {
@@ -15,6 +16,7 @@ public class DataManager {
 	public SavableData savable = new SavableData();
 	public SettingsData settings = new SettingsData();
 	
+	public MenuButtonManager menuButtonManager;
 	public BackpackManager backpackManager = new BackpackManager(this);
 	public BlockUpdateManager blockUpdateManager = new BlockUpdateManager(this);
 	public CharacterManager characterManager = new CharacterManager(this);
