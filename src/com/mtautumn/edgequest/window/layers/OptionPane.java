@@ -34,7 +34,11 @@ public class OptionPane {
 		if (System.currentTimeMillis() / 500 % 2 == 0) {
 			inputFieldText = inputFieldText + "|";
 		}
-		r.font2.drawString(xPos + 15, yPos + 15, inputFieldText);
+		if (r.dataManager.system.os == 2) { //adjusts font location for windows
+			r.font2.drawString(xPos + 15, yPos + 5, inputFieldText);
+		} else {
+			r.font2.drawString(xPos + 15, yPos + 15, inputFieldText);
+		}
 		
 	}
 	private static void drawNotice(Renderer r, String text, int count) {

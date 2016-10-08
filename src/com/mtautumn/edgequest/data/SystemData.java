@@ -8,6 +8,7 @@ import java.util.Map;
 import com.mtautumn.edgequest.BlockItem;
 
 public class SystemData {
+	public int os = 0;//0 = GNU/Linux, 1 = macOS, 2 = Windows
 	public boolean running = true;
 	public ArrayList<String> inputText = new ArrayList<String>();
 	public ArrayList<String> inputTextResponse = new ArrayList<String>();
