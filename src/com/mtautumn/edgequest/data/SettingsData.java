@@ -11,6 +11,7 @@ public class SettingsData {
 	public int screenWidth = 800;
 	public int screenHeight = 600;
 	public boolean isFullScreen = false;
+	public boolean vSyncOn = true;
 
 	public int upKey = Keyboard.KEY_UP;
 	public int downKey = Keyboard.KEY_DOWN;

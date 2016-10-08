@@ -133,7 +133,7 @@ public class RendererManager extends Thread {
 			if (Mouse.isButtonDown(0) && !wasMouseDown) {
 				dataManager.system.autoWalk = false;
 				if (dataManager.system.isKeyboardMenu) {
-					renderer.menuButtonManager.buttonPressed(mouseX, mouseY);
+					dataManager.menuButtonManager.buttonPressed(mouseX, mouseY);
 				} else if (dataManager.system.isGameOnLaunchScreen) {
 					renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
 				} else if (dataManager.system.isKeyboardSprint && !dataManager.system.hideMouse){

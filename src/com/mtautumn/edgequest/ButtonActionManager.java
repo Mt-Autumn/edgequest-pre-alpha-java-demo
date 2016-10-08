@@ -89,10 +89,22 @@ public class ButtonActionManager extends Thread {
 			}
 			break;
 		case 6:
+			dataManager.settings.isFullScreen = !dataManager.settings.isFullScreen;
 			if (dataManager.settings.isFullScreen) {
-				dataManager.system.setWindowed = true;
+				dataManager.menuButtonManager.getButtonFromName("fullScreen").visible = false;
+				dataManager.menuButtonManager.getButtonFromName("windowed").visible = true;
 			} else {
-				dataManager.system.setFullScreen = true;
+				dataManager.menuButtonManager.getButtonFromName("fullScreen").visible = true;
+				dataManager.menuButtonManager.getButtonFromName("windowed").visible = false;
+			}
+		case 7:
+			dataManager.settings.vSyncOn = !dataManager.settings.vSyncOn;
+			if (dataManager.settings.vSyncOn) {
+				dataManager.menuButtonManager.getButtonFromName("vSyncOn").visible = false;
+				dataManager.menuButtonManager.getButtonFromName("vSyncOff").visible = true;
+			} else {
+				dataManager.menuButtonManager.getButtonFromName("vSyncOn").visible = true;
+				dataManager.menuButtonManager.getButtonFromName("vSyncOff").visible = false;
 			}
 		default:
 			break;

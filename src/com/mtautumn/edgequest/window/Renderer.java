@@ -7,6 +7,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 
@@ -17,7 +18,6 @@ import com.mtautumn.edgequest.window.managers.MenuButtonManager;
 
 public class Renderer {
 	public DataManager dataManager;
-	public MenuButtonManager menuButtonManager;
 	public TextureManager textureManager;
 	public LaunchScreenManager launchScreenManager;
 	Font awtFont = new Font("Arial", Font.BOLD, 12);
@@ -30,7 +30,20 @@ public class Renderer {
 	}
 	public void initGL(int width, int height) {
 		try {
-			Display.setDisplayMode(new DisplayMode(width,height));
+	        DisplayMode displayMode = null;
+	        DisplayMode[] modes;
+			try {
+				modes = Display.getAvailableDisplayModes();
+
+	         for (int i = 0; i < modes.length; i++)
+	         {
+	                    displayMode = modes[i];
+	         }
+			} catch (LWJGLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Display.setDisplayMode(displayMode);
 			Display.create();
 			Display.setVSyncEnabled(true);
 			Display.setResizable(true);
@@ -59,19 +72,48 @@ public class Renderer {
 	public void loadManagers() {
 		textureManager = new TextureManager();
 		launchScreenManager = new LaunchScreenManager(dataManager);
-		menuButtonManager = new MenuButtonManager(dataManager);
+		dataManager.menuButtonManager = new MenuButtonManager(dataManager);
 		font = new TrueTypeFont(awtFont, false);
 		font2 = new TrueTypeFont(awtFont2, false);
 	}
-	
+
 	private double oldX = 800;
 	private double oldY = 600;
+	private boolean wasVSync = true;
+	private DisplayMode oldDisplayMode;
 	public void drawFrame() {
+		if (dataManager.settings.vSyncOn && !wasVSync) {
+			wasVSync = true;
+			Display.setVSyncEnabled(true);
+		} else if (!dataManager.settings.vSyncOn && wasVSync) {
+			wasVSync = false;
+			Display.setVSyncEnabled(false);
+		}
+		try {
+			if (dataManager.settings.isFullScreen && !Display.isFullscreen()) {
+				Display.setFullscreen(true);
+				oldDisplayMode = Display.getDisplayMode();
+				int largest = 0;
+				int largestPos = 0;
+				for (int i = 0; i < Display.getAvailableDisplayModes().length; i++) {
+					if (Display.getAvailableDisplayModes()[i].getWidth() > largest) {
+						largestPos = i;
+						largest = Display.getAvailableDisplayModes()[i].getWidth();
+					}
+				}
+				Display.setDisplayMode(Display.getAvailableDisplayModes()[largestPos]);
+			} else if (!dataManager.settings.isFullScreen && Display.isFullscreen()) {
+				Display.setFullscreen(false);
+				Display.setDisplayMode(oldDisplayMode);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		glViewport(0, 0, Display.getWidth(), Display.getHeight());
-		if (oldX != dataManager.settings.screenWidth || oldY != dataManager.settings.screenHeight) {
-			glScaled(oldX/dataManager.settings.screenWidth, oldY/dataManager.settings.screenHeight, 1);
-			oldX = dataManager.settings.screenWidth;
-			oldY = dataManager.settings.screenHeight;
+		if (oldX != Display.getWidth() || oldY != Display.getHeight()) {
+			glScaled(oldX/Display.getWidth(), oldY/Display.getHeight(), 1);
+			oldX = Display.getWidth();
+			oldY = Display.getHeight();
 		}
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -85,8 +127,8 @@ public class Renderer {
 			System.exit(0);
 		}
 	}
-	
-	
+
+
 	public void fillRect(int x, int y, int width, int height, float r, float g, float b, float a) {
 		glColor4f (r,g,b,a);
 		glBegin(GL_QUADS);
@@ -96,7 +138,7 @@ public class Renderer {
 		glVertex2f(x,y+height);
 		glEnd();
 	}
-	
+
 	public void drawTexture(Texture texture, float x, float y, float width, float height) {
 		texture.bind();
 		float paddingX = texture.getImageWidth();
@@ -143,8 +185,8 @@ public class Renderer {
 		for (; i < size; i *= 2);
 		return i;
 	}
-	
-	
+
+
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
 		int charX = (int) Math.floor(dataManager.savable.charX);
