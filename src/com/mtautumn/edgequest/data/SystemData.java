@@ -38,9 +38,11 @@ public class SystemData {
 	public boolean blockGenerationLastTick = true;
 	public boolean characterMoving = false;
 	public int averagedFPS = 0;
-	public Point mousePosition = new Point();
-	public int mouseX = 0;
-	public int mouseY = 0;
+	public Point mousePosition = new Point(); //coordinates on window
+	public int mouseX = 0; //block location
+	public int mouseY = 0; //block location
+	public boolean leftMouseDown = false;
+	public boolean rightMouseDown = false;
 	public boolean isMouseFar = false;
 	public boolean autoWalk = false;
 	public int autoWalkX = 0;
