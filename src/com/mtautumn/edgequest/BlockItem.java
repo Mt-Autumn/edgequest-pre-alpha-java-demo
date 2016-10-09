@@ -27,7 +27,9 @@ public class BlockItem implements Serializable {
 	public boolean isHot = false;
 	public boolean melts = false;
 	public String meltsInto = "";
-	public double hardness = 1.0; //seconds take to destroy with hands
+	public double hardness = 0.2; //seconds take to destroy with hands
+	public String breaksInto;
+	public String replacedBy = "ground";
 	public boolean isLiquid = false;
 	public boolean isPassable = false;
 	public boolean canHavePrints = false;
@@ -37,6 +39,7 @@ public class BlockItem implements Serializable {
 		this.isItem = isItem;
 		this.isBlock = isBlock;
 		this.id = (short)id;
+		breaksInto = name;
 		this.name = name;
 		if (isBlock) {
 			for (Short i = 0; i < blockAnimation.length; i++) {

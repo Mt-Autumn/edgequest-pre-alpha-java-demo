@@ -17,6 +17,8 @@ public class DefineBlockItems {
 		sandDefinition();
 		snowDefinition();
 		waterDefinition();
+		groundDefinition();
+
 		torchDefinition();
 		lilyPadDefinition();
 		treeDefinition();
@@ -33,6 +35,7 @@ public class DefineBlockItems {
 	}
 	private static void grassDefinition() {
 		BlockItem grass = new BlockItem(1, true, true, "grass", new int[]{0} , new int[]{0});
+		grass.replacedBy = "dirt";
 		addToMaps(grass);
 	}
 	private static void dirtDefinition() {
@@ -52,13 +55,20 @@ public class DefineBlockItems {
 		snow.canHavePrints = true;
 		snow.melts = true;
 		snow.meltsInto = "grass";
+		snow.replacedBy = "grass";
 		addToMaps(snow);
 	}
 	private static void waterDefinition() {
-		BlockItem water = new BlockItem(6, true, false, "water", new int[]{0,1,2,3,2,1} , new int[]{0});
+		BlockItem water = new BlockItem(6, true, false, "water", new int[]{0,1,2,3,2,1} , null);
 		water.isLiquid = true;
 		water.isPassable = true;
+		water.hardness = -1;
 		addToMaps(water);
+	}
+	private static void groundDefinition() {
+		BlockItem ground = new BlockItem(7, true, false, "ground", new int[]{0} , null);
+		ground.hardness = -1;
+		addToMaps(ground);
 	}
 	private static void torchDefinition() {
 		BlockItem torch = new BlockItem(100, true, true, "torch", new int[]{0} , new int[]{0});
@@ -73,7 +83,7 @@ public class DefineBlockItems {
 		addToMaps(lilyPad);
 	}
 	private static void treeDefinition() {
-		BlockItem tree = new BlockItem(102, true, false, "tree", new int[]{0} , new int[]{0});
+		BlockItem tree = new BlockItem(102, true, false, "tree", new int[]{0} , null);
 		addToMaps(tree);
 	}
 	
