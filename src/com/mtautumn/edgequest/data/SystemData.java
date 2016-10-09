@@ -8,6 +8,8 @@ import java.util.Map;
 import com.mtautumn.edgequest.BlockItem;
 
 public class SystemData {
+	public int miningX = 0;
+	public int miningY = 0;
 	public double blockDamage = 0;
 	public int os = 0;//0 = GNU/Linux, 1 = macOS, 2 = Windows
 	public boolean running = true;

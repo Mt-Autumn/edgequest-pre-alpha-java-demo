@@ -144,6 +144,11 @@ public class RendererManager extends Thread {
 					dataManager.system.autoWalk = true;
 				}
 			} else if (Mouse.isButtonDown(0) && wasMouseDown && !dataManager.system.isMouseFar) {
+				if (dataManager.system.miningX != dataManager.system.mouseX || dataManager.system.miningY != dataManager.system.mouseY) {
+					dataManager.system.miningX = dataManager.system.mouseX;
+					dataManager.system.miningY = dataManager.system.mouseY;
+					dataManager.system.blockDamage = 0;
+				}
 				dataManager.system.blockDamage += 1.0/getBlockAt(dataManager.system.mouseX, dataManager.system.mouseY).hardness/dataManager.system.averagedFPS;
 				if (dataManager.system.blockDamage < 0) dataManager.system.blockDamage = 0;
 				if (dataManager.system.blockDamage >= 10) {
@@ -167,11 +172,21 @@ public class RendererManager extends Thread {
 		
 	}
 	private void breakBlock(int x, int y) {
+		BlockItem item = null;
 		if (dataManager.savable.playerStructuresMap.containsKey(x + "," + y)) {
+			item = dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(x + "," + y));
 			dataManager.savable.playerStructuresMap.remove(x + "," + y);
+			
 		} else if (dataManager.savable.map.containsKey(x + "," + y)) {
+			item = dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y));
 			String replacement = dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y)).replacedBy;
 			dataManager.savable.map.put(x + "," + y,dataManager.system.blockNameMap.get(replacement).getID());
+		}
+		if (item != null) {
+			BlockItem result = dataManager.system.blockNameMap.get(item.breaksInto);
+			if (result.getIsItem()) {
+				dataManager.backpackManager.addItem(result);
+			}
 		}
 	}
 	private void findViewDimensions() {
