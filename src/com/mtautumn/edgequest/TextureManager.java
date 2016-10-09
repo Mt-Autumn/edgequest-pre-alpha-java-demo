@@ -39,6 +39,8 @@ public class TextureManager {
 		addTexture("windowed");
 		addTexture("optionPane");
 		addTexture("inputField");
+		addTexture("blockHealthBar");
+		addTexture("blockHealth");
 	}
 	public Texture getTexture(String texture) {
 			return textureList.get(texture);

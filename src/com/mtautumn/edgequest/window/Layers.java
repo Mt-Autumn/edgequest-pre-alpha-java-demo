@@ -13,6 +13,7 @@ public class Layers {
 			Footprints.draw(r);
 			CharacterEffects.draw(r);
 			Character.draw(r);
+			BlockDamage.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			Lighting.draw(r);
 			if (!r.dataManager.system.hideMouse) MouseSelection.draw(r);
