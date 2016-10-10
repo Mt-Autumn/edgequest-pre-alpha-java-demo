@@ -1,32 +1,17 @@
-package com.mtautumn.edgequest;
+package com.mtautumn.edgequest.updates;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.mtautumn.edgequest.data.DataManager;
 
-public class BlockUpdateManager extends Thread {
-	DataManager dataManager;
+public class UpdateLighting {
 	private int lightDiffuseDistance = 8;
-	public BlockUpdateManager(DataManager dataManager) {
+	DataManager dataManager;
+	public UpdateLighting(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
-	public void run() {
-		int i = 0;
-		while (dataManager.system.running) {
-			try {
-				if (!dataManager.system.isGameOnLaunchScreen) {
-					i++;
-					if (i % 30 == 0) melt();
-					updateMining();
-				}
-				Thread.sleep(dataManager.settings.tickLength);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	public void updateLighting(int x, int y) {
+	public void update(int x, int y) {
 		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
 			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
 				updateBlockLighting(i, j);
@@ -149,73 +134,5 @@ public class BlockUpdateManager extends Thread {
 			return dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(x + "," + y)).isLightSource;
 		}
 		return false;
-	}
-	private boolean wasMouseDown = false;
-	private void updateMining() {
-		if (!dataManager.system.isKeyboardBackpack && !dataManager.system.isKeyboardMenu) {
-			if (dataManager.system.leftMouseDown && wasMouseDown && !dataManager.system.isMouseFar) {
-				if (dataManager.system.miningX != dataManager.system.mouseX || dataManager.system.miningY != dataManager.system.mouseY) {
-					dataManager.system.miningX = dataManager.system.mouseX;
-					dataManager.system.miningY = dataManager.system.mouseY;
-					dataManager.system.blockDamage = 0;
-				}
-				dataManager.system.blockDamage += 1.0/getBlockAt(dataManager.system.mouseX, dataManager.system.mouseY).hardness/dataManager.settings.tickLength;
-				if (dataManager.system.blockDamage < 0) dataManager.system.blockDamage = 0;
-				if (dataManager.system.blockDamage >= 10) {
-					dataManager.system.blockDamage = 0;
-					breakBlock(dataManager.system.mouseX, dataManager.system.mouseY);
-				}
-			} else {
-				dataManager.system.blockDamage = 0;
-			}
-		}
-		wasMouseDown = dataManager.system.leftMouseDown;
-	}
-	private BlockItem getBlockAt(int x, int y) {
-		if (dataManager.savable.playerStructuresMap.containsKey(x + "," + y)) {
-			return dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(x + "," + y));
-		} else if (dataManager.savable.map.containsKey(x + "," + y)) {
-			return dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y));
-		} else {
-			return null;
-		}
-
-	}
-	private void breakBlock(int x, int y) {
-		BlockItem item = null;
-		if (dataManager.savable.playerStructuresMap.containsKey(x + "," + y)) {
-			item = dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(x + "," + y));
-			dataManager.savable.playerStructuresMap.remove(x + "," + y);
-
-		} else if (dataManager.savable.map.containsKey(x + "," + y)) {
-			item = dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y));
-			String replacement = dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y)).replacedBy;
-			dataManager.savable.map.put(x + "," + y,dataManager.system.blockNameMap.get(replacement).getID());
-		}
-		if (item != null) {
-			BlockItem result = dataManager.system.blockNameMap.get(item.breaksInto);
-			if (result.getIsItem()) {
-				dataManager.backpackManager.addItem(result);
-			}
-		}
-	}
-	private void melt() {
-		for(int x = dataManager.system.minTileX; x <= dataManager.system.maxTileX; x++) {
-			for(int y = dataManager.system.minTileY; y <= dataManager.system.maxTileY; y++) {
-				if (dataManager.savable.map.containsKey(x+","+y)) {
-					if (dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y)).melts) {
-						double brightness = 0;
-						if (dataManager.savable.lightMap.containsKey(x+","+y)) {
-							brightness = Double.valueOf(((int) dataManager.savable.lightMap.get(x + "," + y) + 128)) / 255.0;
-						}
-						if (brightness > 0.7) {
-							if (1 - Math.random() < (brightness - 0.7) / 50.0) {
-								dataManager.savable.map.put(x+","+y, dataManager.system.blockNameMap.get(dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y)).meltsInto).getID());
-							}
-						}
-					}
-				}
-			}	
-		}
 	}
 }
