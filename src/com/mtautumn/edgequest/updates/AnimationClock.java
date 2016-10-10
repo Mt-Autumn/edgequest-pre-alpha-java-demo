@@ -1,4 +1,4 @@
-package com.mtautumn.edgequest;
+package com.mtautumn.edgequest.updates;
 
 import com.mtautumn.edgequest.data.DataManager;
 

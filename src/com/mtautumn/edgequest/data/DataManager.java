@@ -1,13 +1,13 @@
 package com.mtautumn.edgequest.data;
 
-import com.mtautumn.edgequest.AnimationClock;
 import com.mtautumn.edgequest.AutoCharacterWalk;
 import com.mtautumn.edgequest.BackpackManager;
-import com.mtautumn.edgequest.BlockUpdateManager;
 import com.mtautumn.edgequest.ButtonActionManager;
 import com.mtautumn.edgequest.CharacterManager;
 import com.mtautumn.edgequest.GameClock;
 import com.mtautumn.edgequest.TerrainManager;
+import com.mtautumn.edgequest.updates.AnimationClock;
+import com.mtautumn.edgequest.updates.BlockUpdateManager;
 import com.mtautumn.edgequest.window.managers.MenuButtonManager;
 import com.mtautumn.edgequest.window.managers.RendererManager;
 
@@ -26,5 +26,4 @@ public class DataManager {
 	public AnimationClock animationClock = new AnimationClock(this);
 	public AutoCharacterWalk autoCharacterWalk = new AutoCharacterWalk(this);
 	public ButtonActionManager buttonActionManager = new ButtonActionManager(this);
-
 }

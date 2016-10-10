@@ -1,12 +1,11 @@
 package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.updates.BlockUpdateManager;
 
 public class CharacterManager extends Thread{
 	DataManager dataManager;
 	BlockUpdateManager blockUpdateManager;
-	double lastFootX = 0.0;
-	double lastFootY = 0.0;
 	public CharacterManager(DataManager dataManager) {
 		this.dataManager = dataManager;
 		blockUpdateManager = dataManager.blockUpdateManager;
@@ -17,11 +16,11 @@ public class CharacterManager extends Thread{
 		if (!dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
 			if ((short)getCharaterBlockInfo()[0] != dataManager.system.blockNameMap.get("water").getID()) {
 				dataManager.savable.playerStructuresMap.put(charX + "," + charY, dataManager.system.blockNameMap.get("torch").getID());
-				blockUpdateManager.updateLighting(charX, charY);
+				blockUpdateManager.lighting.update(charX, charY);
 			}
 		} else {
 			dataManager.savable.playerStructuresMap.remove(charX + "," + charY);
-			blockUpdateManager.updateLighting(charX, charY);
+			blockUpdateManager.lighting.update(charX, charY);
 		}
 	}
 	public double[] getCharaterBlockInfo() {
@@ -48,7 +47,6 @@ public class CharacterManager extends Thread{
 		while (dataManager.system.running) {
 			try {
 				if (!dataManager.system.isGameOnLaunchScreen) {
-					updateFootprints();
 					double moveInterval = Double.valueOf(System.currentTimeMillis() - lastUpdate) / 600.0;
 					lastUpdate = System.currentTimeMillis();
 					double charYOffset = 0.0;
@@ -123,26 +121,6 @@ public class CharacterManager extends Thread{
 			return (dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(charX + "," + charY)).isPassable);
 		} else {
 			return true;
-		}
-	}
-	public void updateFootprints() {
-		int charX = (int) Math.floor(dataManager.savable.charX);
-		int charY = (int) Math.floor(dataManager.savable.charY);
-		if (dataManager.savable.map.containsKey(charX + "," + charY)) {
-			if (dataManager.system.blockIDMap.get(dataManager.savable.map.get(charX + "," + charY)).canHavePrints) {
-				if (Math.sqrt(Math.pow(dataManager.savable.charX - lastFootX, 2)+Math.pow(dataManager.savable.charY - lastFootY, 2)) > 0.7) {
-					lastFootX = dataManager.savable.charX;
-					lastFootY = dataManager.savable.charY;
-					dataManager.savable.footPrints.add(new FootPrint(dataManager.savable.charX, dataManager.savable.charY, dataManager.savable.charDir));
-				}
-			}
-		}
-		for (int i = 0; i < dataManager.savable.footPrints.size(); i++) {
-			dataManager.savable.footPrints.get(i).opacity -= 0.001;
-			if (dataManager.savable.footPrints.get(i).opacity <= 0) {
-				dataManager.savable.footPrints.remove(i);
-			}
-
 		}
 	}
 }
