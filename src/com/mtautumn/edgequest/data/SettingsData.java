@@ -12,7 +12,8 @@ public class SettingsData {
 	public int screenHeight = 600;
 	public boolean isFullScreen = false;
 	public boolean vSyncOn = true;
-
+	public double moveSpeed = 1.6;
+	
 	public int upKey = Keyboard.KEY_UP;
 	public int downKey = Keyboard.KEY_DOWN;
 	public int rightKey = Keyboard.KEY_RIGHT;

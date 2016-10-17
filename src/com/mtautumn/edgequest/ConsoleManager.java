@@ -79,12 +79,20 @@ public class ConsoleManager {
 			} else
 				addLine("use the format :tp posX posY");
 			break;
+		case "speed":
+			if (args.size() > 0)
+				dataManager.settings.moveSpeed = Double.parseDouble(args.get(0));
+			else
+				addLine("use the format :speed value");
+			break;
 		case "help":
 			addLine("Command List: ");
 			Thread.sleep(1);
 			addLine("     (1) :time [0-2399]");
 			Thread.sleep(1);
 			addLine("     (2) :tp posX posY");
+			Thread.sleep(1);
+			addLine("     (3) :speed value");
 			break;
 		default:
 			addLine("unknown command \"" + cmdName + "\"");

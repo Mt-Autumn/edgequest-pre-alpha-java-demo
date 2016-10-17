@@ -47,7 +47,7 @@ public class CharacterManager extends Thread{
 		while (dataManager.system.running) {
 			try {
 				if (!dataManager.system.isGameOnLaunchScreen) {
-					double moveInterval = Double.valueOf(System.currentTimeMillis() - lastUpdate) / 600.0;
+					double moveInterval = Double.valueOf(System.currentTimeMillis() - lastUpdate) / 1000.0 * dataManager.settings.moveSpeed;
 					lastUpdate = System.currentTimeMillis();
 					double charYOffset = 0.0;
 					double charXOffset = 0.0;
