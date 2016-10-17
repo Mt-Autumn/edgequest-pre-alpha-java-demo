@@ -18,9 +18,8 @@ public class Menu {
 	private static void drawButtons(Renderer r) {
 		for (int i = 0; i<r.dataManager.menuButtonManager.buttonIDArray.size(); i++) {
 			MenuButtonManager.MenuButton button = r.dataManager.menuButtonManager.buttonIDArray.get(i);
-			if (button.visible) {
+			if (button.visible)
 				r.drawTexture(button.buttonImage, button.getPosX(r.dataManager.system.menuX), button.getPosY(r.dataManager.system.menuY), button.width, button.height);
-			}
 		}
 	}
 }

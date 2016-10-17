@@ -11,13 +11,13 @@ public class Backpack {
 		drawBackground(r);
 		drawSpaces(r);	
 	}
-	
+
 	private static void drawBackground(Renderer r) {
 		r.dataManager.system.menuX = r.dataManager.settings.screenWidth / 2 - 375;
 		r.dataManager.system.menuY = r.dataManager.settings.screenHeight/2 - 250;
 		r.drawTexture(r.textureManager.getTexture("backpack"), r.dataManager.system.menuX, r.dataManager.system.menuY, 750,500);
 	}
-	
+
 	private static void drawSpaces(Renderer r) {
 		for (int i = 0; i < r.dataManager.savable.backpackItems.length; i++) {
 			int posX = r.dataManager.system.menuX + i * 64 + 37;
@@ -29,11 +29,10 @@ public class Backpack {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if (r.dataManager.savable.backpackItems[i][j].getItemCount() != 0) {
+				if (r.dataManager.savable.backpackItems[i][j].getItemCount() != 0)
 					r.backpackFont.drawString(posX, posY, "" + r.dataManager.savable.backpackItems[i][j].getItemCount(), Color.black);
-				}
 			}
 		}
 	}
-	
+
 }

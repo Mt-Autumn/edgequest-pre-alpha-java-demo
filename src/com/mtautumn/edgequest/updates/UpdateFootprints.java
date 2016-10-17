@@ -24,10 +24,8 @@ public class UpdateFootprints {
 		}
 		for (int i = 0; i < dataManager.savable.footPrints.size(); i++) {
 			dataManager.savable.footPrints.get(i).opacity -= 0.001;
-			if (dataManager.savable.footPrints.get(i).opacity <= 0) {
+			if (dataManager.savable.footPrints.get(i).opacity <= 0)
 				dataManager.savable.footPrints.remove(i);
-			}
-
 		}
 	}
 }

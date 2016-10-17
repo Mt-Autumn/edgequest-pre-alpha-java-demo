@@ -27,18 +27,14 @@ public class CharacterManager extends Thread{
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
 		int charX = (int) Math.floor(dataManager.savable.charX);
 		int charY = (int) Math.floor(dataManager.savable.charY);
-		if (dataManager.savable.map.containsKey(charX + "," + charY)) {
+		if (dataManager.savable.map.containsKey(charX + "," + charY))
 			blockInfo[0] = dataManager.savable.map.get(charX + "," + charY);
-		}
-		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
+		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY))
 			blockInfo[1] = dataManager.savable.playerStructuresMap.get(charX + "," + charY);
-		}
-		if (dataManager.savable.biomeMapFiltered.containsKey(charX + "," + charY)) {
+		if (dataManager.savable.biomeMapFiltered.containsKey(charX + "," + charY))
 			blockInfo[2] = dataManager.savable.biomeMapFiltered.get(charX + "," + charY);
-		}
-		if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
+		if (dataManager.savable.lightMap.containsKey(charX + "," + charY))
 			blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
-		}
 		return blockInfo;
 	}
 	public void run() {
@@ -51,18 +47,14 @@ public class CharacterManager extends Thread{
 					lastUpdate = System.currentTimeMillis();
 					double charYOffset = 0.0;
 					double charXOffset = 0.0;
-					if (dataManager.system.isKeyboardUp) {
+					if (dataManager.system.isKeyboardUp)
 						charYOffset -= moveInterval;
-					}
-					if (dataManager.system.isKeyboardRight) {
+					if (dataManager.system.isKeyboardRight)
 						charXOffset += moveInterval;
-					}
-					if (dataManager.system.isKeyboardDown) {
+					if (dataManager.system.isKeyboardDown)
 						charYOffset += moveInterval;
-					}
-					if (dataManager.system.isKeyboardLeft) {
+					if (dataManager.system.isKeyboardLeft)
 						charXOffset -= moveInterval;
-					}
 					if (charXOffset != 0 && charYOffset != 0) {
 						charXOffset *= 0.70710678118;
 						charYOffset *= 0.70710678118;
@@ -76,29 +68,27 @@ public class CharacterManager extends Thread{
 						charYOffset /= 1.7;
 
 					}
-					if (checkMoveProposal(charXOffset, true)) {
+					if (checkMoveProposal(charXOffset, true))
 						dataManager.savable.charX += charXOffset;
-					}
-					if (checkMoveProposal(charYOffset, false)) {
+					if (checkMoveProposal(charYOffset, false))
 						dataManager.savable.charY += charYOffset;
-					}
-					if(charYOffset < 0 && charXOffset == 0) {
+					if(charYOffset < 0 && charXOffset == 0)
 						dataManager.savable.charDir = 0;
-					} else if (charYOffset < 0 && charXOffset < 0) {
+					else if (charYOffset < 0 && charXOffset < 0)
 						dataManager.savable.charDir = 7;
-					} else if (charYOffset < 0 && charXOffset > 0) {
+					else if (charYOffset < 0 && charXOffset > 0)
 						dataManager.savable.charDir = 1;
-					} else if (charYOffset == 0 && charXOffset < 0) {
+					else if (charYOffset == 0 && charXOffset < 0)
 						dataManager.savable.charDir = 6;
-					} else if (charYOffset == 0 && charXOffset > 0) {
+					else if (charYOffset == 0 && charXOffset > 0)
 						dataManager.savable.charDir = 2;
-					} else if (charYOffset > 0 && charXOffset < 0) {
+					else if (charYOffset > 0 && charXOffset < 0)
 						dataManager.savable.charDir = 5;
-					} else if (charYOffset > 0 && charXOffset == 0) {
+					else if (charYOffset > 0 && charXOffset == 0)
 						dataManager.savable.charDir = 4;
-					} else if (charYOffset > 0 && charXOffset > 0) {
+					else if (charYOffset > 0 && charXOffset > 0)
 						dataManager.savable.charDir = 3;
-					}
+
 					dataManager.system.characterMoving = (charXOffset != 0 || charYOffset != 0);
 				}
 				Thread.sleep(dataManager.settings.tickLength);
@@ -117,10 +107,8 @@ public class CharacterManager extends Thread{
 			charY = (int) Math.floor(charOffset + dataManager.savable.charY);
 			charX = (int) Math.floor(dataManager.savable.charX);
 		}
-		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
+		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY))
 			return (dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(charX + "," + charY)).isPassable);
-		} else {
-			return true;
-		}
+		return true;
 	}
 }
