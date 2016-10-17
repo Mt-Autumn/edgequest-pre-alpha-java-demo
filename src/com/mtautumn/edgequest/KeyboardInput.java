@@ -7,7 +7,7 @@ import com.mtautumn.edgequest.window.layers.OptionPane;
 
 public class KeyboardInput {
 	DataManager dataManager;
-
+	public boolean wasConsoleUp = false;
 	private enum KeyState {
 
 		RELEASED,
@@ -44,9 +44,21 @@ public class KeyboardInput {
 							inputResponse = delete(inputResponse);
 						}
 						dataManager.system.inputTextResponse.set(dataManager.system.inputTextResponse.size() - 1, inputResponse + getKeyString(Keyboard.getKeyName(i)));
-					}
-					if (Keyboard.getKeyName(i).equals("RETURN") || Keyboard.getKeyName(i).equals("ENTER")) {
-						OptionPane.closeOptionPane(dataManager);
+						if (Keyboard.getKeyName(i).equals("RETURN") || Keyboard.getKeyName(i).equals("ENTER")) {
+							OptionPane.closeOptionPane(dataManager);
+						}
+					} else {
+						if (wasConsoleUp) {
+							String inputResponse = dataManager.system.consoleText;
+							if (Keyboard.getKeyName(i).equals("BACK") || Keyboard.getKeyName(i).equals("DELETE")) {
+								inputResponse = delete(inputResponse);
+							}
+							dataManager.system.consoleText = inputResponse + getKeyString(Keyboard.getKeyName(i));
+							if (Keyboard.getKeyName(i).equals("RETURN") || Keyboard.getKeyName(i).equals("ENTER")) {
+								dataManager.consoleManager.addLine(dataManager.system.consoleText);
+								dataManager.system.consoleText = "";
+							}
+						}
 					}
 				}
 			} else {
@@ -54,7 +66,6 @@ public class KeyboardInput {
 			}
 
 		}
-
 	}
 
 	public boolean isKeyDown( int keyCode ) {

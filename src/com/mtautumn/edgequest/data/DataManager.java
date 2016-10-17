@@ -4,6 +4,7 @@ import com.mtautumn.edgequest.AutoCharacterWalk;
 import com.mtautumn.edgequest.BackpackManager;
 import com.mtautumn.edgequest.ButtonActionManager;
 import com.mtautumn.edgequest.CharacterManager;
+import com.mtautumn.edgequest.ConsoleManager;
 import com.mtautumn.edgequest.GameClock;
 import com.mtautumn.edgequest.TerrainManager;
 import com.mtautumn.edgequest.updates.AnimationClock;
@@ -26,4 +27,5 @@ public class DataManager {
 	public AnimationClock animationClock = new AnimationClock(this);
 	public AutoCharacterWalk autoCharacterWalk = new AutoCharacterWalk(this);
 	public ButtonActionManager buttonActionManager = new ButtonActionManager(this);
+	public ConsoleManager consoleManager = new ConsoleManager(this);
 }

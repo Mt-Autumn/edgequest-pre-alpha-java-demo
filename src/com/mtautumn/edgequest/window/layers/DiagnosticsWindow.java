@@ -6,8 +6,7 @@ import com.mtautumn.edgequest.window.Renderer;
 
 public class DiagnosticsWindow {
 	public static void draw(Renderer r) {
-		Color.blue.bind();
-		//TODO: Create class for generating texture from string
+		Color.white.bind();
 		r.fillRect(10,10, 215, 220, 0.7f, 0.7f, 0.7f, 0.7f);
 		
 		int i = 0;
