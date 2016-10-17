@@ -161,8 +161,9 @@ public class RendererManager extends Thread {
 	private static boolean[] wasKeyDown = new boolean[256];
 	public void updateKeys() {
 		try {
-			if (dataManager.system.inputText.size() + dataManager.system.noticeText.size() > 0) {
+			if (dataManager.system.inputText.size() + dataManager.system.noticeText.size() > 0 || dataManager.system.showConsole) {
 				keyboard.poll();
+				keyboard.wasConsoleUp = dataManager.system.showConsole;
 			} else {
 				if (!dataManager.system.isGameOnLaunchScreen) {
 					Keyboard.poll();
@@ -177,21 +178,24 @@ public class RendererManager extends Thread {
 					boolean keyZoomOut = Keyboard.isKeyDown(dataManager.settings.zoomOutKey);
 					boolean keyShowDiag = Keyboard.isKeyDown(dataManager.settings.showDiagKey);
 					boolean keyPlaceTorch = Keyboard.isKeyDown(dataManager.settings.placeTorchKey);
+					boolean keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
+					
 					if (!dataManager.system.autoWalk) {
 						dataManager.system.isKeyboardUp = keyUp;
 						dataManager.system.isKeyboardRight = keyRight;
 						dataManager.system.isKeyboardDown = keyDown;
 						dataManager.system.isKeyboardLeft = keyLeft;
 						dataManager.system.isKeyboardSprint = keySprint;
-						if (keyUp || keyDown || keyLeft || keyRight) {
+						
+						if (keyUp || keyDown || keyLeft || keyRight)
 							dataManager.system.hideMouse = true;
-						} else {
+						else
 							dataManager.system.hideMouse = false;
-						}
+
 					} else {
-						if (keyUp || keyDown || keyRight || keyLeft) {
+						if (keyUp || keyDown || keyRight || keyLeft)
 							dataManager.system.autoWalk = false;
-						}
+
 					}
 					if (keyZoomIn && !wasKeyDown[dataManager.settings.zoomInKey]) {
 						if (dataManager.settings.blockSize < 128) {
@@ -205,28 +209,39 @@ public class RendererManager extends Thread {
 							dataManager.system.blockGenerationLastTick = true;
 						}	
 					}
-					if (keyShowDiag && !wasKeyDown[dataManager.settings.showDiagKey]) {
+					if (keyShowDiag && !wasKeyDown[dataManager.settings.showDiagKey])
 						dataManager.settings.showDiag = !dataManager.settings.showDiag;
-					}
-					if (keyMenu && !wasKeyDown[dataManager.settings.menuKey]) {
+
+					if (keyMenu && !wasKeyDown[dataManager.settings.menuKey])
 						dataManager.system.isKeyboardMenu = !dataManager.system.isKeyboardMenu;
-					}
-					if (keyPlaceTorch && !wasKeyDown[dataManager.settings.placeTorchKey]) {
+
+					if (keyPlaceTorch && !wasKeyDown[dataManager.settings.placeTorchKey]) 
 						characterManager.charPlaceTorch();
 
-					}
-					if (keyBackpack && !wasKeyDown[dataManager.settings.backpackKey]) {
+					if (keyBackpack && !wasKeyDown[dataManager.settings.backpackKey]) 
 						dataManager.system.isKeyboardBackpack = !dataManager.system.isKeyboardBackpack;
-					}
 
+					if (keyConsole && !wasKeyDown[dataManager.settings.consoleKey])
+						dataManager.system.showConsole = true;
+					
 					wasKeyDown[dataManager.settings.menuKey] = keyMenu;
 					wasKeyDown[dataManager.settings.backpackKey] = keyBackpack;
 					wasKeyDown[dataManager.settings.zoomInKey] = keyZoomIn;
 					wasKeyDown[dataManager.settings.zoomOutKey] = keyZoomOut;
 					wasKeyDown[dataManager.settings.showDiagKey] = keyShowDiag;
 					wasKeyDown[dataManager.settings.placeTorchKey] = keyPlaceTorch;
+					wasKeyDown[dataManager.settings.consoleKey] = keyConsole;
+					if (keyboard.wasConsoleUp) keyboard.wasConsoleUp = dataManager.system.showConsole;
 				}
+
 			}
+			Keyboard.poll();
+			boolean keyExit = Keyboard.isKeyDown(dataManager.settings.exitKey);
+			if (keyExit && !wasKeyDown[dataManager.settings.exitKey]) {
+				if (dataManager.system.showConsole)
+					dataManager.system.showConsole = false;
+			}
+			wasKeyDown[dataManager.settings.exitKey] = keyExit;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

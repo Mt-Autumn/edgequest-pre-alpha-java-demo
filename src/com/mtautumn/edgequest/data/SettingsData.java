@@ -24,4 +24,6 @@ public class SettingsData {
 	public int zoomOutKey = Keyboard.KEY_S;
 	public int showDiagKey = Keyboard.KEY_SPACE;
 	public int placeTorchKey = Keyboard.KEY_Q;
+	public int consoleKey = Keyboard.KEY_T;
+	public int exitKey = Keyboard.KEY_ESCAPE;
 }
