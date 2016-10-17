@@ -42,26 +42,28 @@ public class BlockItem implements Serializable {
 		breaksInto = name;
 		this.name = name;
 		if (isBlock) {
-			for (Short i = 0; i < blockAnimation.length; i++) {
+			for (Short i = 0; i < blockAnimation.length; i++)
 				blockImg.add(getTexture(name + blockAnimation[i], blockImageDirectory));
-			}
 		}
 		if (isItem) {
-			for (Short i = 0; i < itemAnimation.length; i++) {
+			for (Short i = 0; i < itemAnimation.length; i++)
 				itemImg.add(getTexture(name + itemAnimation[i], itemImageDirectory));
-			}
 		}
 	}
 
 	public Texture getItemImg(int time) {
-		if (isItem) return itemImg.get(time % itemImg.size());
-		if (isBlock) return blockImg.get(time % blockImg.size());
+		if (isItem)
+			return itemImg.get(time % itemImg.size());
+		if (isBlock)
+			return blockImg.get(time % blockImg.size());
 		return null;
 	}
 
 	public Texture getBlockImg(int time) {
-		if (isBlock) return blockImg.get(time % blockImg.size());
-		if (isItem) return itemImg.get(time % itemImg.size());
+		if (isBlock)
+			return blockImg.get(time % blockImg.size());
+		if (isItem)
+			return itemImg.get(time % itemImg.size());
 		return null;
 	}
 
@@ -77,7 +79,7 @@ public class BlockItem implements Serializable {
 
 	public boolean isID(Short testID) { return testID == id; }
 
-	private Texture getTexture(String name, String directory) {
+	private static Texture getTexture(String name, String directory) {
 		try {
 			return TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/" + directory + "/" + name + ".png"));
 		} catch (Exception e) {

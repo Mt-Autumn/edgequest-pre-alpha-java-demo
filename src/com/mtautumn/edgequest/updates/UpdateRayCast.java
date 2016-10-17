@@ -27,14 +27,13 @@ public class UpdateRayCast {
 			this.radius = radius;
 		}
 	}
-	
+
 	private static Point getNextArrayPoint(ArrayList<Point> points, double angle, double x, double y) {
 		double smallestAngle = 10;
 		for (int i = 0; i < points.size(); i++) {
 			double angle1 = points.get(i).angle;
-			if (angle1 < smallestAngle && angle1 > angle && points.get(i).radius != Double.NaN) {
+			if (angle1 < smallestAngle && angle1 > angle && points.get(i).radius != Double.NaN)
 				smallestAngle = angle1;
-			}
 		}
 		for (int i = 0; i < points.size(); i++) {
 			double angle1 = points.get(i).angle;
@@ -43,8 +42,7 @@ public class UpdateRayCast {
 		}
 		return null;
 	}
-	
-	
+
 	private void addVertex(double angle, double radius, double range, ArrayList<Point> points, ArrayList<Line> lines, Torch torch) {
 		double correctedAngle = angle;
 		double correctedRadius = radius;
@@ -66,13 +64,13 @@ public class UpdateRayCast {
 				double intersectionRadius = Math.sqrt(Math.pow(intersection.x - torch.posX, 2) + Math.pow(intersection.y - torch.posY, 2));
 				if (intersectionRadius != Double.NaN) {
 					if (intersectionRadius < correctedRadius)
-					correctedRadius = intersectionRadius;
+						correctedRadius = intersectionRadius;
 				}
 				x = torch.posX + Math.cos(angle) * radius;
 				y = torch.posY - Math.sin(angle) * radius;
 			}
 		}
-			points.add(new Point(correctedAngle, correctedRadius));
+		points.add(new Point(correctedAngle, correctedRadius));
 	}
 	public class CartesianPoint {
 		double x,y;
@@ -81,13 +79,10 @@ public class UpdateRayCast {
 			this.y = y;
 		}
 	}
-	public static boolean linesIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4){
-		// Return false if either of the lines have zero length
-		if (x1 == x2 && y1 == y2 ||
-				x3 == x4 && y3 == y4){
+	public static boolean linesIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
+		if (x1 == x2 && y1 == y2 || x3 == x4 && y3 == y4)
 			return false;
-		}
-		// Fastest method, based on Franklin Antonio's "Faster Line Segment Intersection" topic "in Graphics Gems III" book (http://www.graphicsgems.org/)
+
 		double ax = x2-x1;
 		double ay = y2-y1;
 		double bx = x3-x4;
@@ -97,42 +92,37 @@ public class UpdateRayCast {
 
 		double alphaNumerator = by*cx - bx*cy;
 		double commonDenominator = ay*bx - ax*by;
-		if (commonDenominator > 0){
-			if (alphaNumerator < 0 || alphaNumerator > commonDenominator){
+		if (commonDenominator > 0) {
+			if (alphaNumerator < 0 || alphaNumerator > commonDenominator)
 				return false;
-			}
-		}else if (commonDenominator < 0){
-			if (alphaNumerator > 0 || alphaNumerator < commonDenominator){
+		} else if (commonDenominator < 0) {
+			if (alphaNumerator > 0 || alphaNumerator < commonDenominator)
 				return false;
-			}
 		}
 		double betaNumerator = ax*cy - ay*cx;
-		if (commonDenominator > 0){
-			if (betaNumerator < 0 || betaNumerator > commonDenominator){
+		if (commonDenominator > 0) {
+			if (betaNumerator < 0 || betaNumerator > commonDenominator)
 				return false;
-			}
-		}else if (commonDenominator < 0){
-			if (betaNumerator > 0 || betaNumerator < commonDenominator){
+		} else if (commonDenominator < 0) {
+			if (betaNumerator > 0 || betaNumerator < commonDenominator)
 				return false;
-			}
 		}
-		if (commonDenominator == 0){
+		if (commonDenominator == 0) {
 			// This code wasn't in Franklin Antonio's method. It was added by Keith Woodward.
 			// The lines are parallel.
 			// Check if they're collinear.
 			double y3LessY1 = y3-y1;
 			double collinearityTestForP3 = x1*(y2-y3) + x2*(y3LessY1) + x3*(y1-y2);   // see http://mathworld.wolfram.com/Collinear.html
 			// If p3 is collinear with p1 and p2 then p4 will also be collinear, since p1-p2 is parallel with p3-p4
-			if (collinearityTestForP3 == 0){
+			if (collinearityTestForP3 == 0) {
 				// The lines are collinear. Now check if they overlap.
 				if (x1 >= x3 && x1 <= x4 || x1 <= x3 && x1 >= x4 ||
 						x2 >= x3 && x2 <= x4 || x2 <= x3 && x2 >= x4 ||
-						x3 >= x1 && x3 <= x2 || x3 <= x1 && x3 >= x2){
+						x3 >= x1 && x3 <= x2 || x3 <= x1 && x3 >= x2) {
 					if (y1 >= y3 && y1 <= y4 || y1 <= y3 && y1 >= y4 ||
 							y2 >= y3 && y2 <= y4 || y2 <= y3 && y2 >= y4 ||
-							y3 >= y1 && y3 <= y2 || y3 <= y1 && y3 >= y2){
+							y3 >= y1 && y3 <= y2 || y3 <= y1 && y3 >= y2)
 						return true;
-					}
 				}
 			}
 			return false;
@@ -147,10 +137,9 @@ public class UpdateRayCast {
 		double x3LessX4 = x3 - x4;
 		double y3LessY4 = y3 - y4;
 		double det1Less2And3Less4 = det(x1LessX2, y1LessY2, x3LessX4, y3LessY4);
-		if (det1Less2And3Less4 == 0){
-			// the denominator is zero so the lines are parallel and there's either no solution (or multiple solutions if the lines overlap) so return null.
+		if (det1Less2And3Less4 == 0) 
 			return null;
-		}
+
 		double x = (det(det1And2, x1LessX2,
 				det3And4, x3LessX4) /
 				det1Less2And3Less4);
@@ -173,9 +162,6 @@ public class UpdateRayCast {
 			}
 		}
 
-
-
-
 		ArrayList<Point> points = new ArrayList<Point>();
 		for (int i = 0; i < lines.size(); i++) {
 			double angle1 = Math.atan2(torch.posY-lines.get(i).y1, lines.get(i).x1 - torch.posX);
@@ -185,26 +171,24 @@ public class UpdateRayCast {
 			addVertex(angle1, radius1, torch.range, points, lines, torch);
 			addVertex(angle2, radius2, torch.range, points, lines, torch);
 		}
-		
+
 		int currentPoint = 0;
 		while (currentPoint < points.size()) {
 			boolean removePoint = false;
 			for (int i = 0; i < points.size(); i++) {
 				if (points.get(i).angle == points.get(currentPoint).angle) {
-					if (points.get(i).radius < points.get(currentPoint).radius) {
+					if (points.get(i).radius < points.get(currentPoint).radius)
 						removePoint = true;
-					}
 				}
 			}
-			if (removePoint) {
+			if (removePoint)
 				points.remove(currentPoint);
-			} else {
+			else
 				currentPoint++;
-			}
 		}
-		
-		
-		
+
+
+
 		double angle = -Math.PI;
 		double lastRadius = torch.range;
 		final double increment = 0.1;
@@ -244,18 +228,15 @@ public class UpdateRayCast {
 				triangles.add(triangle);
 				lastPoint = nextPoint;
 				angle = nextPoint.angle;
-			} else {
+			} else
 				drawing = false;
-			}
-		
-		
 		}
-		
-		
+
+
 		torch.points = points;
-		
-		
-		
+
+
+
 		torch.triangles = triangles;
 		//torch.removeZeroTriangles();
 
@@ -279,9 +260,8 @@ public class UpdateRayCast {
 	public boolean doesContainStructure(double x, double y) {
 		int x1 = (int) Math.floor(x);
 		int y1 = (int) Math.floor(y);
-		if (dataManager.savable.playerStructuresMap.containsKey(x1 + "," + y1)) {
+		if (dataManager.savable.playerStructuresMap.containsKey(x1 + "," + y1))
 			return !dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(x1 + "," + y1)).isPassable;
-		}
 		return false;
 	}
 	public void addTorch(double x, double y) {
@@ -401,9 +381,8 @@ public class UpdateRayCast {
 		public boolean isIntersection(double x, double y, double angle, double radius) {
 			double angle1 = getPolarAngle(x, y, 1);
 			double angle2 = getPolarAngle(x, y, 2);
-			if (getDistance(x, y, 1) <= radius || getDistance(x, y, 2) <= radius) {
+			if (getDistance(x, y, 1) <= radius || getDistance(x, y, 2) <= radius)
 				return (angle2 <= angle && angle1 >= angle) || (angle1 <= angle && angle2 >= angle);
-			}
 			return false;
 		}
 		private double getDistance(double x, double y, int point) {

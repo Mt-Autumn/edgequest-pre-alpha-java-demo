@@ -5,20 +5,19 @@ import com.mtautumn.edgequest.window.Renderer;
 
 public class OptionPane {
 	public static void draw(Renderer r) {
-		for (int i = 0; i < r.dataManager.system.inputText.size(); i++) {
+		for (int i = 0; i < r.dataManager.system.inputText.size(); i++)
 			drawInput(r, r.dataManager.system.inputText.get(i), i);
-		}
-		for (int i = 0; i < r.dataManager.system.noticeText.size(); i++) {
+
+		for (int i = 0; i < r.dataManager.system.noticeText.size(); i++)
 			drawNotice(r, r.dataManager.system.noticeText.get(i), i);
-		}
+
 	}
 	private static void drawInput(Renderer r, String text, int count) {
-		if (r.dataManager.settings.screenWidth > 1.6 * r.dataManager.settings.screenHeight) {
+		if (r.dataManager.settings.screenWidth > 1.6 * r.dataManager.settings.screenHeight)
 			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), 0, (int)(r.dataManager.settings.screenHeight - r.dataManager.settings.screenWidth / 1.6) / 2, r.dataManager.settings.screenWidth,(int)(r.dataManager.settings.screenWidth / 1.6));
-		} else {
+		else
 			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), (int)(r.dataManager.settings.screenWidth - r.dataManager.settings.screenHeight * 1.6)/2, 0, (int)(r.dataManager.settings.screenHeight * 1.6),r.dataManager.settings.screenHeight);
 
-		}
 		int textX = (r.dataManager.settings.screenWidth - r.font2.getWidth(text)) / 2;
 		int textY = (r.dataManager.settings.screenHeight) / 2 - r.font2.getHeight(text) - 100;
 		r.font2.drawString(textX, textY, text);
@@ -26,28 +25,22 @@ public class OptionPane {
 		int yPos = (r.dataManager.settings.screenHeight - 60) / 2;
 		r.drawTexture(r.textureManager.getTexture("inputField"), xPos, yPos, 400, 60);
 		String inputFieldText = "";
-		if (r.dataManager.system.inputTextResponse.size() > count) {
+		if (r.dataManager.system.inputTextResponse.size() > count)
 			inputFieldText = r.dataManager.system.inputTextResponse.get(count);
-		} else {
+		else
 			r.dataManager.system.inputTextResponse.add("");
-		}
-		if (System.currentTimeMillis() / 500 % 2 == 0) {
+		if (System.currentTimeMillis() / 500 % 2 == 0)
 			inputFieldText = inputFieldText + "|";
-		}
-		if (r.dataManager.system.os == 2) { //adjusts font location for windows
+		if (r.dataManager.system.os == 2) //adjusts font location for windows
 			r.font2.drawString(xPos + 15, yPos + 5, inputFieldText);
-		} else {
+		else
 			r.font2.drawString(xPos + 15, yPos + 15, inputFieldText);
-		}
-		
 	}
 	private static void drawNotice(Renderer r, String text, int count) {
-		if (r.dataManager.settings.screenWidth > 1.6 * r.dataManager.settings.screenHeight) {
+		if (r.dataManager.settings.screenWidth > 1.6 * r.dataManager.settings.screenHeight)
 			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), 0, (int)(r.dataManager.settings.screenHeight - r.dataManager.settings.screenWidth / 1.6) / 2, r.dataManager.settings.screenWidth,(int)(r.dataManager.settings.screenWidth / 1.6));
-		} else {
+		else
 			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), (int)(r.dataManager.settings.screenWidth - r.dataManager.settings.screenHeight * 1.6)/2, 0, (int)(r.dataManager.settings.screenHeight * 1.6),r.dataManager.settings.screenHeight);
-
-		}
 		int textX = (r.dataManager.settings.screenWidth - r.font2.getWidth(text)) / 2;
 		int textY = (r.dataManager.settings.screenHeight) / 2 - r.font2.getHeight(text);
 		r.font2.drawString(textX, textY, text);
