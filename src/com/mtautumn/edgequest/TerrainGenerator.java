@@ -16,6 +16,12 @@ public class TerrainGenerator {
 	public TerrainGenerator(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
+	public void clearCache() {
+		altitudeMap.clear();
+		temperatureMap.clear();
+		altitudeMapFiltered.clear();
+		temperatureMapFiltered.clear();
+	}
 	private double getRNG(int x, int y) {
 		return Math.sqrt((new Random(dataManager.savable.seed * x * 2 + x / 2).doubles().skip(Math.abs(y)%65535).findFirst().getAsDouble()) * (new Random(dataManager.savable.seed * 3 * y + 5 * y).doubles().skip(Math.abs(x)%65535).findFirst().getAsDouble()));
 	}
