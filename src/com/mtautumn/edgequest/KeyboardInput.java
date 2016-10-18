@@ -78,7 +78,7 @@ public class KeyboardInput {
 		return keys[ keyCode ] == KeyState.ONCE;
 	}
 
-	private String getKeyString(String keyName) {
+	private static String getKeyString(String keyName) {
 		if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
 			if (keyName.length() == 1) {
 				return keyName;
@@ -109,36 +109,35 @@ public class KeyboardInput {
 			default:
 				return "";
 			}
-		} else {
-			if (keyName.length() == 1) {
-				return keyName.toLowerCase();
-			}
-			switch (keyName) {
-			case "SPACE":
-				return " ";
-			case "PERIOD":
-				return ".";
-			case "SEMICOLON":
-				return ";";
-			case "EQUALS":
-				return "=";
-			case "MINUS":
-				return "-";
-			case "LBRACKET":
-				return "[";
-			case "RBRACKET":
-				return "]";
-			case "BACKSLASH":
-				return "\\";
-			case "APOSTROPHE":
-				return "'";
-			case "COMMA":
-				return ",";
-			case "SLASH":
-				return "/";
-			default:
-				return "";
-			}
+		}
+		if (keyName.length() == 1) {
+			return keyName.toLowerCase();
+		}
+		switch (keyName) {
+		case "SPACE":
+			return " ";
+		case "PERIOD":
+			return ".";
+		case "SEMICOLON":
+			return ";";
+		case "EQUALS":
+			return "=";
+		case "MINUS":
+			return "-";
+		case "LBRACKET":
+			return "[";
+		case "RBRACKET":
+			return "]";
+		case "BACKSLASH":
+			return "\\";
+		case "APOSTROPHE":
+			return "'";
+		case "COMMA":
+			return ",";
+		case "SLASH":
+			return "/";
+		default:
+			return "";
 		}
 	}
 	public String delete(String str) {

@@ -37,9 +37,8 @@ public class Lighting {
 	private static double getBrightness(Renderer r, int x, int y) {
 		if (r.dataManager.savable.lightMap.containsKey(x + "," + y)) {
 			return Double.valueOf(((int) r.dataManager.savable.lightMap.get(x + "," + y) + 128)) / 255.0;
-		} else {
-			return 0.0;
 		}
+		return 0.0;
 	}
 	
 	private static void drawBrightness(Renderer r, int x, int y, int xPos, int yPos) {

@@ -109,6 +109,7 @@ public class ButtonActionManager extends Thread {
 			break;
 		case 8:
 			dataManager.system.running = false;
+			break;
 		default:
 			break;
 		}

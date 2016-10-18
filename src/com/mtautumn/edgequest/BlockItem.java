@@ -77,7 +77,7 @@ public class BlockItem implements Serializable {
 
 	public boolean isID(Short testID) { return testID == id; }
 
-	private Texture getTexture(String name, String directory) {
+	private static Texture getTexture(String name, String directory) {
 		try {
 			return TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/" + directory + "/" + name + ".png"));
 		} catch (Exception e) {
