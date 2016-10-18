@@ -41,15 +41,13 @@ public class Terrain {
 	private static short getStructureBlockValue(Renderer r, int x, int y) {
 		if (r.dataManager.savable.playerStructuresMap.containsKey(x + "," + y)) {
 			return r.dataManager.savable.playerStructuresMap.get(x + "," + y);
-		} else {
-			return 0;
 		}
+		return 0;
 	}
 	private static short getTerrainBlockValue(Renderer r, int x, int y) {
 		if (r.dataManager.savable.map.containsKey(x + "," + y)) {
 			return r.dataManager.savable.map.get(x + "," + y);
-		} else {
-			return 0;
 		}
+		return 0;
 	}
 }

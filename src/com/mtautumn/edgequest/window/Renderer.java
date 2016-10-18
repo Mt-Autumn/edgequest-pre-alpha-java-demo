@@ -179,7 +179,7 @@ public class Renderer {
 
 		glPopMatrix();
 	}
-	private float nearestPower2(float size) {
+	private static float nearestPower2(float size) {
 		int i = 1;
 		for (; i < size; i *= 2);
 		return i;

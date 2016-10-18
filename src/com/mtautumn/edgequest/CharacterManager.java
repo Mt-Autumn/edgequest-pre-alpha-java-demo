@@ -116,8 +116,7 @@ public class CharacterManager extends Thread{
 		}
 		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
 			return (dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(charX + "," + charY)).isPassable);
-		} else {
-			return true;
 		}
+		return true;
 	}
 }

@@ -44,9 +44,8 @@ public class UpdateLighting {
 	private double getBlockBrightness(int x, int y) {
 		if (dataManager.savable.lightMap.containsKey(x + "," + y)) {
 			return Double.valueOf(((int) dataManager.savable.lightMap.get(x + "," + y) + 128)) / 255.0;
-		} else {
-			return 0.0;
 		}
+		return 0.0;
 	}
 	private void updateBlockLighting(int x, int y) {
 		double brightness = 0.0;
@@ -120,7 +119,7 @@ public class UpdateLighting {
 		}
 		return answer;
 	}
-	private boolean isInBetween(double num1, double num2, double numCheck) {
+	private static boolean isInBetween(double num1, double num2, double numCheck) {
 		if (num1 <= numCheck && num2 >= numCheck) { return true; }
 		return (num1 >= numCheck && num2 <= numCheck);
 	}

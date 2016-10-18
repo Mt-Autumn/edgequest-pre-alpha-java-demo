@@ -42,8 +42,8 @@ public class Footprints {
 	private static void drawPrint(Renderer r, FootPrint fp, String name) {
 		int posX = xPos(r, fp);
 		int posY = yPos(r, fp);
-		float width = (float)r.dataManager.settings.blockSize / 6f;
-		float length = (float)r.dataManager.settings.blockSize / 3f;
+		float width = r.dataManager.settings.blockSize / 6f;
+		float length = r.dataManager.settings.blockSize / 3f;
 		r.drawTexture(r.textureManager.getTexture(name), posX - width , posY - length, length, length * 2f, 45f * Float.valueOf(fp.direction));
 	}
 }
