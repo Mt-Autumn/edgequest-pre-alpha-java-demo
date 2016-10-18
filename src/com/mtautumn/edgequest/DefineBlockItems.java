@@ -86,8 +86,8 @@ public class DefineBlockItems {
 		BlockItem tree = new BlockItem(102, true, false, "tree", new int[]{0} , null);
 		addToMaps(tree);
 	}
-
-
+	
+	
 	private static void addToMaps(BlockItem blockItem) {
 		blockIDMap.put(blockItem.getID(), blockItem);
 		blockNameMap.put(blockItem.getName(), blockItem);

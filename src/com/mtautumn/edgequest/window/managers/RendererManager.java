@@ -64,8 +64,7 @@ public class RendererManager extends Thread {
 				updateKeys();
 				updateWindow();
 				lastNanoPause += (1.0/Double.valueOf(dataManager.settings.targetFPS) - 1.0/Double.valueOf(dataManager.system.averagedFPS)) * 50000000.0;
-				if (lastNanoPause < 0)
-					lastNanoPause = 0;
+				if (lastNanoPause < 0) lastNanoPause = 0;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -90,8 +89,9 @@ public class RendererManager extends Thread {
 	}
 	private void prepareFPSCounting() {
 		dataManager.system.averagedFPS = dataManager.settings.targetFPS;
-		for (int i = 0; i< lastXFPS.length; i++)
+		for (int i = 0; i< lastXFPS.length; i++) {
 			lastXFPS[i] = dataManager.settings.targetFPS;
+		}
 	}
 	private void updateWindowSize() {
 		if (dataManager.settings.screenWidth != Display.getWidth() || dataManager.settings.screenHeight != Display.getHeight()) {
@@ -104,8 +104,9 @@ public class RendererManager extends Thread {
 	private void updateMouse() {
 		try {
 			if (dataManager.system.hideMouse) {
-				if (!Mouse.isGrabbed())
+				if (!Mouse.isGrabbed()) {
 					Mouse.setGrabbed(true);
+				}
 			} else {
 				if (Mouse.isGrabbed()) {
 					Mouse.setGrabbed(false);
@@ -120,8 +121,9 @@ public class RendererManager extends Thread {
 		dataManager.system.leftMouseDown = Mouse.isButtonDown(0);
 		dataManager.system.rightMouseDown = Mouse.isButtonDown(1);
 		if (dataManager.system.inputText.size() + dataManager.system.noticeText.size() > 0) {
-			if (Mouse.isButtonDown(0) && !wasMouseDown)
+			if (Mouse.isButtonDown(0) && !wasMouseDown) {
 				OptionPane.closeOptionPane(dataManager);
+			}
 		} else {
 			dataManager.system.mousePosition = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
 			int mouseX = dataManager.system.mousePosition.x;
@@ -133,11 +135,11 @@ public class RendererManager extends Thread {
 			dataManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(dataManager.system.mouseX) - Math.floor(dataManager.savable.charX), 2.0)+Math.pow(Double.valueOf(dataManager.system.mouseY) - Math.floor(dataManager.savable.charY), 2.0)) > 3.0);
 			if (Mouse.isButtonDown(0) && !wasMouseDown) {
 				dataManager.system.autoWalk = false;
-				if (dataManager.system.isKeyboardMenu)
+				if (dataManager.system.isKeyboardMenu) {
 					dataManager.menuButtonManager.buttonPressed(mouseX, mouseY);
-				else if (dataManager.system.isGameOnLaunchScreen)
+				} else if (dataManager.system.isGameOnLaunchScreen) {
 					renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
-				else if (dataManager.system.isKeyboardSprint && !dataManager.system.hideMouse){
+				} else if (dataManager.system.isKeyboardSprint && !dataManager.system.hideMouse){
 					dataManager.system.autoWalkX = dataManager.system.mouseX;
 					dataManager.system.autoWalkY = dataManager.system.mouseY;
 					dataManager.system.autoWalk = true;
@@ -177,14 +179,14 @@ public class RendererManager extends Thread {
 					boolean keyShowDiag = Keyboard.isKeyDown(dataManager.settings.showDiagKey);
 					boolean keyPlaceTorch = Keyboard.isKeyDown(dataManager.settings.placeTorchKey);
 					boolean keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
-
+					
 					if (!dataManager.system.autoWalk) {
 						dataManager.system.isKeyboardUp = keyUp;
 						dataManager.system.isKeyboardRight = keyRight;
 						dataManager.system.isKeyboardDown = keyDown;
 						dataManager.system.isKeyboardLeft = keyLeft;
 						dataManager.system.isKeyboardSprint = keySprint;
-
+						
 						if (keyUp || keyDown || keyLeft || keyRight)
 							dataManager.system.hideMouse = true;
 						else
@@ -221,7 +223,7 @@ public class RendererManager extends Thread {
 
 					if (keyConsole && !wasKeyDown[dataManager.settings.consoleKey])
 						dataManager.system.showConsole = true;
-
+					
 					wasKeyDown[dataManager.settings.menuKey] = keyMenu;
 					wasKeyDown[dataManager.settings.backpackKey] = keyBackpack;
 					wasKeyDown[dataManager.settings.zoomInKey] = keyZoomIn;
@@ -229,8 +231,7 @@ public class RendererManager extends Thread {
 					wasKeyDown[dataManager.settings.showDiagKey] = keyShowDiag;
 					wasKeyDown[dataManager.settings.placeTorchKey] = keyPlaceTorch;
 					wasKeyDown[dataManager.settings.consoleKey] = keyConsole;
-					if (keyboard.wasConsoleUp)
-						keyboard.wasConsoleUp = dataManager.system.showConsole;
+					if (keyboard.wasConsoleUp) keyboard.wasConsoleUp = dataManager.system.showConsole;
 				}
 
 			}

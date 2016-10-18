@@ -20,13 +20,14 @@ public class ButtonActionManager extends Thread {
 			}
 		}
 	}
-
+	
 	private void runButtonActions() {
 		int size = dataManager.system.buttonActionQueue.size();
-		if (size > 0)
+		if (size > 0) {
 			runButtonAction(dataManager.system.buttonActionQueue.get(size - 1), size - 1);
+		}
 	}
-
+	
 	private void runButtonAction(int id, int index) {
 		dataManager.system.buttonActionQueue.remove(index);
 		switch (id) {
@@ -61,10 +62,11 @@ public class ButtonActionManager extends Thread {
 			String ans = getInputText("Enter FPS Target:");
 			try {
 				int fps = Integer.parseInt(ans);
-				if (fps > 0)
+				if (fps > 0) {
 					dataManager.settings.targetFPS = fps;
-				else
+				} else {
 					setNoticeText("FPS too low");
+				}
 			} catch (Exception e) {
 				setNoticeText("FPS not valid");
 			}
@@ -108,7 +110,6 @@ public class ButtonActionManager extends Thread {
 			break;
 		case 8:
 			dataManager.system.running = false;
-			break;
 		default:
 			break;
 		}
@@ -116,8 +117,9 @@ public class ButtonActionManager extends Thread {
 	private String getInputText(String text) {
 		dataManager.system.inputText.add(text);
 		int length = dataManager.system.inputText.size();
-		while (dataManager.system.inputTextResponse.size() < dataManager.system.inputText.size())
+		while (dataManager.system.inputTextResponse.size() < dataManager.system.inputText.size()) {
 			dataManager.system.inputTextResponse.add("");
+		}
 		dataManager.system.inputTextResponse.set(dataManager.system.inputTextResponse.size() - 1, "");
 		while (dataManager.system.inputText.size() >= length) {
 			try {
@@ -128,7 +130,7 @@ public class ButtonActionManager extends Thread {
 		}
 		return dataManager.system.lastInputMessage;
 	}
-
+	
 	private void setNoticeText(String text) {
 		dataManager.system.noticeText.add(text);
 		int length = dataManager.system.noticeText.size();

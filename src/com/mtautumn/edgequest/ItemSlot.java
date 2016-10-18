@@ -6,7 +6,7 @@ public class ItemSlot implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private static final int maxItemCount = 99;
-
+	
 	private Short itemID = -1;
 	private int itemCount = 0;
 	public Short getItemID() {

@@ -28,8 +28,9 @@ public class MenuButtonManager {
 	public MenuButton getButtonFromName(String name) {
 		MenuButton button = null;
 		for (int i = 0; i < buttonIDArray.size(); i++) {
-			if (buttonIDArray.get(i).name.equals(name))
+			if (buttonIDArray.get(i).name.equals(name)) {
 				button = buttonIDArray.get(i);
+			}
 		}
 		return button;
 	}
@@ -39,8 +40,7 @@ public class MenuButtonManager {
 		for (int i = 0; i < buttonIDArray.size(); i++) {
 			MenuButton button = buttonIDArray.get(i);
 			if (adjustedX > button.posX && adjustedX < button.posX + button.width && adjustedY > button.posY && adjustedY < button.posY + button.height) {
-				if (button.visible)
-					runButtonAction(button.id);
+				if (button.visible) runButtonAction(button.id);
 			}
 		}
 	}

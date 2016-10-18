@@ -35,8 +35,11 @@ public class Renderer {
 			DisplayMode[] modes;
 			try {
 				modes = Display.getAvailableDisplayModes();
+
 				for (int i = 0; i < modes.length; i++)
+				{
 					displayMode = modes[i];
+				}
 			} catch (LWJGLException e) {
 				e.printStackTrace();
 			}
@@ -176,7 +179,7 @@ public class Renderer {
 
 		glPopMatrix();
 	}
-	private static float nearestPower2(float size) {
+	private float nearestPower2(float size) {
 		int i = 1;
 		for (; i < size; i *= 2);
 		return i;
@@ -187,14 +190,18 @@ public class Renderer {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
 		int charX = (int) Math.floor(dataManager.savable.charX);
 		int charY = (int) Math.floor(dataManager.savable.charY);
-		if (dataManager.savable.map.containsKey(charX + "," + charY))
+		if (dataManager.savable.map.containsKey(charX + "," + charY)) {
 			blockInfo[0] = dataManager.savable.map.get(charX + "," + charY);
-		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY))
+		}
+		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
 			blockInfo[1] = dataManager.savable.playerStructuresMap.get(charX + "," + charY);
-		if (dataManager.savable.biomeMapFiltered.containsKey(charX + "," + charY))
+		}
+		if (dataManager.savable.biomeMapFiltered.containsKey(charX + "," + charY)) {
 			blockInfo[2] = dataManager.savable.biomeMapFiltered.get(charX + "," + charY);
-		if (dataManager.savable.lightMap.containsKey(charX + "," + charY))
+		}
+		if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
 			blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
+		}
 		return blockInfo;
 	}
 }

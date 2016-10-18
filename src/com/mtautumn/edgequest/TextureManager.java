@@ -12,7 +12,7 @@ import com.mtautumn.edgequest.data.DataManager;
 public class TextureManager {
 	public Map<String, Texture> textureList = new HashMap<String, Texture>();
 	public Map<String, int[]> textureAnimations = new HashMap<String, int[]>();
-
+	
 	public TextureManager() {
 		addTexture("backpack");
 		addTexture("character", new int[]{0,1,2,3,4,5,6,7});
@@ -43,7 +43,7 @@ public class TextureManager {
 		addTexture("blockHealth");
 	}
 	public Texture getTexture(String texture) {
-		return textureList.get(texture);
+			return textureList.get(texture);
 	}
 	public Texture getAnimatedTexture(String texture, DataManager dataManager) {
 		return textureList.get(texture + textureAnimations.get(texture)[dataManager.system.animationClock % textureAnimations.get(texture).length]);
@@ -53,8 +53,9 @@ public class TextureManager {
 		return getTexture("character" + direction);
 	}
 	private void addTexture(String name, int[] series) {
-		for(int i = 0; i< series.length; i++)
+		for(int i = 0; i< series.length; i++) {
 			addTexture(name + series[i]);
+		}
 	}
 	private void addTexture(String name) {
 		try {
