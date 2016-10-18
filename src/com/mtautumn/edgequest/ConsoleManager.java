@@ -24,7 +24,8 @@ public class ConsoleManager {
 	
 	
 	public void addLine(String text) {
-		if (text.startsWith(":"))
+		// Linux doesn't like colons
+		if (text.startsWith("/"))
 			parseCommand(text);
 		else
 			lines.add(new Line(text));
@@ -66,9 +67,9 @@ public class ConsoleManager {
 	private void runCommand(String cmdName, ArrayList<String> args) throws InterruptedException {
 		switch (cmdName) {
 		case "time":
-			if (args.size() > 0)
+			if (args.size() > 0) {
 				dataManager.savable.time = Integer.parseInt(args.get(0));
-			else
+			} else
 				addLine("use the format :time [0-2399]");
 			break;
 		case "tp":
@@ -84,6 +85,21 @@ public class ConsoleManager {
 				dataManager.settings.moveSpeed = Double.parseDouble(args.get(0));
 			else
 				addLine("use the format :speed value");
+			break;
+		case "reseed":
+			if (args.size() > 0) {
+				dataManager.savable.seed = (long) Double.parseDouble(args.get(0));
+				dataManager.system.biomeMap.clear();
+				dataManager.savable.biomeMapFiltered.clear();
+				dataManager.savable.playerStructuresMap.clear();
+				dataManager.savable.map.clear();
+				dataManager.savable.lightMap.clear();
+				dataManager.savable.footPrints.clear();
+				dataManager.system.blockGenerationLastTick = true;
+				dataManager.system.isGameOnLaunchScreen = false;
+				dataManager.system.isLaunchScreenLoaded = false;
+			} else
+				addLine("use the format :reseed seed");
 			break;
 		case "help":
 			addLine("Command List: ");
