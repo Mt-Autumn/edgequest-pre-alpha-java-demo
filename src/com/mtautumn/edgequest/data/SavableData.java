@@ -14,7 +14,6 @@ public class SavableData implements Serializable {
 	public Map<String, Short> map = new HashMap<String, Short>();
 	public Map<String, Byte> lightMap = new HashMap<String, Byte>();
 	public Map<String, Short> playerStructuresMap = new HashMap<String, Short>();
-	public Map<String, Byte> biomeMapFiltered = new HashMap<String, Byte>();
 	public ArrayList<FootPrint> footPrints = new ArrayList<FootPrint>();
 	public long seed = 7;
 	public double charX = 5;

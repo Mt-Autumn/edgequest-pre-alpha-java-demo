@@ -35,8 +35,7 @@ public class ButtonActionManager extends Thread {
 			try {
 				long seed = Long.parseLong(getInputText("Enter a Seed Number:"));
 				dataManager.savable.seed = seed;
-				dataManager.system.biomeMap.clear();
-				dataManager.savable.biomeMapFiltered.clear();
+				dataManager.terrainManager.terrainGenerator.clearCache();
 				dataManager.savable.playerStructuresMap.clear();
 				dataManager.savable.map.clear();
 				dataManager.savable.lightMap.clear();

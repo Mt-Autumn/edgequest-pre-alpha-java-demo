@@ -89,8 +89,7 @@ public class ConsoleManager {
 		case "reseed":
 			if (args.size() > 0) {
 				dataManager.savable.seed = (long) Double.parseDouble(args.get(0));
-				dataManager.system.biomeMap.clear();
-				dataManager.savable.biomeMapFiltered.clear();
+				dataManager.terrainManager.terrainGenerator.clearCache();
 				dataManager.savable.playerStructuresMap.clear();
 				dataManager.savable.map.clear();
 				dataManager.savable.lightMap.clear();

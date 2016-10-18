@@ -196,9 +196,6 @@ public class Renderer {
 		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
 			blockInfo[1] = dataManager.savable.playerStructuresMap.get(charX + "," + charY);
 		}
-		if (dataManager.savable.biomeMapFiltered.containsKey(charX + "," + charY)) {
-			blockInfo[2] = dataManager.savable.biomeMapFiltered.get(charX + "," + charY);
-		}
 		if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
 			blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
 		}
