@@ -12,7 +12,7 @@ public class ConsoleManager {
 	public class Line {
 		private long creationTime;
 		private String text;
-
+		
 		Line(String text) {
 			creationTime = System.currentTimeMillis();
 			this.text = text;
@@ -21,8 +21,8 @@ public class ConsoleManager {
 		public long getTime() { return creationTime; }
 	}	
 	public ArrayList<Line> lines = new ArrayList<Line>();
-
-
+	
+	
 	public void addLine(String text) {
 		if (text.startsWith(":"))
 			parseCommand(text);
@@ -43,21 +43,22 @@ public class ConsoleManager {
 		String remaining = text.substring(text.indexOf(" ") + 1, text.length());
 		while (moreArgs) {
 			String nextArg;
-			if (remaining.contains(" "))
+			if (remaining.contains(" ")) {
 				nextArg = remaining.substring(0, remaining.indexOf(" "));
-			else
+			} else {
 				nextArg = remaining.substring(0, remaining.length());
+			}
 			args.add(nextArg);			
 			moreArgs = false;
 			if (remaining.contains(" ")) {
 				if (remaining.length() > remaining.indexOf(" ") + 1) {
-					remaining = remaining.substring(remaining.indexOf(" ") + 1, remaining.length());
-					moreArgs = true;
+				remaining = remaining.substring(remaining.indexOf(" ") + 1, remaining.length());
+				moreArgs = true;
 				}
 			}
 		}
 		try {
-			runCommand(cmdName, args);
+		runCommand(cmdName, args);
 		} catch (Exception e) {
 			addLine("Command entered wrong");
 		}
@@ -110,17 +111,18 @@ public class ConsoleManager {
 		}
 		return lines;
 	}
-
+	
 	private static Line getNewest(ArrayList<Line> lines) {
 		Line newest = null;
 		for (int i = 0; i < lines.size(); i++) {
 			if (newest != null) {
 				if (newest.creationTime < lines.get(i).creationTime)
 					newest = lines.get(i);
-				else
-					newest = lines.get(i);
+			} else {
+				newest = lines.get(i);
 			}
-			return newest;
 		}
-
+		return newest;
 	}
+
+}

@@ -15,10 +15,12 @@ public class LaunchScreen {
 	}
 
 	private static void drawBackground(Renderer r) {
-		if (r.dataManager.settings.screenWidth > 1.6 * r.dataManager.settings.screenHeight)
+		if (r.dataManager.settings.screenWidth > 1.6 * r.dataManager.settings.screenHeight) {
 			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), 0, (int)(r.dataManager.settings.screenHeight - r.dataManager.settings.screenWidth / 1.6) / 2, r.dataManager.settings.screenWidth,(int)(r.dataManager.settings.screenWidth / 1.6));
-		else
+		} else {
 			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), (int)(r.dataManager.settings.screenWidth - r.dataManager.settings.screenHeight * 1.6)/2, 0, (int)(r.dataManager.settings.screenHeight * 1.6),r.dataManager.settings.screenHeight);
+
+		}
 	}
 
 	private static void drawLogo(Renderer r) {

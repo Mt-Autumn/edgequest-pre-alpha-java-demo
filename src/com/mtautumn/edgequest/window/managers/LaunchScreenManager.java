@@ -20,8 +20,9 @@ public class LaunchScreenManager {
 	public void buttonPressed(int posX, int posY) {
 		for (int i = 0; i < buttonIDArray.size(); i++) {
 			MenuButton button = buttonIDArray.get(i);
-			if (posX > button.getPosX(dataManager.settings.screenWidth) && posX < button.getPosX(dataManager.settings.screenWidth) + button.width && posY > button.getPosY(dataManager.settings.screenHeight) && posY < button.getPosY(dataManager.settings.screenHeight) + button.height)
+			if (posX > button.getPosX(dataManager.settings.screenWidth) && posX < button.getPosX(dataManager.settings.screenWidth) + button.width && posY > button.getPosY(dataManager.settings.screenHeight) && posY < button.getPosY(dataManager.settings.screenHeight) + button.height) {
 				runButtonAction(button.id);
+			}
 		}
 	}
 	private void runButtonAction(int id) {

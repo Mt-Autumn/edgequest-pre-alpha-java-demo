@@ -18,7 +18,6 @@ public class EdgeQuest {
 		case 119:
 			System.out.println("Setting OS to Windows");
 			dataManager.system.os = 2;
-			break;
 		default:
 			break;
 		}
