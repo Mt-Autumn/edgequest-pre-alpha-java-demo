@@ -109,6 +109,8 @@ public class ConsoleManager {
 			addLine("     (2) :tp posX posY");
 			Thread.sleep(1);
 			addLine("     (3) :speed value");
+			Thread.sleep(1);
+			addLine("     (4) :reseed seed");
 			break;
 		default:
 			addLine("unknown command \"" + cmdName + "\"");
