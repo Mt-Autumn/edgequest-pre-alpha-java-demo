@@ -2,6 +2,8 @@ package com.mtautumn.edgequest;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
+
 import com.mtautumn.edgequest.data.DataManager;
 
 public class ConsoleManager {
@@ -12,10 +14,16 @@ public class ConsoleManager {
 	public class Line {
 		private long creationTime;
 		private String text;
+		public Color color = new Color(Color.white);
 		
 		Line(String text) {
 			creationTime = System.currentTimeMillis();
 			this.text = text;
+		}
+		Line(String text, Color color) {
+			creationTime = System.currentTimeMillis();
+			this.text = text;
+			this.color = color;
 		}
 		public String getText() { return text; }
 		public long getTime() { return creationTime; }
@@ -29,6 +37,23 @@ public class ConsoleManager {
 			parseCommand(text);
 		else
 			lines.add(new Line(text));
+	}
+	public void addLine(String text, int type) {
+		// Linux doesn't like colons
+		if (text.startsWith("/"))
+			parseCommand(text);
+		else
+			switch (type) {
+			case 1:
+				lines.add(new Line(text,Color.red));
+				break;
+			case 2:
+				lines.add(new Line(text,Color.blue));
+				break;
+			default:
+				lines.add(new Line(text));
+				break;
+			}
 	}
 	private void parseCommand(String text) {
 		String cmdName;
@@ -61,7 +86,7 @@ public class ConsoleManager {
 		try {
 		runCommand(cmdName, args);
 		} catch (Exception e) {
-			addLine("Command entered wrong");
+			addLine("Command entered wrong", 1);
 		}
 	}
 	private void runCommand(String cmdName, ArrayList<String> args) throws InterruptedException {
@@ -70,7 +95,7 @@ public class ConsoleManager {
 			if (args.size() > 0) {
 				dataManager.savable.time = Integer.parseInt(args.get(0));
 			} else
-				addLine("use the format :time [0-2399]");
+				addLine("use the format :time [0-2399]", 1);
 			break;
 		case "tp":
 			if (args.size() > 1) {
@@ -78,13 +103,13 @@ public class ConsoleManager {
 				dataManager.savable.charY = Double.parseDouble(args.get(1));
 				dataManager.system.blockGenerationLastTick = true;
 			} else
-				addLine("use the format :tp posX posY");
+				addLine("use the format :tp posX posY", 1);
 			break;
 		case "speed":
 			if (args.size() > 0)
 				dataManager.settings.moveSpeed = Double.parseDouble(args.get(0));
 			else
-				addLine("use the format :speed value");
+				addLine("use the format :speed value", 1);
 			break;
 		case "reseed":
 			if (args.size() > 0) {
@@ -98,21 +123,21 @@ public class ConsoleManager {
 				dataManager.system.isGameOnLaunchScreen = false;
 				dataManager.system.isLaunchScreenLoaded = false;
 			} else
-				addLine("use the format :reseed seed");
+				addLine("use the format :reseed seed", 1);
 			break;
 		case "help":
-			addLine("Command List: ");
+			addLine("Command List: ", 2);
 			Thread.sleep(1);
-			addLine("     (1) :time [0-2399]");
+			addLine("     (1) :time [0-2399]", 2);
 			Thread.sleep(1);
-			addLine("     (2) :tp posX posY");
+			addLine("     (2) :tp posX posY", 2);
 			Thread.sleep(1);
-			addLine("     (3) :speed value");
+			addLine("     (3) :speed value", 2);
 			Thread.sleep(1);
-			addLine("     (4) :reseed seed");
+			addLine("     (4) :reseed seed", 2);
 			break;
 		default:
-			addLine("unknown command \"" + cmdName + "\"");
+			addLine("unknown command \"" + cmdName + "\"", 1);
 			break;
 		}
 	}

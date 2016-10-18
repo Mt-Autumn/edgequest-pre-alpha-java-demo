@@ -17,7 +17,7 @@ public class Console {
 		for (int i = 0; i < lineCount; i++) {
 			Line line = lines[i];
 			if (line != null) {
-				r.font.drawString(screenWidth - consoleWidth,consoleHeight -  (i + 1) * consoleHeight / (lineCount + 1) - 10, line.getText());
+				r.font.drawString(screenWidth - consoleWidth,consoleHeight -  (i + 1) * consoleHeight / (lineCount + 1) - 10, line.getText(), line.color);
 			}
 		}
 		r.font.drawString(screenWidth - consoleWidth,consoleHeight - 10, r.dataManager.system.consoleText);
