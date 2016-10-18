@@ -18,6 +18,7 @@ public class DefineBlockItems {
 		snowDefinition();
 		waterDefinition();
 		groundDefinition();
+		iceDefinition();
 
 		torchDefinition();
 		lilyPadDefinition();
@@ -69,6 +70,13 @@ public class DefineBlockItems {
 		BlockItem ground = new BlockItem(7, true, false, "ground", new int[]{0} , null);
 		ground.hardness = -1;
 		addToMaps(ground);
+	}
+	private static void iceDefinition() {
+		BlockItem ice = new BlockItem(8, true, true, "ice", new int[]{0} , new int[]{0});
+		ice.melts = true;
+		ice.meltsInto = "water";
+		ice.replacedBy = "water";
+		addToMaps(ice);
 	}
 	private static void torchDefinition() {
 		BlockItem torch = new BlockItem(100, true, true, "torch", new int[]{0} , new int[]{0});

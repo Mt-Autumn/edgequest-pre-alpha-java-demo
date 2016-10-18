@@ -5,7 +5,7 @@ import org.lwjgl.input.Keyboard;
 public class SettingsData {
 	public int tickLength = 30;
 	public int targetFPS = 60;
-	public int chunkSize = 16;
+	public int chunkSize = 12;
 	public boolean showDiag = false;
 	public int blockSize = 32;
 	public int screenWidth = 800;
