@@ -8,6 +8,9 @@ import com.mtautumn.edgequest.data.DataManager;
 
 public class TerrainGenerator {
 	DataManager dataManager;
+	Map<String,Double> altNoiseMap = new HashMap<String, Double>();
+	Map<String,Double> tempNoiseMap = new HashMap<String, Double>();
+
 	Map<String,Integer> altitudeMap = new HashMap<String, Integer>();
 	Map<String,Integer> temperatureMap = new HashMap<String, Integer>();
 	
@@ -26,10 +29,14 @@ public class TerrainGenerator {
 		return Math.sqrt((new Random(dataManager.savable.seed * x * 2 + x / 2).doubles().skip(Math.abs(y)%65535).findFirst().getAsDouble()) * (new Random(dataManager.savable.seed * 3 * y + 5 * y).doubles().skip(Math.abs(x)%65535).findFirst().getAsDouble()));
 	}
 	private Double getAltNoise(long x, long y) {
-		return Math.sqrt((new Random(dataManager.savable.seed * x + x).doubles().skip(Math.abs(y)%65535).findFirst().getAsDouble()) * (new Random(dataManager.savable.seed * 2 * y + 2 * y).doubles().skip(Math.abs(x)%65535).findFirst().getAsDouble()));
+		if (!altNoiseMap.containsKey(x + "," + y))
+			altNoiseMap.put(x+","+y, Math.sqrt((new Random(dataManager.savable.seed * x + x).doubles().skip(Math.abs(y)%65535).findFirst().getAsDouble()) * (new Random(dataManager.savable.seed * 2 * y + 2 * y).doubles().skip(Math.abs(x)%65535).findFirst().getAsDouble())));
+		return altNoiseMap.get(x + "," + y);
 	}
 	private Double getTempNoise(long x, long y) {
-		return Math.sqrt((new Random(dataManager.savable.seed * x * 3 - x - 1).doubles().skip(Math.abs(y)%65535).findFirst().getAsDouble()) * (new Random(dataManager.savable.seed * 2 * y / 4 + 2 * y - 12).doubles().skip(Math.abs(x)%65535).findFirst().getAsDouble()));
+		if (!tempNoiseMap.containsKey(x + "," + y))
+			tempNoiseMap.put(x+","+y, Math.sqrt((new Random(dataManager.savable.seed * x * 3 - x - 1).doubles().skip(Math.abs(y)%65535).findFirst().getAsDouble()) * (new Random(dataManager.savable.seed * 2 * y / 4 + 2 * y - 12).doubles().skip(Math.abs(x)%65535).findFirst().getAsDouble())));
+		return tempNoiseMap.get(x+","+y);
 	}
 	public int[] getBlockStats(int x, int y) {
 		int[] stats = new int[2];
@@ -38,9 +45,10 @@ public class TerrainGenerator {
 		}
 		if (temperatureMap.containsKey(x + "," + y))
 			stats[1] = temperatureMap.get(x + "," + y);
+		
+		int chunkX = (int) Math.floor(x / dataManager.settings.chunkSize);
+		int chunkY = (int) Math.floor(y / dataManager.settings.chunkSize);
 		if (stats[0] == 0) {
-			int chunkX = (int) Math.floor(x / dataManager.settings.chunkSize);
-			int chunkY = (int) Math.floor(y / dataManager.settings.chunkSize);
 			double chunkRNGSum = 0;
 			for (int i = -2; i <= 2; i++) {
 				for (int j = -2; j <= 2; j++) {
@@ -52,8 +60,6 @@ public class TerrainGenerator {
 			altitudeMap.put(x+","+y, stats[0]);
 		}
 		if (stats[1] == 0) {
-			int chunkX = (int) Math.floor(x / dataManager.settings.chunkSize);
-			int chunkY = (int) Math.floor(y / dataManager.settings.chunkSize);
 			double chunkRNGSum = 0;
 			for (int i = -2; i <= 2; i++) {
 				for (int j = -2; j <= 2; j++) {
