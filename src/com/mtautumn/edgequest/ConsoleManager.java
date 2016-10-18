@@ -95,7 +95,7 @@ public class ConsoleManager {
 			if (args.size() > 0) {
 				dataManager.savable.time = Integer.parseInt(args.get(0));
 			} else
-				addLine("use the format :time [0-2399]", 1);
+				addLine(Integer.toString(dataManager.savable.time));
 			break;
 		case "tp":
 			if (args.size() > 1) {
@@ -125,6 +125,9 @@ public class ConsoleManager {
 			} else
 				addLine("use the format :reseed seed", 1);
 			break;
+		case "seed":
+			addLine(Long.toString(dataManager.savable.seed));
+			break;
 		case "help":
 			addLine("Command List: ", 2);
 			Thread.sleep(1);
@@ -132,9 +135,11 @@ public class ConsoleManager {
 			Thread.sleep(1);
 			addLine("     (2) /tp posX posY", 2);
 			Thread.sleep(1);
-			addLine("     (3) /speed value", 2);
+			addLine("     (3) /seed", 2);
 			Thread.sleep(1);
-			addLine("     (4) /reseed seed", 2);
+			addLine("     (4) /speed value", 2);
+			Thread.sleep(1);
+			addLine("     (5) /reseed seed", 2);
 			break;
 		default:
 			addLine("unknown command \"" + cmdName + "\"", 1);
