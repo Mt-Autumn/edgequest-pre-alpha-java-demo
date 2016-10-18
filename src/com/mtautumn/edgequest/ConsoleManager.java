@@ -128,13 +128,13 @@ public class ConsoleManager {
 		case "help":
 			addLine("Command List: ", 2);
 			Thread.sleep(1);
-			addLine("     (1) :time [0-2399]", 2);
+			addLine("     (1) /time [0-2399]", 2);
 			Thread.sleep(1);
-			addLine("     (2) :tp posX posY", 2);
+			addLine("     (2) /tp posX posY", 2);
 			Thread.sleep(1);
-			addLine("     (3) :speed value", 2);
+			addLine("     (3) /speed value", 2);
 			Thread.sleep(1);
-			addLine("     (4) :reseed seed", 2);
+			addLine("     (4) /reseed seed", 2);
 			break;
 		default:
 			addLine("unknown command \"" + cmdName + "\"", 1);
