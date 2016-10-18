@@ -22,6 +22,7 @@ public class UpdateMining {
 				if (dataManager.system.blockDamage >= 10) {
 					dataManager.system.blockDamage = 0;
 					breakBlock(dataManager.system.mouseX, dataManager.system.mouseY);
+					dataManager.blockUpdateManager.lighting.update(dataManager.system.mouseX, dataManager.system.mouseY);
 				}
 			} else {
 				dataManager.system.blockDamage = 0;
