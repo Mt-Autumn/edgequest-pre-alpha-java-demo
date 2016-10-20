@@ -10,7 +10,7 @@ public class Layers {
 			LaunchScreen.draw(r);
 		} else {
 			Terrain.draw(r);
-			Footprints.draw(r);
+			if (!r.dataManager.savable.isInDungeon) Footprints.draw(r);
 			CharacterEffects.draw(r);
 			Character.draw(r);
 			BlockDamage.draw(r);
@@ -26,5 +26,5 @@ public class Layers {
 		}
 		OptionPane.draw(r);
 	}
-	
+
 }

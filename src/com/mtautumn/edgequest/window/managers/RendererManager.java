@@ -10,6 +10,7 @@ import org.lwjgl.opengl.Display;
 
 import com.mtautumn.edgequest.CharacterManager;
 import com.mtautumn.edgequest.DefineBlockItems;
+import com.mtautumn.edgequest.Dungeon;
 import com.mtautumn.edgequest.KeyboardInput;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.Renderer;
@@ -179,14 +180,15 @@ public class RendererManager extends Thread {
 					boolean keyShowDiag = Keyboard.isKeyDown(dataManager.settings.showDiagKey);
 					boolean keyPlaceTorch = Keyboard.isKeyDown(dataManager.settings.placeTorchKey);
 					boolean keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
-					
+					boolean keyAction = Keyboard.isKeyDown(dataManager.settings.actionKey);
+
 					if (!dataManager.system.autoWalk) {
 						dataManager.system.isKeyboardUp = keyUp;
 						dataManager.system.isKeyboardRight = keyRight;
 						dataManager.system.isKeyboardDown = keyDown;
 						dataManager.system.isKeyboardLeft = keyLeft;
 						dataManager.system.isKeyboardSprint = keySprint;
-						
+
 						if (keyUp || keyDown || keyLeft || keyRight)
 							dataManager.system.hideMouse = true;
 						else
@@ -223,7 +225,35 @@ public class RendererManager extends Thread {
 
 					if (keyConsole && !wasKeyDown[dataManager.settings.consoleKey])
 						dataManager.system.showConsole = true;
-					
+
+					if (keyAction && !wasKeyDown[dataManager.settings.actionKey]) {
+						int charX = (int) Math.floor(dataManager.savable.charX);
+						int charY = (int) Math.floor(dataManager.savable.charY);
+						if (dataManager.savable.isInDungeon) {
+							Dungeon dungeon = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY);
+							if (charX == dungeon.getStairsUp(dataManager.savable.dungeonLevel)[0]&&charY == dungeon.getStairsUp(dataManager.savable.dungeonLevel)[1]) {
+								dataManager.savable.dungeonLevel -= 1;
+								dataManager.system.updateDungeon = true;
+								if (dataManager.savable.dungeonLevel < 0) {
+									dataManager.savable.isInDungeon = false;
+									dataManager.savable.charX = dataManager.savable.dungeonX + 0.5;
+									dataManager.savable.charY = dataManager.savable.dungeonY + 0.5;
+								}
+							} else if (charX == dungeon.getStairsDown(dataManager.savable.dungeonLevel)[0]&&charY == dungeon.getStairsDown(dataManager.savable.dungeonLevel)[1]) {
+								dataManager.savable.dungeonLevel += 1;
+								dataManager.system.updateDungeon = true;
+							}
+						} else {
+							if (dataManager.savable.dungeonMap.containsKey(charX + "," + charY)) {
+								dataManager.savable.isInDungeon = true;
+								dataManager.savable.dungeonX = charX;
+								dataManager.savable.dungeonY = charY;
+								dataManager.savable.dungeonLevel = 0;
+								dataManager.system.updateDungeon = true;
+							}
+						}
+					}
+
 					wasKeyDown[dataManager.settings.menuKey] = keyMenu;
 					wasKeyDown[dataManager.settings.backpackKey] = keyBackpack;
 					wasKeyDown[dataManager.settings.zoomInKey] = keyZoomIn;
@@ -231,6 +261,7 @@ public class RendererManager extends Thread {
 					wasKeyDown[dataManager.settings.showDiagKey] = keyShowDiag;
 					wasKeyDown[dataManager.settings.placeTorchKey] = keyPlaceTorch;
 					wasKeyDown[dataManager.settings.consoleKey] = keyConsole;
+					wasKeyDown[dataManager.settings.actionKey] = keyAction;
 					if (keyboard.wasConsoleUp) keyboard.wasConsoleUp = dataManager.system.showConsole;
 				}
 
