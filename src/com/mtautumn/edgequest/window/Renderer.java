@@ -10,7 +10,6 @@ import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 
-import com.mtautumn.edgequest.Dungeon;
 import com.mtautumn.edgequest.TextureManager;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.managers.LaunchScreenManager;
