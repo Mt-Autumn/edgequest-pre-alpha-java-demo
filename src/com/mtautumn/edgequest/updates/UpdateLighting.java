@@ -42,8 +42,8 @@ public class UpdateLighting {
 		return lighting / 9.0;
 	}
 	private double getBlockBrightness(int x, int y) {
-		if (dataManager.savable.lightMap.containsKey(x + "," + y)) {
-			return Double.valueOf(((int) dataManager.savable.lightMap.get(x + "," + y) + 128)) / 255.0;
+		if (dataManager.world.isLight(x, y)) {
+			return Double.valueOf((dataManager.world.getLight(x, y) + 128)) / 255.0;
 		}
 		return 0.0;
 	}
@@ -65,8 +65,8 @@ public class UpdateLighting {
 
 	}
 	private boolean isBlockOpaque(int x, int y) {
-		if (dataManager.savable.playerStructuresMap.containsKey(x + "," + y)) {
-			return !dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(x + "," + y)).isPassable;
+		if (dataManager.world.isStructBlock(x, y)) {
+			return !dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x, y)).isPassable;
 		}
 		return false;
 	}
@@ -126,11 +126,11 @@ public class UpdateLighting {
 	private void setBrightness(int x, int y, double brightness) {
 		if (brightness > 1) brightness = 1;
 		if (brightness < 0) brightness = 0;
-		dataManager.savable.lightMap.put(x + "," + y, (byte)(brightness*255.0-128.0));
+		dataManager.world.setLight(x, y, (byte)(brightness*255.0-128.0));
 	}
 	private boolean doesContainLightSource(int x, int y) {
-		if (dataManager.savable.playerStructuresMap.containsKey(x + "," + y)) {
-			return dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(x + "," + y)).isLightSource;
+		if (dataManager.world.isStructBlock(x, y)) {
+			return dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x, y)).isLightSource;
 		}
 		return false;
 	}

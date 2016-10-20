@@ -191,26 +191,15 @@ public class Renderer {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
 		int charX = (int) Math.floor(dataManager.savable.charX);
 		int charY = (int) Math.floor(dataManager.savable.charY);
-		if (dataManager.savable.isInDungeon) {
-			Dungeon dungeon = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX+","+dataManager.savable.dungeonY);
-			blockInfo[0] = dungeon.getGroundBlock(dataManager.savable.dungeonLevel, dataManager.savable.dungeonX, dataManager.savable.dungeonY);
-			if (dungeon.isStructureBlock(dataManager.savable.dungeonLevel, dataManager.savable.dungeonX, dataManager.savable.dungeonY)) {
-				blockInfo[1] = dungeon.getStructureBlock(dataManager.savable.dungeonLevel, dataManager.savable.dungeonX, dataManager.savable.dungeonY);
+			if (dataManager.world.isGroundBlock(charX, charY)) {
+				blockInfo[0] = dataManager.world.getGroundBlock(charX, charY);
 			}
-			if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
-				blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
+			if (dataManager.world.isStructBlock(charX, charY)) {
+				blockInfo[1] = dataManager.world.getStructBlock(charX, charY);
 			}
-		} else {
-			if (dataManager.savable.map.containsKey(charX + "," + charY)) {
-				blockInfo[0] = dataManager.savable.map.get(charX + "," + charY);
+			if (dataManager.world.isLight(charX, charY)) {
+				blockInfo[3] = dataManager.world.getLight(charX, charY);
 			}
-			if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
-				blockInfo[1] = dataManager.savable.playerStructuresMap.get(charX + "," + charY);
-			}
-			if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
-				blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
-			}
-		}
 		return blockInfo;
 	}
 }

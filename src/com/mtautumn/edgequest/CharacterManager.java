@@ -13,30 +13,15 @@ public class CharacterManager extends Thread{
 	public void charPlaceTorch() {
 		int charX = (int) Math.floor(dataManager.savable.charX);
 		int charY = (int) Math.floor(dataManager.savable.charY);
-		if (!dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
+		if (!dataManager.world.isStructBlock(charX, charY)) {
 			if ((short)getCharaterBlockInfo()[0] != dataManager.system.blockNameMap.get("water").getID()) {
-				dataManager.savable.playerStructuresMap.put(charX + "," + charY, dataManager.system.blockNameMap.get("torch").getID());
+				dataManager.world.setStructBlock(charX, charY, dataManager.system.blockNameMap.get("torch").getID());
 				blockUpdateManager.lighting.update(charX, charY);
 			}
-		} else {
-			dataManager.savable.playerStructuresMap.remove(charX + "," + charY);
+		} else if (dataManager.world.getStructBlock(charX, charY) == dataManager.system.blockNameMap.get("torch").getID()) {
+			dataManager.world.removeStructBlock(charX, charY);
 			blockUpdateManager.lighting.update(charX, charY);
 		}
-	}
-	public double[] getCharaterBlockInfo() {
-		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
-		int charX = (int) Math.floor(dataManager.savable.charX);
-		int charY = (int) Math.floor(dataManager.savable.charY);
-		if (dataManager.savable.map.containsKey(charX + "," + charY)) {
-			blockInfo[0] = dataManager.savable.map.get(charX + "," + charY);
-		}
-		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
-			blockInfo[1] = dataManager.savable.playerStructuresMap.get(charX + "," + charY);
-		}
-		if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
-			blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
-		}
-		return blockInfo;
 	}
 	public void run() {
 		long lastUpdate = System.currentTimeMillis();
@@ -114,9 +99,24 @@ public class CharacterManager extends Thread{
 			charY = (int) Math.floor(charOffset + dataManager.savable.charY);
 			charX = (int) Math.floor(dataManager.savable.charX);
 		}
-		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
-			return (dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(charX + "," + charY)).isPassable);
+		if (dataManager.world.isStructBlock(charX, charY)) {
+			return (dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(charX, charY)).isPassable);
 		}
 		return true;
+	}
+	public double[] getCharaterBlockInfo() {
+		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
+		int charX = (int) Math.floor(dataManager.savable.charX);
+		int charY = (int) Math.floor(dataManager.savable.charY);
+			if (dataManager.world.isGroundBlock(charX, charY)) {
+				blockInfo[0] = dataManager.world.getGroundBlock(charX, charY);
+			}
+			if (dataManager.world.isStructBlock(charX, charY)) {
+				blockInfo[1] = dataManager.world.getStructBlock(charX, charY);
+			}
+			if (dataManager.world.isLight(charX, charY)) {
+				blockInfo[3] = dataManager.world.getLight(charX, charY);
+			}
+		return blockInfo;
 	}
 }

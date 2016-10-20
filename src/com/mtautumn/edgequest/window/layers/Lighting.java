@@ -14,7 +14,7 @@ public class Lighting {
 			int yPos = yStartPos(r);
 			for (int y = r.dataManager.system.minTileY; y <= r.dataManager.system.maxTileY; y++) {
 				
-				if (r.dataManager.savable.getBrightness() < 1) {
+				if (r.dataManager.world.getBrightness() < 1) {
 					drawBrightness(r, x, y, xPos, yPos);
 				}
 				yPos += r.dataManager.settings.blockSize;
@@ -35,18 +35,21 @@ public class Lighting {
 	}
 	
 	private static double getBrightness(Renderer r, int x, int y) {
-		if (r.dataManager.savable.lightMap.containsKey(x + "," + y)) {
-			return Double.valueOf(((int) r.dataManager.savable.lightMap.get(x + "," + y) + 128)) / 255.0;
+		if (r.dataManager.world.isLight(x, y)) {
+			return Double.valueOf((r.dataManager.world.getLight(x, y) + 128)) / 255.0;
 		}
 		return 0.0;
 	}
 	
 	private static void drawBrightness(Renderer r, int x, int y, int xPos, int yPos) {
 		double brightness = getBrightness(r, x, y);
-		double nightBrightness = (1 - r.dataManager.savable.getBrightness()) * brightness + r.dataManager.savable.getBrightness();
-		
-		r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 0.01f,0.0f,0.15f,(float) (1.0 - nightBrightness));
-		float blockBrightness = (float)(0.2 * (nightBrightness - r.dataManager.savable.getBrightness()));
+		double nightBrightness = (1 - r.dataManager.world.getBrightness()) * brightness + r.dataManager.world.getBrightness();
+		if (r.dataManager.savable.isInDungeon) {
+			r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 0.02f,0.0f,0.05f,(float) (1.0 - nightBrightness));
+		} else {
+			r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 0.01f,0.0f,0.15f,(float) (1.0 - nightBrightness));
+		}
+		float blockBrightness = (float)(0.2 * (nightBrightness - r.dataManager.world.getBrightness()));
 		
 		if (blockBrightness > 0) {
 			r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 1.0f,0.6f,0.05f, blockBrightness);
