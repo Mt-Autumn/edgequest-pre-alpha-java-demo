@@ -28,20 +28,4 @@ public class SavableData implements Serializable {
 	public int lastDungeonLevel = -1;
 	public long dungeonCount = 0;
 	public ItemSlot[][] backpackItems = new ItemSlot[6][6];
-	public double getBrightness() {
-		int tempTime = time - 200;
-		double brightness = 0.0;
-		if (tempTime < 1200) tempTime += 2400;
-		double distFromMidnight = Math.abs(tempTime - 2400);
-		if (distFromMidnight > 600) {
-			brightness = 1;
-		} else if (distFromMidnight > 400){
-			brightness = distFromMidnight * 0.004 - 1.4;
-		} else {
-			brightness = 0.2;
-		}
-		if (brightness > 1) brightness = 1;
-		if (brightness < 0) brightness = 0;
-		return brightness;
-	}
 }

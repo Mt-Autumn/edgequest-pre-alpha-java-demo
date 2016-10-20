@@ -13,7 +13,7 @@ public class DiagnosticsWindow {
 		r.font.drawString(20, i+=20, "FPS: " + r.dataManager.system.averagedFPS);
 		r.font.drawString(20, i+=20, "Time: " + r.dataManager.savable.time);
 		r.font.drawString(20, i+=20, "Time Human: " + r.dataManager.system.timeReadable);
-		r.font.drawString(20, i+=20, "Brightness: " + r.dataManager.savable.getBrightness());
+		r.font.drawString(20, i+=20, "Brightness: " + r.dataManager.world.getBrightness());
 		r.font.drawString(20, i+=20, "CharX: " + r.dataManager.savable.charX);
 		r.font.drawString(20, i+=20, "CharY: " + r.dataManager.savable.charY);
 		r.font.drawString(20, i+=20, "CharDir: " + r.dataManager.savable.charDir);

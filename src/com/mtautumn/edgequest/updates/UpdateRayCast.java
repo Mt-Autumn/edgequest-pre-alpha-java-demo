@@ -279,8 +279,8 @@ public class UpdateRayCast {
 	public boolean doesContainStructure(double x, double y) {
 		int x1 = (int) Math.floor(x);
 		int y1 = (int) Math.floor(y);
-		if (dataManager.savable.playerStructuresMap.containsKey(x1 + "," + y1)) {
-			return !dataManager.system.blockIDMap.get(dataManager.savable.playerStructuresMap.get(x1 + "," + y1)).isPassable;
+		if (dataManager.world.isStructBlock(x1, y1)) {
+			return !dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x1, y1)).isPassable;
 		}
 		return false;
 	}

@@ -32,15 +32,15 @@ public class BlockUpdateManager extends Thread {
 	private void melt() {
 		for(int x = dataManager.system.minTileX; x <= dataManager.system.maxTileX; x++) {
 			for(int y = dataManager.system.minTileY; y <= dataManager.system.maxTileY; y++) {
-				if (dataManager.savable.map.containsKey(x+","+y)) {
-					if (dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y)).melts) {
+				if (dataManager.world.isGroundBlock(x, y)) {
+					if (dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(x, y)).melts) {
 						double brightness = 0;
-						if (dataManager.savable.lightMap.containsKey(x+","+y)) {
-							brightness = Double.valueOf(((int) dataManager.savable.lightMap.get(x + "," + y) + 128)) / 255.0;
+						if (dataManager.world.isLight(x, y)) {
+							brightness = Double.valueOf((dataManager.world.getLight(x, y) + 128)) / 255.0;
 						}
 						if (brightness > 0.7) {
 							if (1 - Math.random() < (brightness - 0.7) / 50.0) {
-								dataManager.savable.map.put(x+","+y, dataManager.system.blockNameMap.get(dataManager.system.blockIDMap.get(dataManager.savable.map.get(x + "," + y)).meltsInto).getID());
+								dataManager.world.setGroundBlock(x, y, dataManager.system.blockNameMap.get(dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(x, y)).meltsInto).getID());
 							}
 						}
 					}

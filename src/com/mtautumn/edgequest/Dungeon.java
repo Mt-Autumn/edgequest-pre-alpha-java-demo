@@ -24,6 +24,20 @@ public class Dungeon {
 			return levels[level].groundMap.get(x+","+y);
 		return 0;
 	}
+	public void setGroundBlock(int level, int x, int y, short id) {
+		levels[level].groundMap.put(x+","+y, id);
+	}
+	public boolean isGroundBlock(int level, int x, int y) {
+		if (levels[level] == null) {
+			return false;
+		}
+		return levels[level].groundMap.containsKey(x+","+y);
+	}
+	public void removeGroundBlock(int level, int x, int y) {
+		if (levels[level] != null) {
+			levels[level].groundMap.remove(x+","+y);
+		}
+	}
 	public short getStructureBlock(int level, int x, int y) {
 		if (levels[level] == null) {
 			return 0;
@@ -32,11 +46,41 @@ public class Dungeon {
 			return levels[level].structureMap.get(x+","+y);
 		return 0;
 	}
+	public void setStructureBlock(int level, int x, int y, short id) {
+		levels[level].structureMap.put(x+","+y, id);
+	}
 	public boolean isStructureBlock(int level, int x, int y) {
 		if (levels[level] == null) {
 			return false;
 		}
 		return levels[level].structureMap.containsKey(x+","+y);
+	}
+	public void removeStructureBlock(int level, int x, int y) {
+		if (levels[level] != null) {
+			levels[level].structureMap.remove(x+","+y);
+		}
+	}
+	public byte getLighting(int level, int x, int y) {
+		if (levels[level] == null) {
+			return 0;
+		}
+		if (levels[level].lightingMap.containsKey(x+","+y))
+			return levels[level].lightingMap.get(x+","+y);
+		return Byte.MIN_VALUE;
+	}
+	public void setLighting(int level, int x, int y, byte value) {
+		levels[level].lightingMap.put(x+","+y, value);
+	}
+	public boolean isLighting(int level, int x, int y) {
+		if (levels[level] == null) {
+			return false;
+		}
+		return levels[level].lightingMap.containsKey(x+","+y);
+	}
+	public void removeLighting(int level, int x, int y) {
+		if (levels[level] != null) {
+			levels[level].lightingMap.remove(x+","+y);
+		}
 	}
 	public void requestLevel(int level) {
 		if (level >= 0) {
@@ -46,6 +90,7 @@ public class Dungeon {
 			}
 		}
 	}
+	
 	public int[] getStairsDown(int level) {
 		return levels[level].stairsDownLocation;
 	}
@@ -55,6 +100,7 @@ public class Dungeon {
 	private class DungeonLevel {
 		public Map<String, Short> groundMap = new HashMap<String, Short>();
 		public Map<String, Short> structureMap = new HashMap<String, Short>();
+		public Map<String, Byte> lightingMap = new HashMap<String, Byte>();
 		public int[] stairsUpLocation = new int[2];
 		public int[] stairsDownLocation = new int[2];
 		private int depth;
