@@ -13,7 +13,7 @@ public class TerrainGenerator {
 
 	Map<String,Integer> altitudeMap = new HashMap<String, Integer>();
 	Map<String,Integer> temperatureMap = new HashMap<String, Integer>();
-	
+
 	Map<String,Integer> altitudeMapFiltered = new HashMap<String, Integer>();
 	Map<String,Integer> temperatureMapFiltered = new HashMap<String, Integer>();
 	public TerrainGenerator(DataManager dataManager) {
@@ -45,7 +45,7 @@ public class TerrainGenerator {
 		}
 		if (temperatureMap.containsKey(x + "," + y))
 			stats[1] = temperatureMap.get(x + "," + y);
-		
+
 		int chunkX = (int) Math.floor(x / dataManager.settings.chunkSize);
 		int chunkY = (int) Math.floor(y / dataManager.settings.chunkSize);
 		if (stats[0] == 0) {
@@ -119,6 +119,11 @@ public class TerrainGenerator {
 				} else { 
 					dataManager.savable.map.put(x + "," + y, dataManager.system.blockNameMap.get("dirt").getID());
 				}
+			}
+
+			if (getRNG(x, y) > 0.98) {
+				dataManager.savable.playerStructuresMap.put(x + "," + y, dataManager.system.blockNameMap.get("dungeon").getID());
+				dataManager.savable.dungeonMap.put(x + "," + y, new Dungeon(dataManager, ++dataManager.savable.dungeonCount));
 			}
 		}
 	}

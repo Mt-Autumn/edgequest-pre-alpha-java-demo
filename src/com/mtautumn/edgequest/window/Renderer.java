@@ -10,6 +10,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 
+import com.mtautumn.edgequest.Dungeon;
 import com.mtautumn.edgequest.TextureManager;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.managers.LaunchScreenManager;
@@ -190,14 +191,25 @@ public class Renderer {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
 		int charX = (int) Math.floor(dataManager.savable.charX);
 		int charY = (int) Math.floor(dataManager.savable.charY);
-		if (dataManager.savable.map.containsKey(charX + "," + charY)) {
-			blockInfo[0] = dataManager.savable.map.get(charX + "," + charY);
-		}
-		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
-			blockInfo[1] = dataManager.savable.playerStructuresMap.get(charX + "," + charY);
-		}
-		if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
-			blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
+		if (dataManager.savable.isInDungeon) {
+			Dungeon dungeon = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX+","+dataManager.savable.dungeonY);
+			blockInfo[0] = dungeon.getGroundBlock(dataManager.savable.dungeonLevel, dataManager.savable.dungeonX, dataManager.savable.dungeonY);
+			if (dungeon.isStructureBlock(dataManager.savable.dungeonLevel, dataManager.savable.dungeonX, dataManager.savable.dungeonY)) {
+				blockInfo[1] = dungeon.getStructureBlock(dataManager.savable.dungeonLevel, dataManager.savable.dungeonX, dataManager.savable.dungeonY);
+			}
+			if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
+				blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
+			}
+		} else {
+			if (dataManager.savable.map.containsKey(charX + "," + charY)) {
+				blockInfo[0] = dataManager.savable.map.get(charX + "," + charY);
+			}
+			if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
+				blockInfo[1] = dataManager.savable.playerStructuresMap.get(charX + "," + charY);
+			}
+			if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
+				blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
+			}
 		}
 		return blockInfo;
 	}

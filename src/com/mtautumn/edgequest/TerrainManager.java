@@ -26,6 +26,22 @@ public class TerrainManager extends Thread {
 						}
 						dataManager.system.blockGenerationLastTick = (blocksPerTick > 0);
 					}
+					if (dataManager.system.updateDungeon) {
+						dataManager.system.blockGenerationLastTick = true;
+						if (dataManager.savable.dungeonLevel >= 0) {
+							dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).requestLevel(dataManager.savable.dungeonLevel);
+							if (dataManager.savable.lastDungeonLevel > dataManager.savable.dungeonLevel) {
+								dataManager.savable.charX = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsDown(0)[0] + 0.5;
+								dataManager.savable.charY = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsDown(0)[1] + 0.5;
+							} else {
+								dataManager.savable.charX = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsUp(0)[0] + 0.5;
+								dataManager.savable.charY = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsUp(0)[1] + 0.5;
+
+							}
+						}
+						dataManager.system.updateDungeon = false;
+						dataManager.savable.lastDungeonLevel = dataManager.savable.dungeonLevel;
+					}
 				}
 				Thread.sleep(dataManager.settings.tickLength);
 			} catch (Exception e) {

@@ -23,6 +23,9 @@ public class DefineBlockItems {
 		torchDefinition();
 		lilyPadDefinition();
 		treeDefinition();
+
+		dungeonDefinition();
+		dungeonUpDefinition();
 		dataManager.system.blockIDMap = blockIDMap;
 		dataManager.system.blockNameMap = blockNameMap;
 	}
@@ -94,8 +97,19 @@ public class DefineBlockItems {
 		BlockItem tree = new BlockItem(102, true, false, "tree", new int[]{0} , null);
 		addToMaps(tree);
 	}
-	
-	
+	private static void dungeonDefinition() {
+		BlockItem dungeon = new BlockItem(200, true, false, "dungeon", new int[]{0} , null);
+		dungeon.hardness = -1;
+		dungeon.isPassable = true;
+		addToMaps(dungeon);
+	}
+	private static void dungeonUpDefinition() {
+		BlockItem dungeonUp = new BlockItem(201, true, false, "dungeonUp", new int[]{0} , null);
+		dungeonUp.hardness = -1;
+		dungeonUp.isPassable = true;
+		addToMaps(dungeonUp);
+	}
+
 	private static void addToMaps(BlockItem blockItem) {
 		blockIDMap.put(blockItem.getID(), blockItem);
 		blockNameMap.put(blockItem.getName(), blockItem);
