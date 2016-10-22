@@ -92,24 +92,31 @@ public class ConsoleManager {
 	private void runCommand(String cmdName, ArrayList<String> args) throws InterruptedException {
 		switch (cmdName) {
 		case "time":
-			if (args.size() > 0) {
+			if (args.size() == 1) {
 				dataManager.savable.time = Integer.parseInt(args.get(0));
-			} else
-				addLine(Integer.toString(dataManager.savable.time));
+				addLine("Time set to: " + dataManager.savable.time, 2);
+			} else if (args.size() == 0)
+				addLine("Time: " + dataManager.savable.time, 2);
+			else
+				addLine("use the format /time [0-2399]", 1);
 			break;
 		case "tp":
-			if (args.size() > 1) {
+			if (args.size() == 2) {
 				dataManager.savable.charX = Double.parseDouble(args.get(0));
 				dataManager.savable.charY = Double.parseDouble(args.get(1));
 				dataManager.system.blockGenerationLastTick = true;
+				addLine("Teleported to: " + args.get(0) + ", " + args.get(1), 2);
 			} else
-				addLine("use the format :tp posX posY", 1);
+				addLine("use the format /tp <posX> <posY>", 1);
 			break;
 		case "speed":
-			if (args.size() > 0)
+			if (args.size() == 1) {
 				dataManager.settings.moveSpeed = Double.parseDouble(args.get(0));
+				addLine("Speed set to: " + dataManager.settings.moveSpeed, 2);
+			} else if (args.size() == 0)
+				addLine("Speed is: " + dataManager.settings.moveSpeed, 2);
 			else
-				addLine("use the format :speed value", 1);
+				addLine("use the format /speed [value]", 1);
 			break;
 		case "reseed":
 			if (args.size() > 0) {
@@ -122,24 +129,28 @@ public class ConsoleManager {
 				dataManager.system.blockGenerationLastTick = true;
 				dataManager.system.isGameOnLaunchScreen = false;
 				dataManager.system.isLaunchScreenLoaded = false;
+				addLine("reseeded to seed: " + args.get(0), 2);
 			} else
-				addLine("use the format :reseed seed", 1);
+				addLine("use the format /reseed <seed>", 1);
 			break;
 		case "seed":
-			addLine(Long.toString(dataManager.savable.seed));
+			if (args.size() == 0)
+				addLine("seed: " + dataManager.savable.seed, 2);
+			else
+				addLine("To change the current seed, type /reseed <seed>", 1);
 			break;
 		case "help":
 			addLine("Command List: ", 2);
 			Thread.sleep(1);
 			addLine("     (1) /time [0-2399]", 2);
 			Thread.sleep(1);
-			addLine("     (2) /tp posX posY", 2);
+			addLine("     (2) /tp <posX> <posY>", 2);
 			Thread.sleep(1);
 			addLine("     (3) /seed", 2);
 			Thread.sleep(1);
-			addLine("     (4) /speed value", 2);
+			addLine("     (4) /speed [value]", 2);
 			Thread.sleep(1);
-			addLine("     (5) /reseed seed", 2);
+			addLine("     (5) /reseed <seed>", 2);
 			break;
 		default:
 			addLine("unknown command \"" + cmdName + "\"", 1);
