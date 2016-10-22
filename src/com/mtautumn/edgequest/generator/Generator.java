@@ -88,7 +88,7 @@ public class Generator {
 		// to another
 		if (center1.x < center2.x) {
 
-			for (int i = 0; i < center2.x - center1.x; i++) {
+			for (int i = 1; i < center2.x - center1.x + 1; i++) {
 				if (center1.x + i < this.x && center1.y < this.y) {
 					this.map[center1.x + i][center1.y] = 1;
 				}
@@ -97,7 +97,7 @@ public class Generator {
 
 		} else if (center2.x < center1.x) {
 
-			for (int i = 0; i < center1.x - center2.x; i++) {
+			for (int i = 1; i < center1.x - center2.x + 1; i++) {
 				if (center2.x + i < this.x && center2.y < this.y) {
 					this.map[center2.x + i][center2.y] = 1;
 				}
@@ -116,7 +116,7 @@ public class Generator {
 		// to another
 		if (center1.y < center2.y) {
 
-			for (int i = 0; i < center2.y - center1.y; i++) {
+			for (int i = 1; i < center2.y - center1.y + 1; i++) {
 				if (center1.x < this.x && center1.y + i < this.y) {
 					this.map[center1.x][center1.y + i] = 1;
 				}
@@ -124,9 +124,9 @@ public class Generator {
 
 		} else if (center2.y < center1.y) {
 
-			for (int i = 0; i < center1.y - center2.y; i++) {
+			for (int i = 1; i < center1.y - center2.y + 1; i++) {
 				if (center2.x < this.x && center2.y + i < this.y) {
-					this.map[center2.x][center2.y + 1] = 1;
+					this.map[center2.x][center2.y + i] = 1;
 				}
 
 			}
@@ -165,14 +165,26 @@ public class Generator {
 
 	}
 
-	public void addStairs() { //Creates staircase to go up and down, centered in a room
+	// Creates staircase to go up and down, centered in a room
+	public void addStairs() {
 		int roomUp = rng.nextInt(rooms.length);
-		int roomDown = roomUp;
-		while (roomDown == roomUp && rooms.length > 1) {
+		int roomDown = rng.nextInt(rooms.length);
+		
+		while (rooms[roomUp].center.x > this.x && rooms[roomUp].center.y > this.y) {
+			roomUp = rng.nextInt(rooms.length);
+		}
+		
+		while (rooms[roomDown].center.x > this.x && rooms[roomDown].center.y > this.y) {
+			roomUp = rng.nextInt(rooms.length);
+		}
+		
+		while (roomDown == roomUp && rooms[roomDown].center.x > this.x && rooms[roomDown].center.y > this.y) {
 			roomDown = rng.nextInt(rooms.length);
 		}
+		
 		map[rooms[roomUp].center.x][rooms[roomUp].center.y] = 2;
 		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = 3;
+		
 	}
 
 	// Clear the map to a blank state
