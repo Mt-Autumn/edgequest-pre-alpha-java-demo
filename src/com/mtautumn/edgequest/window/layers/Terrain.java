@@ -15,15 +15,19 @@ public class Terrain {
 		int maxTileY = r.dataManager.system.maxTileY;
 		double charX = r.dataManager.savable.charX;
 		double charY = r.dataManager.savable.charY;
-
+		boolean bright = r.dataManager.world.getBrightness() > 0;
 		int xPos = (int) ((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
 
 		for(int x = minTileX; x <= maxTileX; x++) {
 			int yPos = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
 			for (int y = minTileY; y <= maxTileY; y++) {
-				r.drawTexture(getTerrainBlockTexture(r, x, y),xPos, yPos, blockSize, blockSize);
-				if (r.dataManager.world.isStructBlock(x, y)) {
-					r.drawTexture(getStructureBlockTexture(r, x, y),xPos, yPos - r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).blockHeight * blockSize, blockSize, blockSize + r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).blockHeight * blockSize);
+				if (r.dataManager.world.isLight(x, y) || bright) {
+					if (r.dataManager.world.getLight(x, y) > -128 || bright) {
+						r.drawTexture(getTerrainBlockTexture(r, x, y),xPos, yPos, blockSize, blockSize);
+						if (r.dataManager.world.isStructBlock(x, y)) {
+							r.drawTexture(getStructureBlockTexture(r, x, y),xPos, yPos - r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).blockHeight * blockSize, blockSize, blockSize + r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).blockHeight * blockSize);
+						}
+					}
 				}
 				yPos += blockSize;
 			}
