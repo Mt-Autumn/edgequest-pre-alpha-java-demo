@@ -2,9 +2,9 @@ package com.mtautumn.edgequest;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.generator.Generator;
 
 public class Dungeon {
 	private static final int MAX_LEVEL = 100;
@@ -90,7 +90,7 @@ public class Dungeon {
 			}
 		}
 	}
-	
+
 	public int[] getStairsDown(int level) {
 		return levels[level].stairsDownLocation;
 	}
@@ -115,18 +115,30 @@ public class Dungeon {
 			//TODO: Create generation algorithm
 			//USE THE SEED (found at dataManager.savable.seed;
 			//Use "ground" block for indestructible terrain
-			Random random = new Random(dataManager.savable.seed * dungeonID * (depth+1)); //make sure random numbers are based on seed, depth, and dungeonID
-			for (int x = -100; x < 100; x++) {
-				for (int y = -100; y < 100; y++) {
-					if (random.nextDouble() > 0.5) {
-						groundMap.put(x+","+y, dataManager.system.blockNameMap.get("dirt").getID());
+			//Random random = new Random(dataManager.savable.seed * dungeonID * (depth+1)); //make sure random numbers are based on seed, depth, and dungeonID
+			int[][] dungeonMap = new Generator(100, 100, 10, dataManager.savable.seed * dungeonID * (depth + 1)).getNewDungeon();
+			for (int x = 0; x < dungeonMap.length; x++) {
+				for (int y = 0; y < dungeonMap[x].length; y++) {
+					groundMap.put(x+","+y, dataManager.system.blockNameMap.get("stone").getID());
+					if (x == 0 || y == 0 || x == dungeonMap.length - 1 || y == dungeonMap[x].length - 1) {
+						structureMap.put(x+","+y, dataManager.system.blockNameMap.get("ground").getID());
 					} else {
-						groundMap.put(x+","+y, dataManager.system.blockNameMap.get("stone").getID());
+						switch (dungeonMap[x][y]) {
+						case 0:
+							structureMap.put(x+","+y, dataManager.system.blockNameMap.get("dirt").getID());
+							break;
+						case 2:
+							setUpStairs(x, y);
+							break;
+						case 3:
+							setDownStairs(x, y);
+							break;
+						default:
+							break;
+						}
 					}
 				}
 			}
-			setUpStairs(2, 5);
-			setDownStairs(-2, 5);
 
 		}
 		private void setUpStairs(int x, int y) {
