@@ -8,6 +8,7 @@ import com.mtautumn.edgequest.data.DataManager;
 public class UpdateLighting {
 	private int lightDiffuseDistance = 8;
 	DataManager dataManager;
+	Map<String, Byte> bufferedLightMap = new HashMap<String, Byte>();
 	public UpdateLighting(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
@@ -18,6 +19,26 @@ public class UpdateLighting {
 			}
 		}
 		antialiasLighting(x, y);
+		lightStructBlocks(x, y);
+		pushBuffer(x, y);
+		bufferedLightMap.clear();
+	}
+	private void lightStructBlocks(int x, int y) {
+		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
+			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
+				if(isBlockOpaque(i, j)) {
+					double maxBrightness = 0;
+					for( int k = i - 1; k <= i+1; k++) {
+						for( int l = j - 1; l <= j+1; l++) {
+							if (getBlockBrightness(k, l) > maxBrightness && !isBlockOpaque(k, l)) {
+								maxBrightness = getBlockBrightness(k, l);
+							}
+						}
+					}
+					setBrightness(i, j, maxBrightness);
+				}
+			}
+		}
 	}
 	private void antialiasLighting(int x, int y) {
 		Map<String, Double> tempMap = new HashMap<String, Double>();
@@ -33,15 +54,24 @@ public class UpdateLighting {
 		}
 	}
 	private double getAveragedLighting(int x, int y) {
+		if (isBlockOpaque(x, y)) return 0;
 		double lighting = 0.0;
 		for (int i = x - 1; i <= x + 1; i++) {
 			for (int j = y - 1; j <= y + 1; j++) {
-				lighting += getBlockBrightness(i,j);
+				if (!isBlockOpaque(i, j)) {
+					lighting += getBlockBrightness(i,j);
+				}
 			}
+		}
+		if (getBlockBrightness(x, y) > lighting / 9.0) {
+			return getBlockBrightness(x, y);
 		}
 		return lighting / 9.0;
 	}
 	private double getBlockBrightness(int x, int y) {
+		if (bufferedLightMap.containsKey(x+","+y)) {
+			return Double.valueOf(bufferedLightMap.get(x+","+y) + 128) / 255.0;
+		}
 		if (dataManager.world.isLight(x, y)) {
 			return Double.valueOf((dataManager.world.getLight(x, y) + 128)) / 255.0;
 		}
@@ -79,9 +109,9 @@ public class UpdateLighting {
 		if (deltaX != 0 || deltaY != 0) {
 			while(isInBetween(x1 + 0.5,x2 + 0.5,checkingPosX) && isInBetween(y1 + 0.5,y2 + 0.5,checkingPosY)) {
 				if (isBlockOpaque((int)Math.floor(checkingPosX), (int)Math.floor(checkingPosY))) {
-					if (x2 != Math.floor(checkingPosX) || y2 != Math.floor(checkingPosY)) {
-						answer = false;
-					}
+					//if (!(Math.abs(checkingPosX % 1.0) < 0.001 && Math.abs(checkingPosY % 1.0) < 0.001)) {
+					answer = false;
+					//}
 				}
 				double xNextLine;
 				double yNextLine;
@@ -107,6 +137,10 @@ public class UpdateLighting {
 				}
 				xNextLine = Math.abs(xNextLine);
 				yNextLine = Math.abs(yNextLine);
+				if ((Math.abs(checkingPosX % 1.0) < 0.001 && Math.abs(checkingPosY % 1.0) < 0.001)) {
+					xNextLine = 0.01;
+					yNextLine = 0.01;
+				}
 				if (Math.abs(xNextLine) < Math.abs(yNextLine)) {
 					checkingPosX += xNextLine * deltaX;
 					checkingPosY += xNextLine * deltaY;
@@ -126,7 +160,16 @@ public class UpdateLighting {
 	private void setBrightness(int x, int y, double brightness) {
 		if (brightness > 1) brightness = 1;
 		if (brightness < 0) brightness = 0;
-		dataManager.world.setLight(x, y, (byte)(brightness*255.0-128.0));
+		bufferedLightMap.put(x+","+y, (byte)(brightness*255.0-128.0));
+	}
+	private void pushBuffer(int x, int y) {
+		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
+			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
+				if (bufferedLightMap.containsKey(i+","+j)) {
+					dataManager.world.setLight(i,j,bufferedLightMap.get(i+","+j));
+				}
+			}
+		}
 	}
 	private boolean doesContainLightSource(int x, int y) {
 		if (dataManager.world.isStructBlock(x, y)) {

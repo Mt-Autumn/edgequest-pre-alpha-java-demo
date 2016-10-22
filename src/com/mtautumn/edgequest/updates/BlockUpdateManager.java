@@ -1,5 +1,9 @@
 package com.mtautumn.edgequest.updates;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import com.mtautumn.edgequest.data.DataManager;
 
 public class BlockUpdateManager extends Thread {
@@ -7,11 +11,21 @@ public class BlockUpdateManager extends Thread {
 	public UpdateLighting lighting;
 	public UpdateMining mining;
 	public UpdateFootprints footprints;
+	ArrayList<Point2D> lightingQueue = new ArrayList<Point2D>();
 	public BlockUpdateManager(DataManager dataManager) {
 		this.dataManager = dataManager;
 		lighting = new UpdateLighting(dataManager);
 		mining = new UpdateMining(dataManager);
 		footprints = new UpdateFootprints(dataManager);
+	}
+	public void updateLighting(int x, int y) {
+		lightingQueue.add(new Point(x, y));
+	}
+	private void executeLighting() {
+		for (int i = 0; i < lightingQueue.size(); i++) {
+			lighting.update((int)lightingQueue.get(i).getX(), (int)lightingQueue.get(i).getY());
+		}
+		lightingQueue.clear();
 	}
 	public void run() {
 		int i = 0;
@@ -22,6 +36,7 @@ public class BlockUpdateManager extends Thread {
 					if (i % 30 == 0) melt();
 					mining.update();
 					footprints.update();
+					executeLighting();
 				}
 				Thread.sleep(dataManager.settings.tickLength);
 			} catch (Exception e) {

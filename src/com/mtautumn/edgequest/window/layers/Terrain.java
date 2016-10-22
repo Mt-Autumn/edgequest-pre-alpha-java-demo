@@ -3,7 +3,6 @@ package com.mtautumn.edgequest.window.layers;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
-import com.mtautumn.edgequest.Dungeon;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Terrain {
@@ -19,18 +18,18 @@ public class Terrain {
 
 		int xPos = (int) ((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
 
-			for(int x = minTileX; x <= maxTileX; x++) {
-				int yPos = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
-				for (int y = minTileY; y <= maxTileY; y++) {
-					r.drawTexture(getTerrainBlockTexture(r, x, y),xPos, yPos, blockSize, blockSize);
-					if (r.dataManager.world.isStructBlock(x, y)) {
-						r.drawTexture(getStructureBlockTexture(r, x, y),xPos, yPos - r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).blockHeight * blockSize, blockSize, blockSize + r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).blockHeight * blockSize);
-					}
-					yPos += blockSize;
+		for(int x = minTileX; x <= maxTileX; x++) {
+			int yPos = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
+			for (int y = minTileY; y <= maxTileY; y++) {
+				r.drawTexture(getTerrainBlockTexture(r, x, y),xPos, yPos, blockSize, blockSize);
+				if (r.dataManager.world.isStructBlock(x, y)) {
+					r.drawTexture(getStructureBlockTexture(r, x, y),xPos, yPos - r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).blockHeight * blockSize, blockSize, blockSize + r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).blockHeight * blockSize);
 				}
-				xPos += blockSize;
+				yPos += blockSize;
 			}
+			xPos += blockSize;
 		}
+	}
 
 	private static Texture getTerrainBlockTexture(Renderer r, int x, int y) {
 		short blockValue = getTerrainBlockValue(r, x, y);
@@ -52,13 +51,4 @@ public class Terrain {
 		}
 		return 0;
 	}
-	private static short getDungeonStructureBlockValue(Renderer r, int x, int y, Dungeon dungeon) {
-		return dungeon.getStructureBlock(r.dataManager.savable.dungeonLevel, x, y);
-	}
-	private static short getDungeonTerrainBlockValue(Renderer r, int x, int y, Dungeon dungeon) {
-		return dungeon.getGroundBlock(r.dataManager.savable.dungeonLevel, x, y);
-	}
-
-
-
 }
