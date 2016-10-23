@@ -37,9 +37,23 @@ public class ButtonActionManager extends Thread {
 				dataManager.savable.seed = seed;
 				dataManager.terrainManager.terrainGenerator.clearCache();
 				dataManager.savable.playerStructuresMap.clear();
+				dataManager.savable.dungeonMap.clear();
 				dataManager.savable.map.clear();
 				dataManager.savable.lightMap.clear();
 				dataManager.savable.footPrints.clear();
+				if (dataManager.savable.isInDungeon) {
+					dataManager.savable.isInDungeon = false;
+					dataManager.savable.dungeonLevel = -1;
+					dataManager.savable.dungeonCount = 0;
+				}
+				dataManager.savable.time = 800;
+				for (int i = 0; i< dataManager.savable.backpackItems.length; i++) {
+					for (int j = 0; j< dataManager.savable.backpackItems[i].length; j++) {
+						dataManager.savable.backpackItems[i][j] = new ItemSlot();
+					}
+				}
+				dataManager.savable.charX = 0;
+				dataManager.savable.charY = 0;
 				dataManager.system.blockGenerationLastTick = true;
 				dataManager.system.isGameOnLaunchScreen = false;
 				dataManager.system.isLaunchScreenLoaded = false;
@@ -52,6 +66,7 @@ public class ButtonActionManager extends Thread {
 				GameSaves.loadGame(getInputText("Enter a File Name:"), dataManager);
 				dataManager.system.isGameOnLaunchScreen = false;
 				dataManager.system.isLaunchScreenLoaded = false;
+				dataManager.system.blockGenerationLastTick = true;
 			} catch (Exception e) {
 				setNoticeText("Could not load game");
 				e.printStackTrace();

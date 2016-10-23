@@ -129,6 +129,14 @@ public class ConsoleManager {
 				dataManager.system.blockGenerationLastTick = true;
 				dataManager.system.isGameOnLaunchScreen = false;
 				dataManager.system.isLaunchScreenLoaded = false;
+				dataManager.savable.dungeonMap.clear();
+				if (dataManager.savable.isInDungeon) {
+					dataManager.savable.isInDungeon = false;
+					dataManager.savable.dungeonLevel = -1;
+					dataManager.savable.dungeonCount = 0;
+					dataManager.savable.charX = dataManager.savable.dungeonX;
+					dataManager.savable.charY = dataManager.savable.dungeonY;
+				}
 				addLine("reseeded to seed: " + args.get(0), 2);
 			} else
 				addLine("use the format /reseed <seed>", 1);
