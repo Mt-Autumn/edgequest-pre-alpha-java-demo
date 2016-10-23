@@ -170,15 +170,15 @@ public class Generator {
 		int roomUp = rng.nextInt(rooms.length);
 		int roomDown = rng.nextInt(rooms.length);
 		
-		while (rooms[roomUp].center.x > this.x && rooms[roomUp].center.y > this.y) {
+		while (rooms[roomUp].center.x > this.x || rooms[roomUp].center.y > this.y) {
 			roomUp = rng.nextInt(rooms.length);
 		}
 		
-		while (rooms[roomDown].center.x > this.x && rooms[roomDown].center.y > this.y) {
+		while (rooms[roomDown].center.x > this.x || rooms[roomDown].center.y > this.y) {
 			roomUp = rng.nextInt(rooms.length);
 		}
 		
-		while (roomDown == roomUp && rooms[roomDown].center.x > this.x && rooms[roomDown].center.y > this.y) {
+		while (roomDown == roomUp || rooms[roomDown].center.x > this.x || rooms[roomDown].center.y > this.y) {
 			roomDown = rng.nextInt(rooms.length);
 		}
 		
