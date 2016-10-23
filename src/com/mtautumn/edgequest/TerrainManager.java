@@ -29,7 +29,7 @@ public class TerrainManager extends Thread {
 					if (dataManager.system.updateDungeon) {
 						dataManager.system.blockGenerationLastTick = true;
 						if (dataManager.savable.dungeonLevel >= 0) {
-							dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).requestLevel(dataManager.savable.dungeonLevel);
+							dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).requestLevel(dataManager.savable.dungeonLevel, dataManager.system.blockNameMap);
 							if (dataManager.savable.lastDungeonLevel > dataManager.savable.dungeonLevel) {
 								dataManager.savable.charX = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsDown(dataManager.savable.dungeonLevel)[0] + 0.5;
 								dataManager.savable.charY = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsDown(dataManager.savable.dungeonLevel)[1] + 0.5;
