@@ -71,9 +71,9 @@ public class PathFinder {
 		if (dm.world.isStructBlock(x, y))
 			nodeClear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, y)).isPassable;
 		if (dm.world.isStructBlock(firstX, y))
-			diag1Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, y)).isPassable;
+			diag1Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(firstX, y)).isPassable;
 		if (dm.world.isStructBlock(x, firstY))
-			diag2Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, y)).isPassable;
+			diag2Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, firstY)).isPassable;
 		return nodeClear && (diag1Clear || diag2Clear);
 		
 	}
