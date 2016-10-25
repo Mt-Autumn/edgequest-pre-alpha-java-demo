@@ -10,6 +10,7 @@ public class PathFinder {
 		this.dm = dm;
 	}
 	public ArrayList<IntCoord> findPath(int startX, int startY, int endX, int endY, DataManager dm) {
+		int iterationCount = 0;
 		IntCoord start = new IntCoord(startX, startY);
 		IntCoord end = new IntCoord(endX, endY);
 		ArrayList<IntCoord> path = new ArrayList<IntCoord>();
@@ -18,8 +19,9 @@ public class PathFinder {
 		openNodes.add(new Node(start.x, start.y, 0, end));
 		Node current = getLowestFCost(openNodes);
 		boolean findingPath = true;
-		while(findingPath) {
+		while(findingPath && iterationCount < 5000) {
 			current = getLowestFCost(openNodes);
+			iterationCount++;
 			closedNodes.add(current);
 			openNodes.remove(current);
 			if (current.x == end.x && current.y == end.y) {
@@ -51,7 +53,7 @@ public class PathFinder {
 				}
 			}
 		}
-		boolean creatingPath = true;
+		boolean creatingPath = iterationCount < 5000;
 		while (creatingPath) {
 			if (current.parent == null) {
 				creatingPath = false;
