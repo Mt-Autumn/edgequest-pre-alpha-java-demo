@@ -32,20 +32,26 @@ public class AutoCharacterWalk extends Thread{
 					if (path.size() > 0) {
 						double targetX = path.get(path.size() - 1).x + 0.5;
 						double targetY = path.get(path.size() - 1).y + 0.5;
-						dataManager.system.isKeyboardLeft = false;
-						dataManager.system.isKeyboardRight = false;
-						dataManager.system.isKeyboardUp = false;
-						dataManager.system.isKeyboardDown = false;
-						dataManager.system.isKeyboardSprint = false;
-						if (charX < targetX && moveXPositive) dataManager.system.isKeyboardRight = true;
-						if (charX > targetX && !moveXPositive) dataManager.system.isKeyboardLeft = true;
-						if (charY < targetY && moveYPositive) dataManager.system.isKeyboardDown = true;
-						if (charY > targetY && !moveYPositive) dataManager.system.isKeyboardUp = true;
+						dataManager.system.isKeyboardRight = (charX < targetX && moveXPositive);
+						dataManager.system.isKeyboardLeft = (charX > targetX && !moveXPositive);
+						dataManager.system.isKeyboardDown =  (charY < targetY && moveYPositive);
+						dataManager.system.isKeyboardUp = (charY > targetY && !moveYPositive);
 						if (charX > targetX == moveXPositive && charY>targetY == moveYPositive) {
 							path.remove(path.size() - 1);
 							if (path.size() > 0) {
 								moveXPositive = charX < path.get(path.size() - 1).x;
 								moveYPositive = charY < path.get(path.size() - 1).y;
+								targetX = path.get(path.size() - 1).x + 0.5;
+								targetY = path.get(path.size() - 1).y + 0.5;
+								dataManager.system.isKeyboardLeft = false;
+								dataManager.system.isKeyboardRight = false;
+								dataManager.system.isKeyboardUp = false;
+								dataManager.system.isKeyboardDown = false;
+								dataManager.system.isKeyboardSprint = false;
+								if (charX < targetX && moveXPositive) dataManager.system.isKeyboardRight = true;
+								if (charX > targetX && !moveXPositive) dataManager.system.isKeyboardLeft = true;
+								if (charY < targetY && moveYPositive) dataManager.system.isKeyboardDown = true;
+								if (charY > targetY && !moveYPositive) dataManager.system.isKeyboardUp = true;
 							}
 						}
 					} else {

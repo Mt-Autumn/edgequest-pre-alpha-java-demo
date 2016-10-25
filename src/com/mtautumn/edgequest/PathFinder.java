@@ -53,7 +53,6 @@ public class PathFinder {
 		}
 		boolean creatingPath = true;
 		while (creatingPath) {
-			System.out.println(current.x + " , " + current.y);
 			if (current.parent == null) {
 				creatingPath = false;
 			} else {
