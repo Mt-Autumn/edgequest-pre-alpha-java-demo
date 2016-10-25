@@ -116,27 +116,33 @@ public class Dungeon implements Serializable {
 		}
 		private void generateLevel(long dungeonID, Map<String, BlockItem> blockNameMap) {
 			int[][] dungeonMap = new Generator(100, 100, 10, seed * dungeonID * (depth + 1)).getNewDungeon();
-			int dungeonWidth = dungeonMap.length;
-			int dungeonHeight = dungeonMap[1].length;
-			for (int x = -1; x < dungeonWidth; x++) {
-				for (int y = -1; y <= dungeonHeight; y++) {
+			for (int x = -2; x < 102; x+=103) {
+				for (int y = -2; y < 102; y+= 103) {
+					structureMap.put(x+","+y, blockNameMap.get("ground").getID());
 					groundMap.put(x+","+y, blockNameMap.get("stone").getID());
-					if (x == -1 || y == -1 || x == dungeonMap.length || y == dungeonMap[x].length) {
-						structureMap.put(x+","+y, blockNameMap.get("ground").getID());
-					} else {
-						switch (dungeonMap[x][y]) {
-						case 0:
-							structureMap.put(x+","+y, blockNameMap.get("dirt").getID());
-							break;
-						case 2:
-							setUpStairs(x, y, blockNameMap);
-							break;
-						case 3:
-							setDownStairs(x, y, blockNameMap);
-							break;
-						default:
-							break;
-						}
+				}
+			}
+			for (int x = -1; x < 101; x+=101) {
+				for (int y = -1; y < 101; y+= 101) {
+					structureMap.put(x+","+y, blockNameMap.get("dirt").getID());
+					groundMap.put(x+","+y, blockNameMap.get("stone").getID());
+				}
+			}
+			for (int x = 0; x < dungeonMap.length; x++) {
+				for (int y = 0; y < dungeonMap[1].length; y++) {
+					groundMap.put(x+","+y, blockNameMap.get("stone").getID());
+					switch (dungeonMap[x][y]) {
+					case 0:
+						structureMap.put(x+","+y, blockNameMap.get("dirt").getID());
+						break;
+					case 2:
+						setUpStairs(x, y, blockNameMap);
+						break;
+					case 3:
+						setDownStairs(x, y, blockNameMap);
+						break;
+					default:
+						break;
 					}
 				}
 			}
