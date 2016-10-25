@@ -19,7 +19,7 @@ public class PathFinder {
 		openNodes.add(new Node(start.x, start.y, 0, end));
 		Node current = getLowestFCost(openNodes);
 		boolean findingPath = true;
-		while(findingPath && iterationCount < 5000) {
+		while(findingPath && iterationCount < 5000 && openNodes.size() > 0) {
 			current = getLowestFCost(openNodes);
 			iterationCount++;
 			closedNodes.add(current);
@@ -53,7 +53,7 @@ public class PathFinder {
 				}
 			}
 		}
-		boolean creatingPath = iterationCount < 5000;
+		boolean creatingPath = !findingPath;
 		while (creatingPath) {
 			if (current.parent == null) {
 				creatingPath = false;
@@ -62,6 +62,7 @@ public class PathFinder {
 				current = current.parent;
 			}
 		}
+		path.add(start);
 		return path;
 	}
 	private boolean isNodeClear(int x, int y, int firstX, int firstY) {
