@@ -143,7 +143,7 @@ public class RendererManager extends Thread {
 				} else if (dataManager.system.isKeyboardSprint && !dataManager.system.hideMouse){
 					dataManager.system.autoWalkX = dataManager.system.mouseX;
 					dataManager.system.autoWalkY = dataManager.system.mouseY;
-					dataManager.system.autoWalk = true;
+					dataManager.autoCharacterWalk.setAutoWalk(dataManager.system.autoWalkX, dataManager.system.autoWalkY);
 				}
 			}
 		}
