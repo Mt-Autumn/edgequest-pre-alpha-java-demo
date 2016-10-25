@@ -117,13 +117,25 @@ public class Dungeon implements Serializable {
 		private void generateLevel(long dungeonID, Map<String, BlockItem> blockNameMap) {
 			int[][] dungeonMap = new Generator(100, 100, 10, seed * dungeonID * (depth + 1)).getNewDungeon();
 			for (int x = -2; x < 102; x+=103) {
-				for (int y = -2; y < 102; y+= 103) {
+				for (int y = -2; y < 102; y++) {
+					structureMap.put(x+","+y, blockNameMap.get("ground").getID());
+					groundMap.put(x+","+y, blockNameMap.get("stone").getID());
+				}
+			}
+			for (int y = -2; y < 102; y+=103) {
+				for (int x = -2; x < 102; x++) {
 					structureMap.put(x+","+y, blockNameMap.get("ground").getID());
 					groundMap.put(x+","+y, blockNameMap.get("stone").getID());
 				}
 			}
 			for (int x = -1; x < 101; x+=101) {
-				for (int y = -1; y < 101; y+= 101) {
+				for (int y = -1; y < 101; y++) {
+					structureMap.put(x+","+y, blockNameMap.get("dirt").getID());
+					groundMap.put(x+","+y, blockNameMap.get("stone").getID());
+				}
+			}
+			for (int y = -1; y < 101; y+=101) {
+				for (int x = -1; x < 101; x++) {
 					structureMap.put(x+","+y, blockNameMap.get("dirt").getID());
 					groundMap.put(x+","+y, blockNameMap.get("stone").getID());
 				}

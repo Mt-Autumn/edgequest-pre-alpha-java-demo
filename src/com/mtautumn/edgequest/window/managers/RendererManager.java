@@ -181,13 +181,12 @@ public class RendererManager extends Thread {
 					boolean keyPlaceTorch = Keyboard.isKeyDown(dataManager.settings.placeTorchKey);
 					boolean keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
 					boolean keyAction = Keyboard.isKeyDown(dataManager.settings.actionKey);
-
+					dataManager.system.isKeyboardSprint = keySprint;
 					if (!dataManager.system.autoWalk) {
 						dataManager.system.isKeyboardUp = keyUp;
 						dataManager.system.isKeyboardRight = keyRight;
 						dataManager.system.isKeyboardDown = keyDown;
 						dataManager.system.isKeyboardLeft = keyLeft;
-						dataManager.system.isKeyboardSprint = keySprint;
 
 						if (keyUp || keyDown || keyLeft || keyRight)
 							dataManager.system.hideMouse = true;
