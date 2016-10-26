@@ -11,7 +11,12 @@ public class WorldUtils {
 		du = new DungeonUtils(dm);
 		ou = new OverwordUtils(dm);
 	}
-
+	public void wipeMaps() {
+		dm.savable.playerStructuresMap.clear();
+		dm.savable.dungeonMap.clear();
+		dm.savable.map.clear();
+		dm.savable.lightMap.clear();
+	}
 
 	public void setStructBlock(int x, int y, short id) {
 		if (dm.savable.isInDungeon)

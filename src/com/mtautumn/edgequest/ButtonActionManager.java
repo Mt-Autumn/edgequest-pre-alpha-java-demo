@@ -36,10 +36,7 @@ public class ButtonActionManager extends Thread {
 				long seed = Long.parseLong(getInputText("Enter a Seed Number:"));
 				dataManager.savable.seed = seed;
 				dataManager.terrainManager.terrainGenerator.clearCache();
-				dataManager.savable.playerStructuresMap.clear();
-				dataManager.savable.dungeonMap.clear();
-				dataManager.savable.map.clear();
-				dataManager.savable.lightMap.clear();
+				dataManager.world.wipeMaps();
 				dataManager.savable.footPrints.clear();
 				if (dataManager.savable.isInDungeon) {
 					dataManager.savable.isInDungeon = false;
