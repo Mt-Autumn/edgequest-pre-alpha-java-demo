@@ -93,38 +93,38 @@ public class TerrainGenerator {
 		if (alt < 63000000) {
 			if (temp < 62200000) {
 				if (alt < 61000000) {
-					dataManager.savable.map.put(x + "," + y, dataManager.system.blockNameMap.get("water").getID());
+					dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("water").getID());
 				} else {
-					dataManager.savable.map.put(x + "," + y, dataManager.system.blockNameMap.get("ice").getID());
+					dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("ice").getID());
 				}
 			} else {
-				dataManager.savable.map.put(x + "," + y, dataManager.system.blockNameMap.get("water").getID());
+				dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("water").getID());
 				if (getRNG(x, y) < 0.02) {
-					dataManager.savable.playerStructuresMap.put(x+","+y, dataManager.system.blockNameMap.get("lilyPad").getID());
+					dataManager.world.ou.setStructBlock(x, y, dataManager.system.blockNameMap.get("lilyPad").getID());
 				}
 			}
 		} else if (alt < 64000000 && temp > 62200000){
-			dataManager.savable.map.put(x + "," + y, dataManager.system.blockNameMap.get("sand").getID());
+			dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("sand").getID());
 		} else {
 			if (temp < 62200000) {
-				dataManager.savable.map.put(x + "," + y, dataManager.system.blockNameMap.get("snow").getID());
+				dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("snow").getID());
 			} else if (temp > 70000000){
-				dataManager.savable.map.put(x + "," + y, dataManager.system.blockNameMap.get("sand").getID());
+				dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("sand").getID());
 			} else  if (alt < 80000000 ){
-				dataManager.savable.map.put(x + "," + y, dataManager.system.blockNameMap.get("grass").getID());
+				dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("grass").getID());
 				if (getRNG(x, y) < 0.03) {
-					dataManager.savable.playerStructuresMap.put(x+","+y, dataManager.system.blockNameMap.get("tree").getID());
+					dataManager.world.ou.setStructBlock(x, y, dataManager.system.blockNameMap.get("tree").getID());
 				}
 			} else {
 				if (getRNG(x, y) < 0.75) {
-					dataManager.savable.map.put(x + "," + y, dataManager.system.blockNameMap.get("stone").getID());
+					dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("stone").getID());
 				} else { 
-					dataManager.savable.map.put(x + "," + y, dataManager.system.blockNameMap.get("dirt").getID());
+					dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("dirt").getID());
 				}
 			}
 
 			if (getRNG(x, y) > 0.98) {
-				dataManager.savable.playerStructuresMap.put(x + "," + y, dataManager.system.blockNameMap.get("dungeon").getID());
+				dataManager.world.ou.setStructBlock(x, y, dataManager.system.blockNameMap.get("dungeon").getID());
 				dataManager.savable.dungeonMap.put(x + "," + y, new Dungeon(dataManager, ++dataManager.savable.dungeonCount));
 			}
 		}
