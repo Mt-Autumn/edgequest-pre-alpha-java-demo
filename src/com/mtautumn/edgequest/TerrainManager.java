@@ -18,7 +18,7 @@ public class TerrainManager extends Thread {
 						blocksPerTick = 0;
 						for(int i = dataManager.system.minTileX - 2; i <= dataManager.system.maxTileX + 1 && blocksPerTick < 1000; i++) {
 							for (int j = dataManager.system.minTileY - 2; j <= dataManager.system.maxTileY + 1; j++) {
-								if (!dataManager.savable.map.containsKey(i + "," + j)) {
+								if (!dataManager.world.ou.isGroundBlock(i, j)) {
 									terrainGenerator.generateBlock(i, j);
 									blocksPerTick++;
 								}

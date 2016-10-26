@@ -122,14 +122,11 @@ public class ConsoleManager {
 			if (args.size() > 0) {
 				dataManager.savable.seed = (long) Double.parseDouble(args.get(0));
 				dataManager.terrainManager.terrainGenerator.clearCache();
-				dataManager.savable.playerStructuresMap.clear();
-				dataManager.savable.map.clear();
-				dataManager.savable.lightMap.clear();
+				dataManager.world.wipeMaps();
 				dataManager.savable.footPrints.clear();
 				dataManager.system.blockGenerationLastTick = true;
 				dataManager.system.isGameOnLaunchScreen = false;
 				dataManager.system.isLaunchScreenLoaded = false;
-				dataManager.savable.dungeonMap.clear();
 				if (dataManager.savable.isInDungeon) {
 					dataManager.savable.isInDungeon = false;
 					dataManager.savable.dungeonLevel = -1;
