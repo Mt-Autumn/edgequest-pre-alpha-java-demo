@@ -1,3 +1,6 @@
+/*This class is used as a datatype that defines what each block/item is.
+ * These BlockItems are created in the DefineBlockItems class
+ */
 package com.mtautumn.edgequest;
 
 import java.io.Serializable;

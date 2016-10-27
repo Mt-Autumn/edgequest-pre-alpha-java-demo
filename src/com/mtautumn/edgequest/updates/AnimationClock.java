@@ -1,3 +1,7 @@
+/* Just updates a variable in dataManager which is used when rendering
+ * animations. The animation step is found by using modulus on this variable.
+ * 
+ */
 package com.mtautumn.edgequest.updates;
 
 import com.mtautumn.edgequest.data.DataManager;

@@ -1,3 +1,6 @@
+/* Algorithm for generating the overworld terrain. An instance is created
+ * followed by calling generate block for each block that needs to be made
+ */
 package com.mtautumn.edgequest;
 
 import java.util.HashMap;

@@ -1,3 +1,6 @@
+/* Updates damage incurred on a block by mining and removes the block
+ * if the damage is full.
+ */
 package com.mtautumn.edgequest.updates;
 
 import com.mtautumn.edgequest.BlockItem;

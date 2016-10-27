@@ -1,3 +1,7 @@
+/*This class continually checks the buttonActionQueue for new button actions to
+ * run. If there is a new button action in the queue, the action gets executed
+ * according to a switch statement.
+ */
 package com.mtautumn.edgequest;
 
 import java.io.IOException;

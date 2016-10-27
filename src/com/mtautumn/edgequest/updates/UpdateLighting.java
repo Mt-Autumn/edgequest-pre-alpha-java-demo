@@ -1,3 +1,6 @@
+/* Called by BlockUpdateManager (mostly) and will update lighting when the
+ * update method is called (at the position x,y)
+ */
 package com.mtautumn.edgequest.updates;
 
 import java.util.HashMap;

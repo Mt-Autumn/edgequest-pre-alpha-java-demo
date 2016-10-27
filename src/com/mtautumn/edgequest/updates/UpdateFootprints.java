@@ -1,3 +1,6 @@
+/* Gets called by BlockUpdateManager and checks to see if a new footprint
+ * should be added.
+ */
 package com.mtautumn.edgequest.updates;
 
 import com.mtautumn.edgequest.FootPrint;

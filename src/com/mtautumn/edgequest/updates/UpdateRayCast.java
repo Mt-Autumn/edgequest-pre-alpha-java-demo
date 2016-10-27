@@ -1,3 +1,6 @@
+/* Not currently used in-game. An attempt at non-voxel raycasts.
+ * Needs to be implemented.
+ */
 package com.mtautumn.edgequest.updates;
 
 import java.util.ArrayList;

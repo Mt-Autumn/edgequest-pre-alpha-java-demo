@@ -1,3 +1,6 @@
+/* Checks to see what blocks need to be updated each tick. This includes
+ * lighting, block breaks, footprints, etc.
+ */
 package com.mtautumn.edgequest.updates;
 
 import java.awt.Point;

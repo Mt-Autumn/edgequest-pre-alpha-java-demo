@@ -1,3 +1,6 @@
+/* A* algorithm for determining optimal path. Called by creating an instance
+ * then running the findPath method which returns a series of nodes to follow
+ */
 package com.mtautumn.edgequest;
 
 import java.util.ArrayList;

@@ -1,3 +1,6 @@
+/* The class with the main method that gets everything going.
+ * It sets the OS, creates the dataManager and starts all the threads.
+ */
 package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;

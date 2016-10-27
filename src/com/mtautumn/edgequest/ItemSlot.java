@@ -1,3 +1,6 @@
+/* Defines each space in the backpack (eventually other storage areas too)
+ * Keeps track of the item and how much of that item is there.
+ */
 package com.mtautumn.edgequest;
 
 import java.io.Serializable;

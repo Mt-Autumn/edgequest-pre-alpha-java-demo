@@ -1,3 +1,4 @@
+//Basically just sets the in-game time and updates itself periodically
 package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;

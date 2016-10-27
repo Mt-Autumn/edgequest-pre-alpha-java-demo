@@ -1,3 +1,7 @@
+/* Used by most of the game to access/set world block data
+ * Automatically determines which block is being referenced based on dungeon
+ * level.
+ */
 package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;
