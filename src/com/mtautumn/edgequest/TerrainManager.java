@@ -4,7 +4,7 @@ import com.mtautumn.edgequest.data.DataManager;
 
 public class TerrainManager extends Thread {
 	DataManager dataManager;
-	TerrainGenerator terrainGenerator;
+	public TerrainGenerator terrainGenerator;
 	public TerrainManager(DataManager dataManager) {
 		this.dataManager = dataManager;
 		terrainGenerator = new TerrainGenerator(dataManager);

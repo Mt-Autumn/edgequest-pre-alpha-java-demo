@@ -35,25 +35,7 @@ public class ButtonActionManager extends Thread {
 			try {
 				long seed = Long.parseLong(getInputText("Enter a Seed Number:"));
 				dataManager.savable.seed = seed;
-				dataManager.terrainManager.terrainGenerator.clearCache();
-				dataManager.world.wipeMaps();
-				dataManager.savable.footPrints.clear();
-				if (dataManager.savable.isInDungeon) {
-					dataManager.savable.isInDungeon = false;
-					dataManager.savable.dungeonLevel = -1;
-					dataManager.savable.dungeonCount = 0;
-				}
-				dataManager.savable.time = 800;
-				for (int i = 0; i< dataManager.savable.backpackItems.length; i++) {
-					for (int j = 0; j< dataManager.savable.backpackItems[i].length; j++) {
-						dataManager.savable.backpackItems[i][j] = new ItemSlot();
-					}
-				}
-				dataManager.savable.charX = 0;
-				dataManager.savable.charY = 0;
-				dataManager.system.blockGenerationLastTick = true;
-				dataManager.system.isGameOnLaunchScreen = false;
-				dataManager.system.isLaunchScreenLoaded = false;
+				dataManager.newGame();
 			} catch (Exception e) {
 				setNoticeText("Seeds should be whole numbers");
 			}
