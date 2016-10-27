@@ -121,19 +121,7 @@ public class ConsoleManager {
 		case "reseed":
 			if (args.size() > 0) {
 				dataManager.savable.seed = (long) Double.parseDouble(args.get(0));
-				dataManager.terrainManager.terrainGenerator.clearCache();
-				dataManager.world.wipeMaps();
-				dataManager.savable.footPrints.clear();
-				dataManager.system.blockGenerationLastTick = true;
-				dataManager.system.isGameOnLaunchScreen = false;
-				dataManager.system.isLaunchScreenLoaded = false;
-				if (dataManager.savable.isInDungeon) {
-					dataManager.savable.isInDungeon = false;
-					dataManager.savable.dungeonLevel = -1;
-					dataManager.savable.dungeonCount = 0;
-					dataManager.savable.charX = dataManager.savable.dungeonX;
-					dataManager.savable.charY = dataManager.savable.dungeonY;
-				}
+				dataManager.resetTerrain();
 				addLine("reseeded to seed: " + args.get(0), 2);
 			} else
 				addLine("use the format /reseed <seed>", 1);

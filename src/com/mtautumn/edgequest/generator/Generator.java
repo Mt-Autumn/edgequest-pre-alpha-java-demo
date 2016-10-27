@@ -197,7 +197,6 @@ public class Generator {
 
 	}
 
-
 	// Returns a 2d map
 	public int[][] getNewDungeon() {
 		this.clearMap();
