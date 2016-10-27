@@ -1,3 +1,7 @@
+/* Solely used for text input
+ * When an input menu appears, this is run to add text to that input menu
+ * This is not used for key bindings in the game (like walking)
+ */
 package com.mtautumn.edgequest;
 
 import org.lwjgl.input.Keyboard;

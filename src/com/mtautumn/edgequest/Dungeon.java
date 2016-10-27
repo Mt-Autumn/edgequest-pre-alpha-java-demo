@@ -1,3 +1,7 @@
+/* Manages the dungeons (duh). Contains an array of dungeon levels which define
+ * each level of the dungeon. Also has methods for accessing info about the
+ * dungeon and requesting a level of the dungeon be generated.
+ */
 package com.mtautumn.edgequest;
 
 import java.io.Serializable;

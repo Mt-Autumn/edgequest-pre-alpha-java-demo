@@ -1,3 +1,7 @@
+/*This class is in charge of adjusting the character position in the world.
+ * (It also runs the place torch event for the time being but will be switched
+ * to a place block event in the future)
+ */
 package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;

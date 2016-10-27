@@ -1,3 +1,9 @@
+/*This class is in charge of directing the character's movements when the
+*setAutoWalk method is called. It controls character movements by directly
+*setting the keyboard key states to the appropriate value for moving in a
+*given direction. Until dataManager.system.autoWalk is set to false, this
+*continues.
+*/
 package com.mtautumn.edgequest;
 
 import java.util.ArrayList;

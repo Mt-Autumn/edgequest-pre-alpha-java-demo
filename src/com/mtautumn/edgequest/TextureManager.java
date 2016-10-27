@@ -1,3 +1,6 @@
+/* Defines all non-block/item textures. (Such as UI elements)
+ * This must be called by the renderer thread when the game starts
+ */
 package com.mtautumn.edgequest;
 
 import java.util.HashMap;

@@ -1,3 +1,7 @@
+/* A series of methods for setting, getting, or checking blocks, structures, or
+ * lighting for each tile in the overworld.(Normally accessed using
+ * world utils @ dataManager.world)
+ */
 package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;

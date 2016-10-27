@@ -1,3 +1,6 @@
+/* Responsible for making sure terrain exists. If it doesn't it tells
+ * the terrain generator to create it.
+ */
 package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;

@@ -1,3 +1,4 @@
+// Defines what a footprint is and its location
 package com.mtautumn.edgequest;
 
 import java.io.Serializable;

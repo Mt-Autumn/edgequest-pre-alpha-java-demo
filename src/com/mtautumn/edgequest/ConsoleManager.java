@@ -1,3 +1,6 @@
+/* Keeps track of the lines visible in the game console. Will also
+ * parse new lines for commands and run such commands if they exist.
+ */
 package com.mtautumn.edgequest;
 
 import java.util.ArrayList;

@@ -1,3 +1,6 @@
+/* Basically creates all of the blocks and items for the game. It also creates
+ * hash maps which can be used to look up a block/item given its id or name
+ */
 package com.mtautumn.edgequest;
 
 import java.util.HashMap;

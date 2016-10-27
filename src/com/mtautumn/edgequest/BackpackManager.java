@@ -1,3 +1,8 @@
+/*A simple class that contains an array of ItemSlot classes.
+ * Essentially this is a datatype used to keep track of what's
+ * in the player's backpack.
+ * 
+ */
 package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;
