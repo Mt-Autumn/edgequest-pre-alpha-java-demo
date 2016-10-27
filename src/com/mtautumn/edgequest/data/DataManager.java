@@ -6,6 +6,7 @@ import com.mtautumn.edgequest.ButtonActionManager;
 import com.mtautumn.edgequest.CharacterManager;
 import com.mtautumn.edgequest.ConsoleManager;
 import com.mtautumn.edgequest.GameClock;
+import com.mtautumn.edgequest.ItemSlot;
 import com.mtautumn.edgequest.TerrainManager;
 import com.mtautumn.edgequest.WorldUtils;
 import com.mtautumn.edgequest.updates.AnimationClock;
@@ -31,4 +32,47 @@ public class DataManager {
 	public ConsoleManager consoleManager = new ConsoleManager(this);
 	
 	public WorldUtils world = new WorldUtils(this);
+	
+	// Initialize a new game
+	public void newGame() {
+		resetTerrain();
+		savable.time = 800;
+		for (int i = 0; i< savable.backpackItems.length; i++) {
+			for (int j = 0; j< savable.backpackItems[i].length; j++) {
+				savable.backpackItems[i][j] = new ItemSlot();
+			}
+		}
+		savable.charX = 0;
+		savable.charY = 0;
+		system.blockGenerationLastTick = true;
+		system.isGameOnLaunchScreen = false;
+		system.isLaunchScreenLoaded = false;
+	}
+	
+	// Reset the terrain
+	public void resetTerrain() {
+		terrainManager.terrainGenerator.clearCache();
+		world.wipeMaps();
+		savable.footPrints.clear();
+		if (savable.isInDungeon) {
+			savable.isInDungeon = false;
+			savable.dungeonLevel = -1;
+			savable.dungeonCount = 0;
+			savable.charX = savable.dungeonX;
+			savable.charY = savable.dungeonY;
+		}
+	}
+	
+	// Start the managers
+	public void start() {
+		characterManager.start();
+		terrainManager.start();
+		rendererManager.start();
+		gameClock.start();
+		animationClock.start();
+		blockUpdateManager.start();
+		autoCharacterWalk.start();
+		buttonActionManager.start();
+	}
+	
 }
