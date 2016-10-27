@@ -5,10 +5,19 @@ package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;
 
+/*
+ * 
+ * EdgeQuest class that contains the main method that runs the game
+ * 
+ */
+
 public class EdgeQuest {
 	public static DataManager dataManager = new DataManager();
 	public static void main(String[] args) throws InterruptedException {
+		
+		// Detect the OS
 		byte os = (byte) System.getProperty("os.name").toLowerCase().charAt(0);
+		
 		switch (os) {
 		case 108:
 			System.out.println("Setting OS to GNU/Linux");
@@ -25,13 +34,8 @@ public class EdgeQuest {
 		default:
 			break;
 		}
-		dataManager.characterManager.start();
-		dataManager.terrainManager.start();
-		dataManager.rendererManager.start();
-		dataManager.gameClock.start();
-		dataManager.animationClock.start();
-		dataManager.blockUpdateManager.start();
-		dataManager.autoCharacterWalk.start();
-		dataManager.buttonActionManager.start();
+		
+		// Start the data manager (the main game loop)
+		dataManager.start();
 	}
 }
