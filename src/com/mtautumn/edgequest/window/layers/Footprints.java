@@ -31,11 +31,11 @@ public class Footprints {
 	}
 	
 	private static double offsetX(Renderer r) {
-		return r.dataManager.savable.charX - Double.valueOf(r.dataManager.settings.screenWidth) / 2.0 / Double.valueOf(r.dataManager.settings.blockSize);
+		return r.dataManager.system.screenX - Double.valueOf(r.dataManager.settings.screenWidth) / 2.0 / Double.valueOf(r.dataManager.settings.blockSize);
 	}
 	
 	private static double offsetY(Renderer r) {
-		return r.dataManager.savable.charY - Double.valueOf(r.dataManager.settings.screenHeight) / 2.0 / Double.valueOf(r.dataManager.settings.blockSize);
+		return r.dataManager.system.screenY - Double.valueOf(r.dataManager.settings.screenHeight) / 2.0 / Double.valueOf(r.dataManager.settings.blockSize);
 	}
 	
 	

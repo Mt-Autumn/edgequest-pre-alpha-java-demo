@@ -27,11 +27,11 @@ public class Lighting {
 	}
 	
 	private static int xStartPos(Renderer r) {
-		return (int) ((r.dataManager.system.minTileX - r.dataManager.savable.charX) * r.dataManager.settings.blockSize + r.dataManager.settings.screenWidth/2.0);
+		return (int) ((r.dataManager.system.minTileX - r.dataManager.system.screenX) * r.dataManager.settings.blockSize + r.dataManager.settings.screenWidth/2.0);
 	}
 	
 	private static int yStartPos(Renderer r) {
-		return (int)((r.dataManager.system.minTileY - r.dataManager.savable.charY) * r.dataManager.settings.blockSize + r.dataManager.settings.screenHeight/2.0);
+		return (int)((r.dataManager.system.minTileY - r.dataManager.system.screenY) * r.dataManager.settings.blockSize + r.dataManager.settings.screenHeight/2.0);
 	}
 	
 	private static double getBrightness(Renderer r, int x, int y) {

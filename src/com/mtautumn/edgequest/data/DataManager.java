@@ -1,6 +1,5 @@
 package com.mtautumn.edgequest.data;
 
-import com.mtautumn.edgequest.AutoCharacterWalk;
 import com.mtautumn.edgequest.BackpackManager;
 import com.mtautumn.edgequest.ButtonActionManager;
 import com.mtautumn.edgequest.CharacterManager;
@@ -27,7 +26,6 @@ public class DataManager {
 	public TerrainManager terrainManager = new TerrainManager(this);
 	public GameClock gameClock = new GameClock(this);
 	public AnimationClock animationClock = new AnimationClock(this);
-	public AutoCharacterWalk autoCharacterWalk = new AutoCharacterWalk(this);
 	public ButtonActionManager buttonActionManager = new ButtonActionManager(this);
 	public ConsoleManager consoleManager = new ConsoleManager(this);
 	
@@ -42,8 +40,8 @@ public class DataManager {
 				savable.backpackItems[i][j] = new ItemSlot();
 			}
 		}
-		savable.charX = 0;
-		savable.charY = 0;
+		savable.entities.clear();
+		characterManager.createCharacterEntity();
 		system.blockGenerationLastTick = true;
 		system.isGameOnLaunchScreen = false;
 		system.isLaunchScreenLoaded = false;
@@ -58,8 +56,8 @@ public class DataManager {
 			savable.isInDungeon = false;
 			savable.dungeonLevel = -1;
 			savable.dungeonCount = 0;
-			savable.charX = savable.dungeonX;
-			savable.charY = savable.dungeonY;
+			characterManager.characterEntity.setX(savable.dungeonX);
+			characterManager.characterEntity.setY(savable.dungeonY);
 		}
 	}
 	
@@ -71,7 +69,6 @@ public class DataManager {
 		gameClock.start();
 		animationClock.start();
 		blockUpdateManager.start();
-		autoCharacterWalk.start();
 		buttonActionManager.start();
 	}
 	

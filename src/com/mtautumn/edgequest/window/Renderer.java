@@ -188,8 +188,8 @@ public class Renderer {
 
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
-		int charX = (int) Math.floor(dataManager.savable.charX);
-		int charY = (int) Math.floor(dataManager.savable.charY);
+		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
+		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
 			if (dataManager.world.isGroundBlock(charX, charY)) {
 				blockInfo[0] = dataManager.world.getGroundBlock(charX, charY);
 			}

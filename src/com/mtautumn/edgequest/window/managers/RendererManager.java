@@ -61,6 +61,9 @@ public class RendererManager extends Thread {
 					dataManager.system.setWindowed = false;
 					dataManager.settings.isFullScreen = false;
 				}
+				if (!dataManager.system.isGameOnLaunchScreen) {
+					updateScreenCenter();
+				}
 				updateMouse();
 				updateKeys();
 				updateWindow();
@@ -129,11 +132,11 @@ public class RendererManager extends Thread {
 			dataManager.system.mousePosition = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
 			int mouseX = dataManager.system.mousePosition.x;
 			int mouseY = dataManager.system.mousePosition.y;
-			double offsetX = (dataManager.savable.charX * Double.valueOf(dataManager.settings.blockSize) - Double.valueOf(dataManager.settings.screenWidth) / 2.0);
-			double offsetY = (dataManager.savable.charY * Double.valueOf(dataManager.settings.blockSize) - Double.valueOf(dataManager.settings.screenHeight) / 2.0);
+			double offsetX = (dataManager.system.screenX * Double.valueOf(dataManager.settings.blockSize) - Double.valueOf(dataManager.settings.screenWidth) / 2.0);
+			double offsetY = (dataManager.system.screenY * Double.valueOf(dataManager.settings.blockSize) - Double.valueOf(dataManager.settings.screenHeight) / 2.0);
 			dataManager.system.mouseX = (int) Math.floor((offsetX + dataManager.system.mousePosition.getX())/Double.valueOf(dataManager.settings.blockSize));
 			dataManager.system.mouseY = (int) Math.floor((offsetY + dataManager.system.mousePosition.getY())/Double.valueOf(dataManager.settings.blockSize));
-			dataManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(dataManager.system.mouseX) - Math.floor(dataManager.savable.charX), 2.0)+Math.pow(Double.valueOf(dataManager.system.mouseY) - Math.floor(dataManager.savable.charY), 2.0)) > 3.0);
+			dataManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(dataManager.system.mouseX) - Math.floor(dataManager.characterManager.characterEntity.getX()), 2.0)+Math.pow(Double.valueOf(dataManager.system.mouseY) - Math.floor(dataManager.characterManager.characterEntity.getY()), 2.0)) > 3.0);
 			if (Mouse.isButtonDown(0) && !wasMouseDown) {
 				dataManager.system.autoWalk = false;
 				if (dataManager.system.isKeyboardMenu) {
@@ -143,7 +146,7 @@ public class RendererManager extends Thread {
 				} else if (dataManager.system.isKeyboardSprint && !dataManager.system.hideMouse){
 					dataManager.system.autoWalkX = dataManager.system.mouseX;
 					dataManager.system.autoWalkY = dataManager.system.mouseY;
-					dataManager.autoCharacterWalk.setAutoWalk(dataManager.system.autoWalkX, dataManager.system.autoWalkY);
+					dataManager.characterManager.characterEntity.setDestination(dataManager.system.autoWalkX, dataManager.system.autoWalkY);
 				}
 			}
 		}
@@ -153,10 +156,10 @@ public class RendererManager extends Thread {
 		if (dataManager.system.characterMoving || dataManager.system.blockGenerationLastTick) {
 			double tileWidth = Double.valueOf(dataManager.settings.screenWidth) / dataManager.settings.blockSize / 2.0 + 1;
 			double tileHeight = Double.valueOf(dataManager.settings.screenHeight) / dataManager.settings.blockSize / 2.0 + 1;
-			dataManager.system.minTileX = (int) (dataManager.savable.charX - tileWidth - 1);
-			dataManager.system.maxTileX = (int) (dataManager.savable.charX + tileWidth);
-			dataManager.system.minTileY = (int) (dataManager.savable.charY - tileHeight - 1);
-			dataManager.system.maxTileY = (int) (dataManager.savable.charY + tileHeight);
+			dataManager.system.minTileX = (int) (dataManager.system.screenX - tileWidth - 1);
+			dataManager.system.maxTileX = (int) (dataManager.system.screenX + tileWidth);
+			dataManager.system.minTileY = (int) (dataManager.system.screenY - tileHeight - 1);
+			dataManager.system.maxTileY = (int) (dataManager.system.screenY + tileHeight);
 		}
 	}
 	private static boolean[] wasKeyDown = new boolean[256];
@@ -226,8 +229,8 @@ public class RendererManager extends Thread {
 						dataManager.system.showConsole = true;
 
 					if (keyAction && !wasKeyDown[dataManager.settings.actionKey]) {
-						int charX = (int) Math.floor(dataManager.savable.charX);
-						int charY = (int) Math.floor(dataManager.savable.charY);
+						int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
+						int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
 						if (dataManager.savable.isInDungeon) {
 							Dungeon dungeon = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY);
 							if (charX == dungeon.getStairsUp(dataManager.savable.dungeonLevel)[0]&&charY == dungeon.getStairsUp(dataManager.savable.dungeonLevel)[1]) {
@@ -235,8 +238,8 @@ public class RendererManager extends Thread {
 								dataManager.system.updateDungeon = true;
 								if (dataManager.savable.dungeonLevel < 0) {
 									dataManager.savable.isInDungeon = false;
-									dataManager.savable.charX = dataManager.savable.dungeonX + 0.5;
-									dataManager.savable.charY = dataManager.savable.dungeonY + 0.5;
+									dataManager.characterManager.characterEntity.setX(dataManager.savable.dungeonX + 0.5);
+									dataManager.characterManager.characterEntity.setY(dataManager.savable.dungeonY + 0.5);
 								}
 							} else if (charX == dungeon.getStairsDown(dataManager.savable.dungeonLevel)[0]&&charY == dungeon.getStairsDown(dataManager.savable.dungeonLevel)[1]) {
 								dataManager.savable.dungeonLevel += 1;
@@ -275,5 +278,9 @@ public class RendererManager extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	private void updateScreenCenter() {
+		dataManager.system.screenX = dataManager.characterManager.characterEntity.getX();
+		dataManager.system.screenY = dataManager.characterManager.characterEntity.getY();
 	}
 }

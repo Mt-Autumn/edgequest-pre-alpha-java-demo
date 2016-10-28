@@ -14,14 +14,14 @@ public class UpdateFootprints {
 		this.dataManager = dataManager;
 	}
 	public void update() {
-		int charX = (int) Math.floor(dataManager.savable.charX);
-		int charY = (int) Math.floor(dataManager.savable.charY);
+		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
+		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
 		if (dataManager.world.isGroundBlock(charX, charY)) {
 			if (dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(charX, charY)).canHavePrints) {
-				if (Math.sqrt(Math.pow(dataManager.savable.charX - lastFootX, 2)+Math.pow(dataManager.savable.charY - lastFootY, 2)) > 0.7) {
-					lastFootX = dataManager.savable.charX;
-					lastFootY = dataManager.savable.charY;
-					dataManager.savable.footPrints.add(new FootPrint(dataManager.savable.charX, dataManager.savable.charY, dataManager.savable.charDir));
+				if (Math.sqrt(Math.pow(dataManager.characterManager.characterEntity.getX() - lastFootX, 2)+Math.pow(dataManager.characterManager.characterEntity.getY() - lastFootY, 2)) > 0.7) {
+					lastFootX = dataManager.characterManager.characterEntity.getX();
+					lastFootY = dataManager.characterManager.characterEntity.getY();
+					dataManager.savable.footPrints.add(new FootPrint(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), dataManager.characterManager.characterEntity.getRot()));
 				}
 			}
 		}

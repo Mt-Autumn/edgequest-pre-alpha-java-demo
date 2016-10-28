@@ -105,8 +105,8 @@ public class ConsoleManager {
 			break;
 		case "tp":
 			if (args.size() == 2) {
-				dataManager.savable.charX = Double.parseDouble(args.get(0));
-				dataManager.savable.charY = Double.parseDouble(args.get(1));
+				dataManager.characterManager.characterEntity.setX(Double.parseDouble(args.get(0)));
+				dataManager.characterManager.characterEntity.setX(Double.parseDouble(args.get(1)));
 				dataManager.system.blockGenerationLastTick = true;
 				addLine("Teleported to: " + args.get(0) + ", " + args.get(1), 2);
 			} else

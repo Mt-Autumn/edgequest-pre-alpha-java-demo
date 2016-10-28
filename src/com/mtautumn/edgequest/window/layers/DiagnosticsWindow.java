@@ -14,9 +14,9 @@ public class DiagnosticsWindow {
 		r.font.drawString(20, i+=20, "Time: " + r.dataManager.savable.time);
 		r.font.drawString(20, i+=20, "Time Human: " + r.dataManager.system.timeReadable);
 		r.font.drawString(20, i+=20, "Brightness: " + r.dataManager.world.getBrightness());
-		r.font.drawString(20, i+=20, "CharX: " + r.dataManager.savable.charX);
-		r.font.drawString(20, i+=20, "CharY: " + r.dataManager.savable.charY);
-		r.font.drawString(20, i+=20, "CharDir: " + r.dataManager.savable.charDir);
+		r.font.drawString(20, i+=20, "CharX: " + r.dataManager.characterManager.characterEntity.getX());
+		r.font.drawString(20, i+=20, "CharY: " + r.dataManager.characterManager.characterEntity.getY());
+		r.font.drawString(20, i+=20, "CharDir: " + r.dataManager.characterManager.characterEntity.getRot());
 		r.font.drawString(20, i+=20, "Dungeon Lvl: " + r.dataManager.savable.dungeonLevel);
 		r.font.drawString(20, i+=20, "CharMove: " + r.dataManager.system.characterMoving);
 		r.font.drawString(20, i+=20, "Terrain Gen: " + r.dataManager.system.blockGenerationLastTick);

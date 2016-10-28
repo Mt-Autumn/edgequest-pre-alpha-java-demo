@@ -2,7 +2,6 @@ package com.mtautumn.edgequest.window;
 
 
 import com.mtautumn.edgequest.window.layers.*;
-import com.mtautumn.edgequest.window.layers.Character;
 
 public class Layers {
 	static void draw(Renderer r) {
@@ -12,7 +11,7 @@ public class Layers {
 			Terrain.draw(r);
 			if (!r.dataManager.savable.isInDungeon) Footprints.draw(r);
 			CharacterEffects.draw(r);
-			Character.draw(r);
+			Entities.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			Lighting.draw(r);
 			BlockDamage.draw(r);
