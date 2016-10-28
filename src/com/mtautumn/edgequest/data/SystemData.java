@@ -38,6 +38,8 @@ public class SystemData {
 	public int maxTileX = 0;
 	public int minTileY = 0;
 	public int maxTileY = 0;
+	public double screenX = 0;
+	public double screenY = 0;
 	public boolean blockGenerationLastTick = true;
 	public boolean characterMoving = false;
 	public int averagedFPS = 0;

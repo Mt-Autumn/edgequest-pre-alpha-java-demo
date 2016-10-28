@@ -65,7 +65,9 @@ public class PathFinder {
 				current = current.parent;
 			}
 		}
-		path.add(start);
+		if (findingPath) {
+			path.add(start);
+		}
 		return path;
 	}
 	private boolean isNodeClear(int x, int y, int firstX, int firstY) {

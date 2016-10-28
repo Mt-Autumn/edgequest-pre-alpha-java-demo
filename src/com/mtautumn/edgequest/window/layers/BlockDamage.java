@@ -27,10 +27,10 @@ public class BlockDamage {
 	
 	
 	private static double offsetX(Renderer r) {
-		return r.dataManager.savable.charX - Double.valueOf(r.dataManager.settings.screenWidth) / Double.valueOf(2 * r.dataManager.settings.blockSize);
+		return r.dataManager.system.screenX - Double.valueOf(r.dataManager.settings.screenWidth) / Double.valueOf(2 * r.dataManager.settings.blockSize);
 	}
 	private static double offsetY(Renderer r) {
-		return r.dataManager.savable.charY - Double.valueOf(r.dataManager.settings.screenHeight) / Double.valueOf(2 * r.dataManager.settings.blockSize);
+		return r.dataManager.system.screenY - Double.valueOf(r.dataManager.settings.screenHeight) / Double.valueOf(2 * r.dataManager.settings.blockSize);
 	}
 	
 	private static void drawBlockHealth(Renderer r, int posX, int posY, int blockSize) {

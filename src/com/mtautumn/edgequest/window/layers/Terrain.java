@@ -13,8 +13,8 @@ public class Terrain {
 		int minTileY = r.dataManager.system.minTileY;
 		int maxTileX = r.dataManager.system.maxTileX;
 		int maxTileY = r.dataManager.system.maxTileY;
-		double charX = r.dataManager.savable.charX;
-		double charY = r.dataManager.savable.charY;
+		double charX = r.dataManager.system.screenX;
+		double charY = r.dataManager.system.screenY;
 		boolean bright = r.dataManager.world.getBrightness() > 0;
 		int xPos = (int) ((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
 

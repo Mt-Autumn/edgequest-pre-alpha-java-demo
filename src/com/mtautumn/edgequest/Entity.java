@@ -6,27 +6,36 @@ import com.mtautumn.edgequest.PathFinder.IntCoord;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class Entity {
+	public static enum EntityType {
+
+		player,
+		villager,
+		pet,
+		passiveCreature,
+		hostileCreature
+
+	}
 	private int entityID;
 	private String entityTexture;
-	private byte entityType; //0 = player, 1 = villager, 2 = pet, 3 = passive creature, 4 = hostile creature
+	private EntityType entityType;
 	private String nameTag = "";
 	private double posX, posY;
-	private double moveSpeed = 1.0;
+	public double moveSpeed = 1.0;
 	private int destinationX, destinationY;
 	private byte rotation;
 	private PathFinder aStar;
-	private ArrayList<IntCoord> path;
-	private DataManager dm;
+	public ArrayList<IntCoord> path;
+	public DataManager dm;
 	private long lastUpdate;
 	
-	public Entity(int iD, String texture, byte type, DataManager dm) {
-		this.entityID = iD;
+	public Entity(String texture, EntityType type, DataManager dm) {
+		this.entityID = dm.savable.entityID++;
 		this.entityTexture = texture;
 		this.entityType = type;
 		this.dm = dm;
 	}
-	public Entity(int iD, String texture, byte type, double posX, double posY, byte rotation, DataManager dm) {
-		this.entityID = iD;
+	public Entity(String texture, EntityType type, double posX, double posY, byte rotation, DataManager dm) {
+		this.entityID = dm.savable.entityID++;
 		this.entityTexture = texture;
 		this.entityType = type;
 		this.posX = posX;
@@ -51,7 +60,7 @@ public class Entity {
 	public String getTextureName() {
 		return entityTexture;
 	}
-	public byte getType() {
+	public EntityType getType() {
 		return entityType;
 	}
 	public String getNameTag() {
@@ -95,18 +104,29 @@ public class Entity {
 		}
 		lastUpdate = System.currentTimeMillis();
 	}
+	public void move(double deltaX, double deltaY) {
+		if (checkMoveProposal(deltaX, true)) {
+			posX += deltaX;
+		}
+		if (checkMoveProposal(deltaY, false)) {
+			posY += deltaY;
+		}
+		updateRotation(deltaX, deltaY);
+	}
 	private boolean approachPoint(IntCoord point, long timeStep) {
-		double xSpeed = Math.signum(point.x - posX) * Double.valueOf(timeStep) / 1000.0 * moveSpeed;
-		double ySpeed = Math.signum(point.y - posY) * Double.valueOf(timeStep) / 1000.0 * moveSpeed;
+		double ptX = point.x + 0.5;
+		double ptY = point.y + 0.5;
+		double xSpeed = Math.signum(ptX - posX) * Double.valueOf(timeStep) / 1000.0 * moveSpeed;
+		double ySpeed = Math.signum(ptY - posY) * Double.valueOf(timeStep) / 1000.0 * moveSpeed;
 		if (xSpeed != 0 && ySpeed != 0) {
 			xSpeed *= 0.7071067812;
 			ySpeed *= 0.7071067812;
 		}
-		if ((posX + xSpeed > point.x && posX < point.x) || (posX + xSpeed < point.x && posX > point.x)) {
-			xSpeed = point.x - posX;
+		if ((posX + xSpeed > ptX && posX < ptX) || (posX + xSpeed < ptX && posX > ptX)) {
+			xSpeed = ptX - posX;
 		}
-		if ((posY + ySpeed > point.y && posY < point.y) || (posY + ySpeed < point.y && posY > point.y)) {
-			ySpeed = point.y - posY;
+		if ((posY + ySpeed > ptY && posY < ptY) || (posY + ySpeed < ptY && posY > ptY)) {
+			ySpeed = ptY - posY;
 		}
 		
 		if (checkMoveProposal(xSpeed, true)) {
@@ -116,7 +136,7 @@ public class Entity {
 			posY += ySpeed;
 		}
 		updateRotation(xSpeed, ySpeed);
-		return (Math.abs(posX - point.x) < 0.01 && Math.abs(posY - point.y) < 0.01);
+		return (Math.abs(posX - ptX) < 0.01 && Math.abs(posY - ptY) < 0.01);
 	}
 	private boolean checkMoveProposal(double speed, boolean isX) {
 		int entityX;
