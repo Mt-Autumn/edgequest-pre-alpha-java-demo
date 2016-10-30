@@ -24,6 +24,16 @@ public class BlockUpdateManager extends Thread {
 	public void updateLighting(int x, int y) {
 		lightingQueue.add(new Point(x, y));
 	}
+	public void updateBlock(int x, int y) {
+		if (dataManager.world.isStructBlock(x, y)) {
+			if (dataManager.world.getStructBlock(x, y) == dataManager.system.blockNameMap.get("torch").getID()) {
+				if (dataManager.world.getGroundBlock(x, y) == dataManager.system.blockNameMap.get("water").getID()) {
+					dataManager.world.removeStructBlock(x, y);
+				}
+			}
+		}
+		updateLighting(x, y);
+	}
 	private void executeLighting() {
 		for (int i = 0; i < lightingQueue.size(); i++) {
 			lighting.update((int)lightingQueue.get(i).getX(), (int)lightingQueue.get(i).getY());
@@ -59,6 +69,7 @@ public class BlockUpdateManager extends Thread {
 						if (brightness > 0.7) {
 							if (1 - Math.random() < (brightness - 0.7) / 50.0) {
 								dataManager.world.setGroundBlock(x, y, dataManager.system.blockNameMap.get(dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(x, y)).meltsInto).getID());
+								updateBlock(x, y);
 							}
 						}
 					}
