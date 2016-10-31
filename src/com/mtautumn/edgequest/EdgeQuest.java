@@ -37,5 +37,11 @@ public class EdgeQuest {
 		
 		// Start the data manager (the main game loop)
 		dataManager.start();
+		
+		//Waits for the game to load
+		while(!dataManager.system.gameLoaded) {
+			Thread.sleep(100);
+		}
+		dataManager.system.buttonActionQueue.add("fullScreen"); //Sets the game to full screen
 	}
 }
