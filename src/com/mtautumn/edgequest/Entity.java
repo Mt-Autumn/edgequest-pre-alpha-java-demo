@@ -1,15 +1,19 @@
 package com.mtautumn.edgequest;
 
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.PathFinder.IntCoord;
 import com.mtautumn.edgequest.data.DataManager;
 
-public class Entity implements Serializable {
+public class Entity implements Externalizable {
 	private static final long serialVersionUID = 1L;
 	public static enum EntityType {
 
+		character,
 		player,
 		villager,
 		pet,
@@ -45,7 +49,9 @@ public class Entity implements Serializable {
 		this.rotation = rotation;
 		this.dm = dm;
 	}
-	
+	public Entity() {
+		
+	}
 	
 	public double getX() {
 		return posX;
@@ -173,5 +179,39 @@ public class Entity implements Serializable {
 		} else if (ySpeed > 0 && xSpeed > 0) {
 			rotation = 3;
 		}
+	}
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeInt(entityID);
+		out.writeObject(entityTexture);
+		out.writeObject(entityType);
+		out.writeObject(nameTag);
+		out.writeDouble(posX);
+		out.writeDouble(posY);
+		out.writeDouble(moveSpeed);
+		out.writeInt(destinationX);
+		out.writeInt(destinationY);
+		out.writeByte(rotation);
+		out.writeObject(path);
+		
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		entityID = in.readInt();
+		entityTexture = (String) in.readObject();
+		entityType = (EntityType) in.readObject();
+		nameTag = (String) in.readObject();
+		posX = in.readDouble();
+		posY = in.readDouble();
+		moveSpeed = in.readDouble();
+		destinationX = in.readInt();
+		destinationY = in.readInt();
+		rotation = in.readByte();
+		path = (ArrayList<IntCoord>) in.readObject();
+		
+	}
+	public void initializeClass(DataManager dm) {
+		this.dm = dm;
 	}
 }

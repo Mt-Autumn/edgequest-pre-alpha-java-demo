@@ -1,5 +1,9 @@
 package com.mtautumn.edgequest;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 import com.mtautumn.edgequest.data.DataManager;
 
 public class Character extends Entity {
@@ -7,8 +11,11 @@ public class Character extends Entity {
 	long lastUpdate;
 
 	public Character(double posX, double posY, byte rotation, DataManager dm) {
-		super("character",EntityType.player, posX, posY, rotation, dm);
+		super("character",EntityType.character, posX, posY, rotation, dm);
 		lastUpdate = System.currentTimeMillis();
+	}
+	public Character() {
+		super();
 	}
 	public void update() {
 		if (super.dm.system.isKeyboardSprint) super.moveSpeed = super.dm.settings.moveSpeed * 2.0;
@@ -59,5 +66,17 @@ public class Character extends Entity {
 			}
 		}
 		lastUpdate = System.currentTimeMillis();
+	}
+	
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		super.writeExternal(out);
+	}
+	@Override
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		super.readExternal(in);
+	}
+	public void initializeClass(DataManager dm) {
+		super.initializeClass(dm);
 	}
 }
