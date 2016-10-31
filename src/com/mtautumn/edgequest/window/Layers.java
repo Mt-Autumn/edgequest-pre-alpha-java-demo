@@ -17,11 +17,16 @@ public class Layers {
 			BlockDamage.draw(r);
 			if (!r.dataManager.system.hideMouse) MouseSelection.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
-			if (r.dataManager.system.showConsole) Console.draw(r);
+			MiniMap.draw(r);
+			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.system.isKeyboardBackpack) Backpack.draw(r);
+			HotBar.draw(r);
+			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.system.isKeyboardMenu) Menu.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.settings.showDiag) DiagnosticsWindow.draw(r);
+			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
+			if (r.dataManager.system.showConsole) Console.draw(r);
 		}
 		OptionPane.draw(r);
 	}
