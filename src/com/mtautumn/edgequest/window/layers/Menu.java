@@ -4,6 +4,8 @@ import org.newdawn.slick.Color;
 
 import com.mtautumn.edgequest.window.Renderer;
 import com.mtautumn.edgequest.window.managers.MenuButtonManager;
+import com.mtautumn.edgequest.window.managers.MenuButtonManager.MenuButton;
+import com.mtautumn.edgequest.window.managers.MenuButtonManager.MenuPane;
 
 public class Menu {
 	public static void draw(Renderer r) {
@@ -16,10 +18,14 @@ public class Menu {
 	}
 
 	private static void drawButtons(Renderer r) {
-		for (int i = 0; i<r.dataManager.menuButtonManager.buttonIDArray.size(); i++) {
-			MenuButtonManager.MenuButton button = r.dataManager.menuButtonManager.buttonIDArray.get(i);
+		MenuPane menu = r.dataManager.menuButtonManager.getCurrentMenu();
+		for (int i = 0; i < menu.getCount(); i++) {
+			MenuButton button = menu.getButtons().get(i);
 			if (button.visible) {
 				r.drawTexture(button.buttonImage, button.getPosX(r.dataManager.system.menuX), button.getPosY(r.dataManager.system.menuY), button.width, button.height);
+				int height = r.buttonFont.getHeight(button.displayName);
+				int width = r.buttonFont.getWidth(button.displayName);
+				r.buttonFont.drawString(button.getPosX(r.dataManager.system.menuX) + (button.width - width) / 2, button.getPosY(r.dataManager.system.menuY) + (button.height - height) / 2, button.displayName);
 			}
 		}
 	}

@@ -30,7 +30,10 @@ public class LaunchScreen {
 	private static void drawButtons(Renderer r) {
 		for (int i = 0; i<r.launchScreenManager.buttonIDArray.size(); i++) {
 			MenuButton button = r.launchScreenManager.buttonIDArray.get(i);
-			r.drawTexture(button.buttonImage, button.getPosX(r.dataManager.settings.screenWidth), button.getPosY(r.dataManager.settings.screenHeight), button.width, button.height);
+				r.drawTexture(button.buttonImage, button.getPosX(r.dataManager.settings.screenWidth), button.getPosY(r.dataManager.settings.screenHeight), button.width, button.height);
+				int height = r.buttonFont.getHeight(button.displayName);
+				int width = r.buttonFont.getWidth(button.displayName);
+				r.buttonFont.drawString(button.getPosX(r.dataManager.settings.screenWidth) + (button.width - width) / 2, button.getPosY(r.dataManager.settings.screenHeight) + (button.height - height) / 2, button.displayName);
 		}
 	}
 }
