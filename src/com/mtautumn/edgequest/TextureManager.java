@@ -48,6 +48,7 @@ public class TextureManager {
 		addTexture("exit");
 		addTexture("hotBar");
 		addTexture("miniMap");
+		addTexture("hotBarSelect");
 	}
 	public Texture getTexture(String texture) {
 			return textureList.get(texture);

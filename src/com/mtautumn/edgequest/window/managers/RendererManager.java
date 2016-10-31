@@ -185,6 +185,26 @@ public class RendererManager extends Thread {
 					boolean keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
 					boolean keyAction = Keyboard.isKeyDown(dataManager.settings.actionKey);
 					dataManager.system.isKeyboardSprint = keySprint;
+					
+					if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
+						dataManager.savable.hotBarSelection = 0;
+					}
+					if (Keyboard.isKeyDown(Keyboard.KEY_2)) {
+						dataManager.savable.hotBarSelection = 1;
+					}
+					if (Keyboard.isKeyDown(Keyboard.KEY_3)) {
+						dataManager.savable.hotBarSelection = 2;
+					}
+					if (Keyboard.isKeyDown(Keyboard.KEY_4)) {
+						dataManager.savable.hotBarSelection = 3;
+					}
+					if (Keyboard.isKeyDown(Keyboard.KEY_5)) {
+						dataManager.savable.hotBarSelection = 4;
+					}
+					if (Keyboard.isKeyDown(Keyboard.KEY_6)) {
+						dataManager.savable.hotBarSelection = 5;
+					}
+					
 					if (!dataManager.system.autoWalk) {
 						dataManager.system.isKeyboardUp = keyUp;
 						dataManager.system.isKeyboardRight = keyRight;
