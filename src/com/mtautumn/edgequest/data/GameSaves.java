@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import com.mtautumn.edgequest.Character;
+import com.mtautumn.edgequest.Entity;
+
 public class GameSaves {
 	public static void saveGame(String saveFile, DataManager dataManager) throws IOException {
 		try {
@@ -24,5 +27,16 @@ public class GameSaves {
 		ObjectInputStream ois = new ObjectInputStream(fin);
 		SavableData loadedSM = (SavableData) ois.readObject();
 		dataManager.savable = loadedSM;
+		
+		// Set everything up
+		Entity characterEntity = null;
+		for (int i = 0; i < dataManager.savable.entities.size(); i++) {
+			dataManager.savable.entities.get(i).initializeClass(dataManager);
+			if (dataManager.savable.entities.get(i).getType() == Entity.EntityType.character) {
+				characterEntity = dataManager.savable.entities.get(i);
+			}
+		}
+		dataManager.characterManager.characterEntity = (Character) characterEntity;
+		
 	}
 }

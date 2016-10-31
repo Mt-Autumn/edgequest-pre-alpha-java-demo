@@ -3,6 +3,7 @@
  */
 package com.mtautumn.edgequest;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
@@ -105,7 +106,8 @@ public class PathFinder {
 		}
 		return bestNode;
 	}
-	public class IntCoord {
+	public class IntCoord implements Serializable {
+		private static final long serialVersionUID = 1L;
 		int x;
 		int y;
 		public IntCoord(int x, int y) {
