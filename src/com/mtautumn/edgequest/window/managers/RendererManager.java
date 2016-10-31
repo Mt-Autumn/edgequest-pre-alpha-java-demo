@@ -45,6 +45,7 @@ public class RendererManager extends Thread {
 		renderer.initGL(dataManager.settings.screenWidth, dataManager.settings.screenHeight);
 		renderer.loadManagers();
 		DefineBlockItems.setDefinitions(dataManager);
+		dataManager.system.gameLoaded = true;
 		while (dataManager.system.running) {
 			try {
 				updateWindowSize();

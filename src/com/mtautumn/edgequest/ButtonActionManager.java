@@ -28,7 +28,11 @@ public class ButtonActionManager extends Thread {
 	private void runButtonActions() {
 		int size = dataManager.system.buttonActionQueue.size();
 		if (size > 0) {
-			runButtonAction(dataManager.system.buttonActionQueue.get(size - 1), size - 1);
+			try {
+				runButtonAction(dataManager.system.buttonActionQueue.get(size - 1), size - 1);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -85,17 +89,17 @@ public class ButtonActionManager extends Thread {
 		case "fullScreen":
 			dataManager.settings.isFullScreen = !dataManager.settings.isFullScreen;
 			if (dataManager.settings.isFullScreen) {
-				dataManager.menuButtonManager.getCurrentMenu().getButton("fullScreen").displayName = "Windowed";
+				dataManager.menuButtonManager.getMenu("Graphics Menu").getButton("fullScreen").displayName = "Windowed";
 			} else {
-				dataManager.menuButtonManager.getCurrentMenu().getButton("fullScreen").displayName = "Full Screen";
+				dataManager.menuButtonManager.getMenu("Graphics Menu").getButton("fullScreen").displayName = "Full Screen";
 			}
 			break;
 		case "vSync":
 			dataManager.settings.vSyncOn = !dataManager.settings.vSyncOn;
 			if (dataManager.settings.vSyncOn) {
-				dataManager.menuButtonManager.getCurrentMenu().getButton("vSync").displayName = "V-Sync Off";
+				dataManager.menuButtonManager.getMenu("Graphics Menu").getButton("vSync").displayName = "V-Sync Off";
 			} else {
-				dataManager.menuButtonManager.getCurrentMenu().getButton("vSync").displayName = "V-Sync On";
+				dataManager.menuButtonManager.getMenu("Graphics Menu").getButton("vSync").displayName = "V-Sync On";
 			}
 			break;
 		case "quit":

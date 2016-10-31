@@ -8,6 +8,7 @@ import java.util.Map;
 import com.mtautumn.edgequest.BlockItem;
 
 public class SystemData {
+	public boolean gameLoaded = false;
 	public boolean updateDungeon = false;
 	public boolean showConsole = false;
 	public String consoleText = "";
