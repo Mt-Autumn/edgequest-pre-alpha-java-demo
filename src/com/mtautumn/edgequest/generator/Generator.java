@@ -48,6 +48,9 @@ public class Generator {
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
 		for (int i = 0; i < currentMaxRooms; i++ ) {
 			this.rooms[i] = new Room(rng.nextInt((int) Math.floor(this.x / 4) + 3), rng.nextInt((int) Math.floor(this.y / 4) + 3), rng.nextInt(this.x), rng.nextInt(this.y));
+			while (this.rooms[i].center.x > this.x || this.rooms[i].center.y > this.y) {
+				this.rooms[i] = new Room(rng.nextInt((int) Math.floor(this.x / 4) + 3), rng.nextInt((int) Math.floor(this.y / 4) + 3), rng.nextInt(this.x), rng.nextInt(this.y));
+			}
 		}
 
 	}
