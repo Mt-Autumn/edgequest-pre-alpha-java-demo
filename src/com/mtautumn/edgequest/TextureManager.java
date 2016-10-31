@@ -46,6 +46,8 @@ public class TextureManager {
 		addTexture("blockHealth");
 		addTexture("back");
 		addTexture("exit");
+		addTexture("hotBar");
+		addTexture("miniMap");
 	}
 	public Texture getTexture(String texture) {
 			return textureList.get(texture);

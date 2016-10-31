@@ -27,5 +27,5 @@ public class SavableData implements Serializable {
 	public int lastDungeonLevel = -1;
 	public long dungeonCount = 0;
 	public int entityID = 0;
-	public ItemSlot[][] backpackItems = new ItemSlot[6][6];
+	public ItemSlot[][] backpackItems = new ItemSlot[8][6];
 }
