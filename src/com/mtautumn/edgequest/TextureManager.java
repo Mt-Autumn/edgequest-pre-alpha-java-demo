@@ -44,6 +44,8 @@ public class TextureManager {
 		addTexture("inputField");
 		addTexture("blockHealthBar");
 		addTexture("blockHealth");
+		addTexture("back");
+		addTexture("exit");
 	}
 	public Texture getTexture(String texture) {
 			return textureList.get(texture);
