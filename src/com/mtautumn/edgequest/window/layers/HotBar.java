@@ -17,12 +17,19 @@ public class HotBar {
 		Color.white.bind();
 		drawBackground(r);
 		drawSpaces(r);	
+		drawSelection(r);
 	}
 	
 	private static void drawBackground(Renderer r) {
 		yPos = (r.dataManager.settings.screenHeight - HOTBAR_HEIGHT) - 24;
 		xPos = r.dataManager.settings.screenWidth - HOTBAR_WIDTH;
 		r.drawTexture(r.textureManager.getTexture("hotBar"), xPos, yPos, HOTBAR_WIDTH, HOTBAR_HEIGHT);
+	}
+	private static void drawSelection(Renderer r) {
+		int posX = xPos + START_X - 5;
+		int posY = yPos + r.dataManager.savable.hotBarSelection * DELTA_Y + START_Y - 6;
+		r.drawTexture(r.textureManager.getTexture("hotBarSelect"), posX, posY, 101, 47);
+
 	}
 	
 	private static void drawSpaces(Renderer r) {
@@ -41,6 +48,7 @@ public class HotBar {
 				}
 			}
 		}
+		
 	}
 	
 }
