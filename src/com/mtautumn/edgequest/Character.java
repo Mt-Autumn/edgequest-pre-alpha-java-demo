@@ -2,7 +2,8 @@ package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;
 
-public class Character extends Entity{
+public class Character extends Entity {
+	private static final long serialVersionUID = 1L;
 	long lastUpdate;
 
 	public Character(double posX, double posY, byte rotation, DataManager dm) {

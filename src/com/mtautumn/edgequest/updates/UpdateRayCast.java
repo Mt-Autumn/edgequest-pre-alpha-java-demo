@@ -35,7 +35,7 @@ public class UpdateRayCast {
 		double smallestAngle = 10;
 		for (int i = 0; i < points.size(); i++) {
 			double angle1 = points.get(i).angle;
-			if (angle1 < smallestAngle && angle1 > angle && points.get(i).radius != Double.NaN) {
+			if (angle1 < smallestAngle && angle1 > angle && !Double.isNaN(points.get(i).radius)) {
 				smallestAngle = angle1;
 			}
 		}
@@ -67,7 +67,7 @@ public class UpdateRayCast {
 			if (linesIntersect(torch.posX, torch.posY, x, y, lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2)) {
 				CartesianPoint intersection = getLineLineIntersection(torch.posX, torch.posY, x, y, lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2);
 				double intersectionRadius = Math.sqrt(Math.pow(intersection.x - torch.posX, 2) + Math.pow(intersection.y - torch.posY, 2));
-				if (intersectionRadius != Double.NaN) {
+				if (!Double.isNaN(intersectionRadius)) {
 					if (intersectionRadius < correctedRadius)
 					correctedRadius = intersectionRadius;
 				}

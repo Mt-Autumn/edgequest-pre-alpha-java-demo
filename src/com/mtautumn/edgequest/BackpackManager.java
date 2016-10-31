@@ -26,7 +26,7 @@ public class BackpackManager {
 					slot.setItem(item.getID());
 					slot.setItemCount(1);
 					foundSpot = true;
-				} else if (slot.getItemID() == item.getID() && !slot.isSlotFull()) {
+				} else if (slot.getItemID().equals(item.getID()) && !slot.isSlotFull()) {
 					slot.addOne();
 					foundSpot = true;
 				}
