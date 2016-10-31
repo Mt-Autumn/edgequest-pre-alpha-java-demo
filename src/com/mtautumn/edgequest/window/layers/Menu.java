@@ -3,7 +3,6 @@ package com.mtautumn.edgequest.window.layers;
 import org.newdawn.slick.Color;
 
 import com.mtautumn.edgequest.window.Renderer;
-import com.mtautumn.edgequest.window.managers.MenuButtonManager;
 import com.mtautumn.edgequest.window.managers.MenuButtonManager.MenuButton;
 import com.mtautumn.edgequest.window.managers.MenuButtonManager.MenuPane;
 
@@ -26,6 +25,11 @@ public class Menu {
 				int height = r.buttonFont.getHeight(button.displayName);
 				int width = r.buttonFont.getWidth(button.displayName);
 				r.buttonFont.drawString(button.getPosX(r.dataManager.system.menuX) + (button.width - width) / 2, button.getPosY(r.dataManager.system.menuY) + (button.height - height) / 2, button.displayName);
+			}
+			if (menu.parent == null) {
+				r.drawTexture(r.textureManager.getTexture("exit"), r.dataManager.system.menuX + r.dataManager.settings.BACK_BUTTON_PADDING, r.dataManager.system.menuY + r.dataManager.settings.BACK_BUTTON_PADDING, r.dataManager.settings.BACK_BUTTON_SIZE, r.dataManager.settings.BACK_BUTTON_SIZE);
+			} else {
+				r.drawTexture(r.textureManager.getTexture("back"), r.dataManager.system.menuX + r.dataManager.settings.BACK_BUTTON_PADDING, r.dataManager.system.menuY + r.dataManager.settings.BACK_BUTTON_PADDING, r.dataManager.settings.BACK_BUTTON_SIZE, r.dataManager.settings.BACK_BUTTON_SIZE);
 			}
 		}
 	}

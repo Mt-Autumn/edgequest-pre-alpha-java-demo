@@ -76,6 +76,12 @@ public class ButtonActionManager extends Thread {
 				setNoticeText("Unable to save game");
 			}
 			break;
+		case "graphics":
+			dataManager.system.currentMenu = "Graphics Menu";
+			break;
+		case "game":
+			dataManager.system.currentMenu = "Game Menu";
+			break;
 		case "fullScreen":
 			dataManager.settings.isFullScreen = !dataManager.settings.isFullScreen;
 			if (dataManager.settings.isFullScreen) {
@@ -94,6 +100,13 @@ public class ButtonActionManager extends Thread {
 			break;
 		case "quit":
 			dataManager.system.running = false;
+			break;
+		case "Go To Parent":
+			if (dataManager.menuButtonManager.getCurrentMenu().parent != null) {
+				dataManager.system.currentMenu = dataManager.menuButtonManager.getCurrentMenu().parent;
+			} else {
+				dataManager.system.isKeyboardMenu = false;
+			}
 			break;
 		default:
 			break;
