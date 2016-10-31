@@ -1,6 +1,9 @@
 package com.mtautumn.edgequest.window;
 
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.IOException;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -19,12 +22,10 @@ public class Renderer {
 	public DataManager dataManager;
 	public TextureManager textureManager;
 	public LaunchScreenManager launchScreenManager;
-	Font awtFont = new Font("Arial", Font.BOLD, 12);
-	Font awtFont2 = new Font("Helvetica", Font.PLAIN, 36);
-	Font awtBackpackFont = new Font("Helvetica", Font.BOLD, 12);
 	public TrueTypeFont font;
 	public TrueTypeFont font2;
 	public TrueTypeFont backpackFont;
+	public TrueTypeFont buttonFont;
 
 	public Renderer(DataManager dataManager) {
 		this.dataManager = dataManager;
@@ -73,9 +74,22 @@ public class Renderer {
 		textureManager = new TextureManager();
 		launchScreenManager = new LaunchScreenManager(dataManager);
 		dataManager.menuButtonManager = new MenuButtonManager(dataManager);
+		Font awtFont = new Font("Arial", Font.BOLD, 12);
+		Font awtFont2 = new Font("Helvetica", Font.PLAIN, 36);
+		Font awtBackpackFont = new Font("Helvetica", Font.BOLD, 12);
 		font = new TrueTypeFont(awtFont, false);
 		font2 = new TrueTypeFont(awtFont2, false);
 		backpackFont = new TrueTypeFont(awtBackpackFont, false);
+		try {
+			Font awtButtonFont = Font.createFont(Font.TRUETYPE_FONT, new File("textures/fonts/buttons.otf")).deriveFont(42f);
+			buttonFont = new TrueTypeFont(awtButtonFont, true);
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private double oldX = 800;

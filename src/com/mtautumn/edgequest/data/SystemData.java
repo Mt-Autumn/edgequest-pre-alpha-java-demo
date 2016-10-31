@@ -19,7 +19,7 @@ public class SystemData {
 	public ArrayList<String> inputText = new ArrayList<String>();
 	public ArrayList<String> inputTextResponse = new ArrayList<String>();
 	public ArrayList<String> noticeText = new ArrayList<String>();
-	public ArrayList<Integer> buttonActionQueue = new ArrayList<Integer>();
+	public ArrayList<String> buttonActionQueue = new ArrayList<String>();
 	public String lastInputMessage = "";
 	public boolean isKeyboardUp = false;
 	public boolean isKeyboardRight = false;
@@ -32,6 +32,7 @@ public class SystemData {
 	public boolean isLaunchScreenLoaded = false;
 	public int animationClock = 0;
 	public String timeReadable = "";
+	public String currentMenu = "Main Menu";
 	public int menuX = 0;
 	public int menuY = 0;
 	public int minTileX = 0;

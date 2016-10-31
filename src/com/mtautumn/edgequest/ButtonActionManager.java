@@ -32,10 +32,10 @@ public class ButtonActionManager extends Thread {
 		}
 	}
 	
-	private void runButtonAction(int id, int index) {
+	private void runButtonAction(String name, int index) {
 		dataManager.system.buttonActionQueue.remove(index);
-		switch (id) {
-		case 1: //New Game
+		switch (name) {
+		case "newGame": //New Game
 			try {
 				long seed = Long.parseLong(getInputText("Enter a Seed Number:"));
 				dataManager.savable.seed = seed;
@@ -44,7 +44,7 @@ public class ButtonActionManager extends Thread {
 				setNoticeText("Seeds should be whole numbers");
 			}
 			break;
-		case 2: //load game
+		case "loadGame": //load game
 			try {
 				GameSaves.loadGame(getInputText("Enter a File Name:"), dataManager);
 				dataManager.system.isGameOnLaunchScreen = false;
@@ -55,7 +55,7 @@ public class ButtonActionManager extends Thread {
 				e.printStackTrace();
 			}
 			break;
-		case 3:
+		case "setFPS":
 			String ans = getInputText("Enter FPS Target:");
 			try {
 				int fps = Integer.parseInt(ans);
@@ -68,7 +68,7 @@ public class ButtonActionManager extends Thread {
 				setNoticeText("FPS not valid");
 			}
 			break;
-		case 4:
+		case "saveGame":
 			String fileSaveName = getInputText("World Name:");
 			try {
 				GameSaves.saveGame(fileSaveName, dataManager);
@@ -76,36 +76,23 @@ public class ButtonActionManager extends Thread {
 				setNoticeText("Unable to save game");
 			}
 			break;
-		case 5:
-			String fileLoadName = getInputText("World Name:");
-			try {
-				GameSaves.loadGame(fileLoadName, dataManager);
-			} catch (Exception e) {
-				setNoticeText("Unable to load game");
-				e.printStackTrace();
-			}
-			break;
-		case 6:
+		case "fullScreen":
 			dataManager.settings.isFullScreen = !dataManager.settings.isFullScreen;
 			if (dataManager.settings.isFullScreen) {
-				dataManager.menuButtonManager.getButtonFromName("fullScreen").visible = false;
-				dataManager.menuButtonManager.getButtonFromName("windowed").visible = true;
+				dataManager.menuButtonManager.getCurrentMenu().getButton("fullScreen").displayName = "Windowed";
 			} else {
-				dataManager.menuButtonManager.getButtonFromName("fullScreen").visible = true;
-				dataManager.menuButtonManager.getButtonFromName("windowed").visible = false;
+				dataManager.menuButtonManager.getCurrentMenu().getButton("fullScreen").displayName = "Full Screen";
 			}
 			break;
-		case 7:
+		case "vSync":
 			dataManager.settings.vSyncOn = !dataManager.settings.vSyncOn;
 			if (dataManager.settings.vSyncOn) {
-				dataManager.menuButtonManager.getButtonFromName("vSyncOn").visible = false;
-				dataManager.menuButtonManager.getButtonFromName("vSyncOff").visible = true;
+				dataManager.menuButtonManager.getCurrentMenu().getButton("vSync").displayName = "V-Sync Off";
 			} else {
-				dataManager.menuButtonManager.getButtonFromName("vSyncOn").visible = true;
-				dataManager.menuButtonManager.getButtonFromName("vSyncOff").visible = false;
+				dataManager.menuButtonManager.getCurrentMenu().getButton("vSync").displayName = "V-Sync On";
 			}
 			break;
-		case 8:
+		case "quit":
 			dataManager.system.running = false;
 			break;
 		default:
