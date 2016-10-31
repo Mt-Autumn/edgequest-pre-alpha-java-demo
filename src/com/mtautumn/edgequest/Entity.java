@@ -1,11 +1,13 @@
 package com.mtautumn.edgequest;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.PathFinder.IntCoord;
 import com.mtautumn.edgequest.data.DataManager;
 
-public class Entity {
+public class Entity implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public static enum EntityType {
 
 		player,

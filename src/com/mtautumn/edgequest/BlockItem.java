@@ -78,7 +78,7 @@ public class BlockItem implements Serializable {
 
 	public boolean isName(String testName) { return testName.equals(name); }
 
-	public boolean isID(Short testID) { return testID == id; }
+	public boolean isID(Short testID) { return testID.equals(id); }
 
 	private static Texture getTexture(String name, String directory) {
 		try {
