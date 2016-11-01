@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 
@@ -143,6 +144,7 @@ public class Renderer {
 
 
 	public void fillRect(int x, int y, int width, int height, float r, float g, float b, float a) {
+		Color.white.bind();
 		glColor4f (r,g,b,a);
 		glBegin(GL_QUADS);
 		glVertex2f(x,y);
@@ -153,6 +155,7 @@ public class Renderer {
 	}
 
 	public void drawTexture(Texture texture, float x, float y, float width, float height) {
+		Color.white.bind();
 		texture.bind();
 		float paddingX = texture.getImageWidth();
 		paddingX /= nearestPower2(paddingX);
@@ -170,6 +173,7 @@ public class Renderer {
 		glEnd();
 	}
 	public void drawTexture(Texture texture, float x, float y, float width, float height, float angle) {
+		Color.white.bind();
 		glPushMatrix();
 		float halfWidth = width/2f;
 		float halfHeight = height/2f;

@@ -20,7 +20,9 @@ public class Layers {
 			MiniMap.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.system.isKeyboardBackpack) Backpack.draw(r);
+			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			HotBar.draw(r);
+			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			MouseItem.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.system.isKeyboardMenu) Menu.draw(r);
