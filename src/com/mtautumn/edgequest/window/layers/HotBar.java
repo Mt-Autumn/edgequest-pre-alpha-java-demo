@@ -10,7 +10,7 @@ public class HotBar {
 	public static final int START_X = 20;
 	public static final int START_Y = 66;
 	public static final int DELTA_X = 53;
-	public static final int DELTA_Y = 53;
+	public static final double DELTA_Y = 53.5;
 	static int xPos;
 	static int yPos;
 	public static void draw(Renderer r) {
@@ -27,7 +27,7 @@ public class HotBar {
 	}
 	private static void drawSelection(Renderer r) {
 		int posX = xPos + START_X - 5;
-		int posY = yPos + r.dataManager.savable.hotBarSelection * DELTA_Y + START_Y - 6;
+		int posY = yPos + (int)(r.dataManager.savable.hotBarSelection * DELTA_Y) + START_Y - 6;
 		r.drawTexture(r.textureManager.getTexture("hotBarSelect"), posX, posY, 101, 47);
 
 	}
@@ -36,7 +36,7 @@ public class HotBar {
 		for (int i = 0; i < 2; i++) {
 			int posX = xPos + i * DELTA_X + START_X;
 			for (int j = 0; j < 6; j++) {
-				int posY = yPos + j * DELTA_Y + START_Y;
+				int posY = yPos + (int)(j * DELTA_Y) + START_Y;
 				Color.white.bind();
 				try {
 					r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.savable.time), posX, posY, 38, 38);
