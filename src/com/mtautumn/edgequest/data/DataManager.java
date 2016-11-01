@@ -70,6 +70,7 @@ public class DataManager {
 		animationClock.start();
 		blockUpdateManager.start();
 		buttonActionManager.start();
+		backpackManager.start();
 	}
 	
 }

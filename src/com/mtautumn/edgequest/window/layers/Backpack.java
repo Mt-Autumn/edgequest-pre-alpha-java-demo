@@ -20,7 +20,7 @@ public class Backpack {
 	
 	private static void drawSpaces(Renderer r) {
 		for (int i = 2; i < r.dataManager.savable.backpackItems.length; i++) {
-			int posX = r.dataManager.system.menuX + i * 64 + 37;
+			int posX = r.dataManager.system.menuX + (i - 2) * 64 + 37;
 			for (int j = 0; j < r.dataManager.savable.backpackItems[i].length; j++) {
 				int posY = r.dataManager.system.menuY + j * 65 + 94;
 				Color.white.bind();

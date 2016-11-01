@@ -29,4 +29,5 @@ public class SavableData implements Serializable {
 	public int entityID = 0;
 	public int hotBarSelection = 0;
 	public ItemSlot[][] backpackItems = new ItemSlot[8][6];
+	public ItemSlot mouseItem = new ItemSlot();
 }

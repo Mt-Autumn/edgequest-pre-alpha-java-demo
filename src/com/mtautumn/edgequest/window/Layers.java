@@ -21,6 +21,7 @@ public class Layers {
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.system.isKeyboardBackpack) Backpack.draw(r);
 			HotBar.draw(r);
+			MouseItem.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.system.isKeyboardMenu) Menu.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
