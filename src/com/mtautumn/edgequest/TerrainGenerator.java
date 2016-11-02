@@ -22,6 +22,13 @@ public class TerrainGenerator {
 	public TerrainGenerator(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
+	public static long generateSeed(long... vals) {
+		long newSeed = vals[0];
+		for (int i = 1; i < vals.length; i++) {
+			newSeed = new Random(newSeed + vals[i]).nextLong();
+		}
+		return newSeed;
+	}
 	public void clearCache() {
 		altitudeMap.clear();
 		temperatureMap.clear();
@@ -31,16 +38,16 @@ public class TerrainGenerator {
 		tempNoiseMap.clear();
 	}
 	private double getRNG(int x, int y) {
-		return Math.sqrt((new Random(dataManager.savable.seed * x * 2 + x / 2).doubles().skip(Math.abs(y)%65535).findFirst().getAsDouble()) * (new Random(dataManager.savable.seed * 3 * y + 5 * y).doubles().skip(Math.abs(x)%65535).findFirst().getAsDouble()));
+		return Math.sqrt(new Random(generateSeed(dataManager.savable.seed,x,y,12)).nextDouble() * new Random(generateSeed(dataManager.savable.seed,x,y,11)).nextDouble());
 	}
 	private Double getAltNoise(long x, long y) {
 		if (!altNoiseMap.containsKey(x + "," + y))
-			altNoiseMap.put(x+","+y, Math.sqrt((new Random(dataManager.savable.seed * x + x).doubles().skip(Math.abs(y)%65535).findFirst().getAsDouble()) * (new Random(dataManager.savable.seed * 2 * y + 2 * y).doubles().skip(Math.abs(x)%65535).findFirst().getAsDouble())));
+			altNoiseMap.put(x+","+y, Math.sqrt(new Random(generateSeed(dataManager.savable.seed,x,y,3)).nextDouble() * new Random(generateSeed(dataManager.savable.seed,x,y,4)).nextDouble()));
 		return altNoiseMap.get(x + "," + y);
 	}
 	private Double getTempNoise(long x, long y) {
 		if (!tempNoiseMap.containsKey(x + "," + y))
-			tempNoiseMap.put(x+","+y, Math.sqrt((new Random(dataManager.savable.seed * x * 3 - x - 1).doubles().skip(Math.abs(y)%65535).findFirst().getAsDouble()) * (new Random(dataManager.savable.seed * 2 * y / 4 + 2 * y - 12).doubles().skip(Math.abs(x)%65535).findFirst().getAsDouble())));
+			tempNoiseMap.put(x+","+y, Math.sqrt(new Random(generateSeed(dataManager.savable.seed,x,y,7)).nextDouble() * new Random(generateSeed(dataManager.savable.seed,x,y,8)).nextDouble()));
 		return tempNoiseMap.get(x+","+y);
 	}
 	public int[] getBlockStats(int x, int y) {
