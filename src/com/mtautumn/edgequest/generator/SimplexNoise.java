@@ -51,8 +51,8 @@ public class SimplexNoise {
 	private static int perm[] = new int[512];
 	static { for(int i=0; i<512; i++) perm[i]=p[i & 255]; }
 	
-	public static double noise(double xin, double yin) {
-		double n0, n1, n2; 
+	public static double noise(double xin, double yin, long seed) {
+		double n0, n1, n2;
 		// Noise contributions from the three corners
 		// Skew the input space to determine which simplex cell we're in
 		final double F2 = 0.5*(Math.sqrt(3.0)-1.0);
@@ -79,12 +79,13 @@ public class SimplexNoise {
 		// A step of (1,0) in (i,j) means a step of (1-c,-c) in (x,y), and
 		// a step of (0,1) in (i,j) means a step of (-c,1-c) in (x,y), where
 		// c = (3-sqrt(3))/6
-		double x1 = x0 - i1 + G2; 
+		// NOTE: Adding seed here translates the noise by some amount diagonally and 'randomizes' the noise
+		double x1 = x0 - i1 + G2 + seed; 
 		// Offsets for middle corner in (x,y) unskewed coords
-		double y1 = y0 - j1 + G2;
-		double x2 = x0 - 1.0 + 2.0 * G2; 
+		double y1 = y0 - j1 + G2 + seed;
+		double x2 = x0 - 1.0 + 2.0 * G2 + seed; 
 		// Offsets for last corner in (x,y) unskewed coords
-		double y2 = y0 - 1.0 + 2.0 * G2;
+		double y2 = y0 - 1.0 + 2.0 * G2 + seed;
 		// Work out the hashed gradient indices of the three simplex corners
 		int ii = i & 255;
 		int jj = j & 255;
@@ -121,13 +122,13 @@ public class SimplexNoise {
 	
 	// -- end black box
 
-	public float[][] generateSimplexNoise(int width, int height) {
+	public float[][] generateSimplexNoise(int width, int height, long seed) {
 		float[][] simplexnoise = new float[width][height];
 		float frequency = 5.0f / (float) width;
 	      
 		for(int x = 0; x < width; x++){
 			for(int y = 0; y < height; y++){
-				simplexnoise[x][y] = (float) noise(x * frequency,y * frequency);
+				simplexnoise[x][y] = (float) noise(x * frequency, y * frequency, seed);
 				simplexnoise[x][y] = (simplexnoise[x][y] + 1) / 2;   //generate values between 0 and 1
 			}
 		}
