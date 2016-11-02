@@ -128,7 +128,22 @@ public class BackpackManager extends Thread {
 			boolean foundSpot = false;
 			for(int i = 0; i < dataManager.savable.backpackItems.length && !foundSpot; i++) {
 				for(int j = 0; j < dataManager.savable.backpackItems[i].length && !foundSpot; j++) {
-					ItemSlot slot = dataManager.savable.backpackItems[i][j];
+					if (dataManager.savable.hotBarSelection != j || i >= 2) {
+						ItemSlot slot = dataManager.savable.backpackItems[i][j];
+						if (slot.getItemCount() == 0) {
+							slot.setItem(item.getID());
+							slot.setItemCount(1);
+							foundSpot = true;
+						} else if (slot.getItemID().equals(item.getID()) && !slot.isSlotFull()) {
+							slot.addOne();
+							foundSpot = true;
+						}
+					}
+				}
+			}
+			if (!foundSpot) {
+				for (int i = 0; i < 2 && !foundSpot; i++) {
+					ItemSlot slot = dataManager.savable.backpackItems[0][dataManager.savable.hotBarSelection];
 					if (slot.getItemCount() == 0) {
 						slot.setItem(item.getID());
 						slot.setItemCount(1);
@@ -138,8 +153,6 @@ public class BackpackManager extends Thread {
 						foundSpot = true;
 					}
 				}
-			}
-			if (!foundSpot) {
 			}
 		}
 	}
