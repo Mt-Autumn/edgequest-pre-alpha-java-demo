@@ -173,11 +173,8 @@ public class Generator {
 	// Apply caves
 	private void applyCave() {
 		Cave cave = new Cave();
-		float[][] c = cave.makeCave(cave.initCaveMap(this.x, this.y));
-		c = cave.randomizeCave(c, this.seed);
+		float[][] c = cave.makeCave(cave.initCaveMap(this.x, this.y), this.seed + (long) this.rng.nextInt());
 		c = cave.applyThreshold(c, 0.5f);
-		
-		this.map = cave.overlayCave(c, this.map);
 		
 	}
 	
