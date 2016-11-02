@@ -5,9 +5,6 @@ import org.newdawn.slick.opengl.Texture;
 
 import com.mtautumn.edgequest.window.Renderer;
 
-import java.util.ArrayList;
-
-
 public class Terrain {
 	public static void draw(Renderer r) {
 		Color.white.bind();
