@@ -29,6 +29,9 @@ public class BackpackManager extends Thread {
 			}
 		}
 	}
+	public ItemSlot[] getCurrentSelection() {
+		return new ItemSlot[] {dataManager.savable.backpackItems[0][dataManager.savable.hotBarSelection],dataManager.savable.backpackItems[1][dataManager.savable.hotBarSelection]};
+	}
 	private boolean wasMouseDown = false;
 	private boolean isItemGrabbed = false;
 	private int[] mouseItemLocation = {-1,-1};
