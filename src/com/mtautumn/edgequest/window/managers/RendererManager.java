@@ -11,6 +11,7 @@ import org.lwjgl.opengl.Display;
 import com.mtautumn.edgequest.CharacterManager;
 import com.mtautumn.edgequest.DefineBlockItems;
 import com.mtautumn.edgequest.Dungeon;
+import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.KeyboardInput;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.Renderer;
@@ -64,6 +65,11 @@ public class RendererManager extends Thread {
 				}
 				if (!dataManager.system.isGameOnLaunchScreen) {
 					updateScreenCenter();
+					for( int i = 0; i < dataManager.savable.entities.size(); i++) {
+						Entity entity = dataManager.savable.entities.get(i);
+						entity.frameX = entity.getX();
+						entity.frameY = entity.getY();
+					}
 				}
 				updateMouse();
 				updateKeys();

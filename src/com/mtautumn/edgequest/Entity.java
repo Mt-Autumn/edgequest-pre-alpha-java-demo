@@ -26,6 +26,7 @@ public class Entity implements Externalizable {
 	private EntityType entityType;
 	private String nameTag = "";
 	private double posX, posY;
+	public double frameX, frameY;
 	public double moveSpeed = 1.0;
 	private int destinationX, destinationY;
 	private byte rotation;
