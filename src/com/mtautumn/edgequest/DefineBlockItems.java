@@ -89,27 +89,32 @@ public class DefineBlockItems {
 		torch.isLightSource = true;
 		torch.isHot = true;
 		torch.isPassable = true;
+		torch.isSolid = false;
 		addToMaps(torch);
 	}
 	private static void lilyPadDefinition() {
 		BlockItem lilyPad = new BlockItem(101, true, true, "lilyPad", new int[]{0} , new int[]{0});
 		lilyPad.isPassable = true;
+		lilyPad.isSolid = false;
 		addToMaps(lilyPad);
 	}
 	private static void treeDefinition() {
 		BlockItem tree = new BlockItem(102, true, false, "tree", new int[]{0} , null);
+		tree.isSolid = false;
 		addToMaps(tree);
 	}
 	private static void dungeonDefinition() {
 		BlockItem dungeon = new BlockItem(200, true, false, "dungeon", new int[]{0} , null);
 		dungeon.hardness = -1;
 		dungeon.isPassable = true;
+		dungeon.isSolid = false;
 		addToMaps(dungeon);
 	}
 	private static void dungeonUpDefinition() {
 		BlockItem dungeonUp = new BlockItem(201, true, false, "dungeonUp", new int[]{0} , null);
 		dungeonUp.hardness = -1;
 		dungeonUp.isPassable = true;
+		dungeonUp.isSolid = false;
 		addToMaps(dungeonUp);
 	}
 
