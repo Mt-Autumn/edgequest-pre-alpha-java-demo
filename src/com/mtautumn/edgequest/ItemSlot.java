@@ -25,6 +25,28 @@ public class ItemSlot implements Serializable {
 		itemCount = count;
 		correctItemCount();
 	}
+	public int addItems(int count) {
+		int itemsAdded = 0;
+		if (count + itemCount > maxItemCount) {
+			itemsAdded = maxItemCount - itemCount;
+			itemCount = maxItemCount;
+		} else {
+			itemsAdded = count;
+			itemCount += count;
+		}
+		return itemsAdded;
+	}
+	public int removeItems(int count) {
+		int itemsRemoved = 0;
+		if (itemCount - count < 0) {
+			itemsRemoved = itemCount;
+			itemCount = 0;
+		} else {
+			itemsRemoved = count;
+			itemCount -= count;
+		}
+		return itemsRemoved;
+	}
 	public boolean isSlotFull() {
 		return itemCount >= maxItemCount;
 	}

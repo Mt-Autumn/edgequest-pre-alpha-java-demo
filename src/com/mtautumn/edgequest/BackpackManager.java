@@ -46,14 +46,31 @@ public class BackpackManager extends Thread {
 				if (!(mouseLocation[0] == -1)) {
 					if (dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemCount() == 0) {
 						dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]] = dataManager.savable.mouseItem;
+						dataManager.savable.mouseItem = new ItemSlot();
+						isItemGrabbed = false;
 					} else {
-						dataManager.savable.backpackItems[mouseItemLocation[0]][mouseItemLocation[1]] = dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]];
-						dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]] = dataManager.savable.mouseItem;
+						if (dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID().equals(dataManager.savable.mouseItem.getItemID())) {
+							if (dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].isSlotFull()) {
+								int slotCount = dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemCount();
+								dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].setItemCount(dataManager.savable.mouseItem.getItemCount());
+								dataManager.savable.mouseItem.setItemCount(slotCount);
+							} else {
+								int added = dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].addItems(dataManager.savable.mouseItem.getItemCount());
+								dataManager.savable.mouseItem.removeItems(added);
+								if (dataManager.savable.mouseItem.getItemCount() <= 0) {
+									isItemGrabbed = false;
+								}
+							}
+						} else {
+							dataManager.savable.backpackItems[mouseItemLocation[0]][mouseItemLocation[1]] = dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]];
+							dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]] = dataManager.savable.mouseItem;
+							dataManager.savable.mouseItem = new ItemSlot();
+							isItemGrabbed = false;
+						}
+
 					}
 
 				}
-				dataManager.savable.mouseItem = new ItemSlot();
-				isItemGrabbed = false;
 			}
 			wasMouseDown = true;
 		} else if (wasMouseDown && !dataManager.system.leftMouseDown) {
@@ -93,21 +110,44 @@ public class BackpackManager extends Thread {
 		return coords;
 	}
 	public void addItem(BlockItem item) {
-		boolean foundSpot = false;
-		for(int i = 0; i < dataManager.savable.backpackItems.length && !foundSpot; i++) {
-			for(int j = 0; j < dataManager.savable.backpackItems[i].length && !foundSpot; j++) {
-				ItemSlot slot = dataManager.savable.backpackItems[i][j];
-				if (slot.getItemCount() == 0) {
-					slot.setItem(item.getID());
-					slot.setItemCount(1);
-					foundSpot = true;
-				} else if (slot.getItemID().equals(item.getID()) && !slot.isSlotFull()) {
-					slot.addOne();
-					foundSpot = true;
+		if (isItemInBackpack(item)) {
+			boolean foundSpot = false;
+			for(int i = 0; i < dataManager.savable.backpackItems.length && !foundSpot; i++) {
+				for(int j = 0; j < dataManager.savable.backpackItems[i].length && !foundSpot; j++) {
+					if (dataManager.savable.backpackItems[i][j].getItemID().equals(item.getID()) && !dataManager.savable.backpackItems[i][j].isSlotFull()) {
+						ItemSlot slot = dataManager.savable.backpackItems[i][j];
+						slot.addOne();
+						foundSpot = true;
+					}
+				}
+			}
+		} else {
+			boolean foundSpot = false;
+			for(int i = 0; i < dataManager.savable.backpackItems.length && !foundSpot; i++) {
+				for(int j = 0; j < dataManager.savable.backpackItems[i].length && !foundSpot; j++) {
+					ItemSlot slot = dataManager.savable.backpackItems[i][j];
+					if (slot.getItemCount() == 0) {
+						slot.setItem(item.getID());
+						slot.setItemCount(1);
+						foundSpot = true;
+					} else if (slot.getItemID().equals(item.getID()) && !slot.isSlotFull()) {
+						slot.addOne();
+						foundSpot = true;
+					}
+				}
+			}
+			if (!foundSpot) {
+			}
+		}
+	}
+	private boolean isItemInBackpack(BlockItem item) {
+		for(int i = 0; i < dataManager.savable.backpackItems.length; i++) {
+			for(int j = 0; j < dataManager.savable.backpackItems[i].length; j++) {
+				if (dataManager.savable.backpackItems[i][j].getItemID().equals(item.getID()) && !dataManager.savable.backpackItems[i][j].isSlotFull()) {
+					return true;
 				}
 			}
 		}
-		if (!foundSpot) {
-		}
+		return false;
 	}
 }
