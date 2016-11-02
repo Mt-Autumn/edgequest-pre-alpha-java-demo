@@ -27,10 +27,12 @@ public class Generator {
 
 
 	// RNG
+	long seed;
 	Random rng;
 
 	// Constructor
 	public Generator(int x, int y, int maxRooms, long seed) {
+		this.seed = seed;
 		rng = new Random(seed);
 		this.x = x;
 		this.y = y;
@@ -168,6 +170,17 @@ public class Generator {
 
 	}
 
+	// Apply caves
+	private void applyCave() {
+		Cave cave = new Cave();
+		float[][] c = cave.makeCave(cave.initCaveMap(this.x, this.y));
+		c = cave.randomizeCave(c, this.seed);
+		c = cave.applyThreshold(c, 0.5f);
+		
+		this.map = cave.overlayCave(c, this.map);
+		
+	}
+	
 	// Creates staircase to go up and down, centered in a room
 	public void addStairs() {
 		int roomUp = rng.nextInt(rooms.length);
@@ -194,7 +207,7 @@ public class Generator {
 
 	// Make a dungeon
 	public void makeDungeon() {
-
+		
 		this.makeRooms();
 		this.connectRooms();
 
@@ -205,6 +218,7 @@ public class Generator {
 		this.clearMap();
 		this.makeDungeon();
 		this.addStairs();
+		this.applyCave();
 		return this.map;
 
 	}
