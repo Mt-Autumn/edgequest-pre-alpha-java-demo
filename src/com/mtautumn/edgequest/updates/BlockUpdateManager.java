@@ -14,12 +14,14 @@ public class BlockUpdateManager extends Thread {
 	public UpdateLighting lighting;
 	public UpdateMining mining;
 	public UpdateFootprints footprints;
+	public UpdateBlockPlace blockPlace;
 	ArrayList<Point2D> lightingQueue = new ArrayList<Point2D>();
 	public BlockUpdateManager(DataManager dataManager) {
 		this.dataManager = dataManager;
 		lighting = new UpdateLighting(dataManager);
 		mining = new UpdateMining(dataManager);
 		footprints = new UpdateFootprints(dataManager);
+		blockPlace = new UpdateBlockPlace(dataManager);
 	}
 	public void updateLighting(int x, int y) {
 		lightingQueue.add(new Point(x, y));
@@ -48,6 +50,7 @@ public class BlockUpdateManager extends Thread {
 					i++;
 					if (i % 30 == 0) melt();
 					mining.update();
+					blockPlace.update();
 					footprints.update();
 					executeLighting();
 				}

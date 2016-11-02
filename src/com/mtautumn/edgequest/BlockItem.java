@@ -35,6 +35,7 @@ public class BlockItem implements Serializable {
 	public String replacedBy = "ground";
 	public boolean isLiquid = false;
 	public boolean isPassable = false;
+	public boolean isSolid = true;
 	public boolean canHavePrints = false;
 	public int blockHeight = 0;
 
