@@ -10,6 +10,15 @@ public class Cave {
 	 * 
 	 */
 	
+	// Easiest way to make a cave and apply
+	public int[][] makeAndApplyCave(int[][] dunMap, long seed, float thresh) {
+		
+		// Do everything
+		float[][] caveMap = applyThreshold(getNoise(initCaveMap(dunMap.length, dunMap[0].length), seed), thresh);
+		return overlayCave(caveMap, dunMap);
+		
+	}
+	
 	// Create a basic 2D map of floats for the cave noise to be applied too
 	private float[][] initCaveMap(int x, int y) {
 		float[][] caveMap = new float[x][y];
@@ -58,15 +67,6 @@ public class Cave {
 			}
 		}
 		return dunMap;
-	}
-	
-	// Easiest way to make a cave and apply
-	public int[][] makeAndApplyCave(int[][] dunMap, long seed, float thresh) {
-		
-		// Do everything
-		float[][] caveMap = applyThreshold(getNoise(initCaveMap(dunMap.length, dunMap[0].length), seed), thresh);
-		return overlayCave(caveMap, dunMap);
-		
 	}
 	
 }
